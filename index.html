@@ -56,8 +56,8 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- 다크모드 토글 컴포넌트 ---
-        const DarkModeToggle = () => {
+        // --- 상단 버튼 그룹 컴포넌트 (모드 토글 + 다크모드 토글) ---
+        const TopButtons = ({ isGolfMode, setIsGolfMode }) => {
             const [isDark, setIsDark] = useState(() => {
                 if (typeof window !== 'undefined') {
                     const saved = localStorage.getItem('darkMode');
@@ -77,34 +77,53 @@
             }, [isDark]);
 
             return (
-                <button
-                    onClick={() => setIsDark(!isDark)}
-                    className="fixed top-4 right-4 z-50 px-4 py-2 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200"
-                >
-                    {isDark ? (
-                        <>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <circle cx="12" cy="12" r="5"></circle>
-                                <line x1="12" y1="1" x2="12" y2="3"></line>
-                                <line x1="12" y1="21" x2="12" y2="23"></line>
-                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                <line x1="1" y1="12" x2="3" y2="12"></line>
-                                <line x1="21" y1="12" x2="23" y2="12"></line>
-                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                            </svg>
-                            Light Mode
-                        </>
-                    ) : (
-                        <>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                            </svg>
-                            Dark Mode
-                        </>
-                    )}
-                </button>
+                <div className="fixed top-4 right-4 z-50 flex gap-2">
+                    {/* 모드 전환 버튼 */}
+                    <button
+                        onClick={() => setIsGolfMode(!isGolfMode)}
+                        className={`px-4 py-2 rounded-full backdrop-blur-md border shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 text-sm font-medium ${
+                            isGolfMode
+                                ? 'bg-green-500/80 dark:bg-green-600/80 border-green-400 dark:border-green-500 text-white'
+                                : 'bg-amber-500/80 dark:bg-amber-600/80 border-amber-400 dark:border-amber-500 text-white'
+                        }`}
+                    >
+                        {isGolfMode ? (
+                            <><span>⛳️</span> 골퍼 모드</>
+                        ) : (
+                            <><span>🌱</span> 일반인 모드</>
+                        )}
+                    </button>
+
+                    {/* 다크모드 토글 버튼 */}
+                    <button
+                        onClick={() => setIsDark(!isDark)}
+                        className="px-4 py-2 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                    >
+                        {isDark ? (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <circle cx="12" cy="12" r="5"></circle>
+                                    <line x1="12" y1="1" x2="12" y2="3"></line>
+                                    <line x1="12" y1="21" x2="12" y2="23"></line>
+                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                    <line x1="1" y1="12" x2="3" y2="12"></line>
+                                    <line x1="21" y1="12" x2="23" y2="12"></line>
+                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                                </svg>
+                                Light
+                            </>
+                        ) : (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                                </svg>
+                                Dark
+                            </>
+                        )}
+                    </button>
+                </div>
             );
         };
 
@@ -137,7 +156,8 @@
 
         const SCORING_AXES = { RISK: 'risk', MENTAL: 'mental', TECH: 'tech', SOCIAL: 'social' };
 
-        const QUESTIONS = [
+        // --- 골퍼 모드 질문 ---
+        const QUESTIONS_GOLF = [
             { id: 1, question: "파 5홀, 220m 남았는데 앞에 해저드가 있다. 당신의 선택은?", options: [{ text: "인생 뭐 있어? 바로 유틸 잡고 쏜다! (성공하면 평생 안주감)", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "스코어는 거짓말 안 해. 얌전히 끊어서 3온 작전.", scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { text: "캐디님한테 물어보고 시키는 대로 한다.", scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.RISK]: -1 } }] },
             { id: 2, question: "새 드라이버를 살 때 가장 중요하게 보는 것은?", options: [{ text: "유명 프로가 쓰는 그 채! 스펙이랑 데이터 비교.", scores: { [SCORING_AXES.MENTAL]: 3, [SCORING_AXES.TECH]: 1 } }, { text: "손맛이 쩍! 소리가 깡! 감성이 맞아야 됨.", scores: { [SCORING_AXES.MENTAL]: -2 } }, { text: "일단 간지! 디자인 예쁘고 브랜드가 중요함.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
             { id: 3, question: "티샷 전, 당신의 프리샷 루틴은?", options: [{ text: "빈 스윙 2번, 에이밍, 호흡. 기계처럼 똑같이.", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "루틴? 그냥 몸 풀리는 대로 대충 꽂고 후려친다.", scores: { [SCORING_AXES.TECH]: -3, [SCORING_AXES.RISK]: 1 } }, { text: "바람 체크하고 코스 공략 머릿속으로 시뮬레이션.", scores: { [SCORING_AXES.MENTAL]: 2 } }] },
@@ -148,10 +168,23 @@
             { id: 8, question: "라운딩 끝나고 뒤풀이 장소에서 나는?", options: [{ text: "아까 그 샷 봤어? 복기하면서 토론한다.", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: -1 } }, { text: "술잔 돌리고 분위기 주도한다. (오늘의 MC)", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "조용히 밥 먹으면서 다음 라운딩 잡는다.", scores: { [SCORING_AXES.SOCIAL]: 1 } }] }
         ];
 
+        // --- 일반인 모드 질문 (20대 일상 소재) ---
+        const QUESTIONS_GENERAL = [
+            { id: 1, question: "친구들이랑 여행 계획 짜는 날. 당신의 역할은?", options: [{ text: "엑셀 켜고 시간표, 교통편, 숙소 가격 비교 정리!", scores: { [SCORING_AXES.TECH]: 3, [SCORING_AXES.MENTAL]: 1 } }, { text: "일단 항공권 질러! 나머진 가서 생각하자~", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "카톡방에서 반응 보면서 다수결로 따라간다.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }] },
+            { id: 2, question: "마라탕집 앞이다. 매운맛 레벨 선택!", options: [{ text: "가장 매운 맛 도전! 인생은 한 번뿐이잖아?", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "중간 맛으로 안전하게. 맛있게 먹는 게 목표.", scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { text: "친구들이 뭐 시키는지 보고 맞춰서 시킨다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 3, question: "조별과제 마감이 3일 남았다. 당신은?", options: [{ text: "역할 분담표 만들고 데드라인 체크리스트 공유!", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "D-1에 몰아서 밤새기. 그게 진정한 열정이지.", scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 2 } }, { text: "팀원들 멘탈 케어하면서 분위기 띄우는 역할.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 4, question: "연애 상대한테 연락이 늦게 왔다. 반응은?", options: [{ text: "읽씹 시간, 답장 패턴 분석 시작... 뭔가 이상해.", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "에이~ 바쁜갑지! 나도 느긋하게 답장.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { text: "바로 전화해서 직접 물어본다. 답답해 못 살아!", scores: { [SCORING_AXES.RISK]: 3, [SCORING_AXES.SOCIAL]: -1 } }] },
+            { id: 5, question: "요즘 빠진 취미나 관심사가 생겼을 때?", options: [{ text: "유튜브 강의부터 장비 추천까지 올인 리서치!", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.TECH]: 2 } }, { text: "일단 질러본다! 해봐야 아는 거 아님?", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "관련 동호회 가입해서 사람들 만나면서 배운다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 6, question: "친구가 고민 상담을 요청했다. 당신의 스타일은?", options: [{ text: "객관적으로 상황 분석하고 해결책 제시!", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "일단 들어주고 공감! 해결보다 위로가 먼저지.", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "'걍 니가 하고 싶은 대로 해!' 시원하게 밀어준다.", scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.TECH]: -1 } }] },
+            { id: 7, question: "처음 가보는 맛집에서 메뉴 고를 때?", options: [{ text: "네이버 리뷰 인기메뉴 1위로 확정!", scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }, { text: "아무도 안 시킬 것 같은 특이한 메뉴 도전!", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "일행들이랑 다른 거 시켜서 나눠먹자~", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 8, question: "술자리 분위기가 살짝 가라앉았다. 당신은?", options: [{ text: "게임 제안! 내가 분위기 살릴게~ 🎲", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "조용히 대화 주제 바꾸면서 자연스럽게 유도.", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: 1 } }, { text: "2차 가자! 장소 바꾸면 분위기도 바뀐다!", scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.SOCIAL]: 1 } }] }
+        ];
+
         const RESULT_TYPES = {
             [`${SCORING_AXES.RISK}_${SCORING_AXES.SOCIAL}`]: {
                 title: "필드의 분위기 메이커, 핵인싸 장타러", subtitle: "버디보다 썰 푸는 게 더 즐거운 타입",
                 desc: "티샷도 시원하게, 멘트도 시원하게! 당신에게 골프는 스코어 게임이 아니라 '멘탈 & 입담' 게임입니다. 공이 좀 죽으면 어때요? 동반자들이 즐거우면 그게 라베(Life Best)죠!",
+                descGeneral: "일상에서 분위기 띄우기를 좋아하고, 도전을 두려워하지 않는 당신! 골프장에 가면 틀림없이 '핵인싸 장타러'가 될 재목입니다. 친구들과 함께라면 누구보다 시원하게 공을 날리며 웃음을 책임지게 될 거예요!",
                 tags: ["#장타본능", "#명랑골프대장", "#입골프만렙", "#오잘공에목숨검"], advice: "가끔은 입을 다물고 샷에만 집중해보세요. 싱글이 코앞입니다.",
                 drillTitle: "빈 스윙 없이 3초 안에 치기", gearTitle: "소리 크고 관용성 좋은 드라이버",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_social.mp4", isVideo: true,
@@ -160,6 +193,7 @@
             [`${SCORING_AXES.MENTAL}_${SCORING_AXES.RISK}`]: {
                 title: "승부욕 화신, 전략적 승부사", subtitle: "계산은 치밀하게, 샷은 과감하게",
                 desc: "데이터를 기반으로 확률을 계산하지만, 결정적인 순간에는 과감하게 지르는 승부사 기질이 있습니다. 내기에 강하며, 남한테 지는 걸 죽기보다 싫어합니다.",
+                descGeneral: "평소 치밀하게 분석하면서도, 결정적 순간에 과감한 선택을 하는 당신! 당신의 숨겨진 골프 DNA는 '전략적 승부사'입니다. 필드 위에서 내기 골프의 절대강자가 될 운명이에요!",
                 tags: ["#내기골프킬러", "#뇌섹남녀", "#데이터폭격기", "#은근히다혈질"], advice: "파5에서 무조건 2온을 노리지 마세요. 끊어가는 미학이 필요합니다.",
                 drillTitle: "트러블 샷 상황별 시뮬레이션", gearTitle: "조작성이 뛰어난 상급자용 아이언",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_risk.png", isVideo: false,
@@ -168,6 +202,7 @@
             [`${SCORING_AXES.RISK}_${SCORING_AXES.TECH}`]: {
                 title: "폼생폼사, 와일드 테크니션", subtitle: "예쁜 폼으로 멀리 보내야 직성이 풀림",
                 desc: "스윙 폼도 완벽해야 하고, 거리도 포기 못 합니다. 난이도 높은 샷을 성공시켰을 때 희열을 느끼며, 교과서적인 스윙으로 공격적인 공략을 즐깁니다.",
+                descGeneral: "뭘 하든 폼이 나야 직성이 풀리고, 어려운 도전에서 성공했을 때 쾌감을 느끼는 당신! 골프를 시작하면 '와일드 테크니션'의 재능이 폭발할 거예요. 멋진 스윙으로 갤러리를 사로잡을 운명입니다!",
                 tags: ["#스윙이예술", "#장비병초기", "#난도높은샷즐김", "#폼에죽고폼에삼"], advice: "필드는 연습장이 아닙니다. 폼보다는 임팩트에 집중하세요.",
                 drillTitle: "하프 스윙으로 정타 맞추기", gearTitle: "샤프트 강도가 높은 커스텀 클럽",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_tech.png", isVideo: false,
@@ -176,6 +211,7 @@
             [`${SCORING_AXES.MENTAL}_${SCORING_AXES.TECH}`]: {
                 title: "걸어다니는 골프백과, 골프 AI", subtitle: "오차 범위 0%에 도전하는 완벽주의자",
                 desc: "바람, 잔디 결, 경사까지 계산하고 스윙 매커니즘까지 완벽을 추구합니다. 실수는 용납하지 않으며, 연습장에서도 연구원처럼 연습합니다.",
+                descGeneral: "뭐든지 완벽하게 분석하고 준비하는 당신! 일상에서 보이는 꼼꼼함을 보니, 당신은 필드 위의 '골프 AI'가 될 재목입니다. 바람, 경사까지 계산하는 두뇌 플레이어로 성장할 거예요!",
                 tags: ["#골프물리학자", "#독학파", "#유튜브레슨마스터", "#슬로우플레이조심"], advice: "생각을 비우는 연습이 필요합니다. 감각을 믿고 휘두르세요.",
                 drillTitle: "눈 감고 퍼팅 거리감 익히기", gearTitle: "거리측정기 & 피팅 받은 퍼터",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_tech.png", isVideo: false,
@@ -184,6 +220,7 @@
             [`${SCORING_AXES.SOCIAL}_${SCORING_AXES.TECH}`]: {
                 title: "매너가 사람을 만든다, 젠틀맨 골퍼", subtitle: "룰과 에티켓을 중시하는 필드의 신사",
                 desc: "동반자를 배려하고 룰을 철저히 지키는 모범생입니다. 스윙도 정석, 매너도 정석. 어디 가서든 환영받는 최고의 동반자입니다.",
+                descGeneral: "일상에서 주변을 배려하고, 원칙을 중시하는 당신! 당신의 숨겨진 골프 DNA는 '젠틀맨 골퍼'입니다. 어디를 가든 환영받는 매너 플레이어로, 모두가 함께 치고 싶어하는 동반자가 될 거예요!",
                 tags: ["#매너왕", "#초대1순위", "#배려의아이콘", "#캐디님이좋아함"], advice: "너무 남을 배려하느라 내 플레이를 망치지 마세요. 가끔은 이기적으로!",
                 drillTitle: "프리샷 루틴 일정하게 만들기", gearTitle: "타구감이 부드러운 단조 아이언",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_social_tech.png", isVideo: false,
@@ -192,6 +229,7 @@
             DEFAULT: {
                 title: "육각형 밸런스, 올라운더 플레이어", subtitle: "어느 하나 빠지는 게 없는 무결점 골퍼",
                 desc: "공격할 땐 하고, 지킬 땐 지킬 줄 아는 스마트한 골퍼입니다. 멘탈도 안정적이고 사교성도 좋아 누구와 쳐도 잘 어울립니다.",
+                descGeneral: "균형 잡힌 성격의 당신! 일상 생활 패턴을 보니, 당신은 필드 위에서 '올라운더 플레이어'가 될 재목입니다. 어떤 상황에서도 흔들리지 않는 안정적인 플레이로 모두를 놀라게 할 거예요!",
                 tags: ["#평화주의자", "#기복없는스코어", "#안정감갑", "#수비형미드필더"], advice: "확실한 '필살기' 하나를 연마하면 고수로 도약할 수 있습니다.",
                 drillTitle: "숏게임(어프로치) 거리별 연습", gearTitle: "관용성과 조작성이 균형 잡힌 클럽",
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_all_rounder.png", isVideo: false,
@@ -238,6 +276,10 @@
             const [scores, setScores] = useState({ risk: 0, mental: 0, tech: 0, social: 0 });
             const [finalType, setFinalType] = useState(null);
             const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 버튼의 인덱스 저장용
+            const [isGolfMode, setIsGolfMode] = useState(true); // 골퍼 모드 / 일반인 모드 전환
+
+            // 현재 모드에 따른 질문 배열 선택
+            const QUESTIONS = isGolfMode ? QUESTIONS_GOLF : QUESTIONS_GENERAL;
 
             const handleAnswer = (answerScores, idx) => {
                 // 1. 선택된 버튼을 초록색으로 표시
@@ -276,10 +318,15 @@
             };
 
             const shareUrl = () => {
+                const shareTitle = isGolfMode ? '나의 골프 MBTI' : '나의 잠재적 골프 MBTI';
+                const shareText = isGolfMode
+                    ? `내 골프 타입은 "${finalType.title}"입니다!`
+                    : `내 숨겨진 골프 DNA는 "${finalType.title}"입니다! 골프 안 쳐봐도 알 수 있대요!`;
+
                 if (navigator.share) {
                     navigator.share({
-                        title: '나의 골프 MBTI',
-                        text: `내 골프 타입은 "${finalType.title}"입니다!`,
+                        title: shareTitle,
+                        text: shareText,
                         url: window.location.href,
                     }).catch(console.error);
                 } else {
@@ -316,19 +363,30 @@
             if (step === 'intro') {
                 return (
                     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800 flex flex-col transition-colors duration-300">
-                        <DarkModeToggle />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
                         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-8 rounded-[2rem] shadow-2xl max-w-md w-full border border-white/50 dark:border-gray-700/50 relative">
                                 <div className="mb-6 flex justify-center relative">
                                     <div className="w-24 h-24 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce-slow">🏌️</div>
                                     <Sparkles className="absolute top-0 right-[25%] text-yellow-400 animate-pulse" />
                                 </div>
-                                <h1 className="text-3xl font-black text-gray-800 dark:text-white mb-2">나의 골프 MBTI</h1>
-                                <p className="text-green-600 dark:text-green-400 font-bold mb-4 text-sm bg-green-100 dark:bg-green-900/50 inline-block px-3 py-1 rounded-full">당신의 골프 정신연령은?</p>
+                                <h1 className="text-3xl font-black text-gray-800 dark:text-white mb-2">
+                                    {isGolfMode ? "나의 골프 MBTI" : "나의 잠재적 골프 MBTI"}
+                                </h1>
+                                <p className={`font-bold mb-4 text-sm inline-block px-3 py-1 rounded-full ${
+                                    isGolfMode
+                                        ? 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/50'
+                                        : 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/50'
+                                }`}>
+                                    {isGolfMode ? "당신의 골프 정신연령은?" : "골프 안 쳐봐도 알 수 있는 골프 DNA!"}
+                                </p>
 
                                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    8가지 질문으로 알아보는 나만의 골프 DNA!<br/>
-                                    공격력, 분석력, 정석력, 인싸력을 분석해 드립니다.
+                                    {isGolfMode ? (
+                                        <>8가지 질문으로 알아보는 나만의 골프 DNA!<br/>공격력, 분석력, 정석력, 인싸력을 분석해 드립니다.</>
+                                    ) : (
+                                        <>8가지 일상 질문으로 발견하는 당신의 숨겨진 골프 재능!<br/>골프 안 쳐봐도 당신의 골프 DNA를 알 수 있어요.</>
+                                    )}
                                 </p>
 
                                 <button onClick={() => setStep('quiz')} className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-2 group transition-all">
@@ -358,7 +416,7 @@
                 const progress = ((currentQIndex + 1) / QUESTIONS.length) * 100;
                 return (
                     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center py-8 px-4 transition-colors duration-300">
-                        <DarkModeToggle />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
                         <div className="max-w-md w-full">
                             <div className="mb-8 px-2">
                                 <div className="flex justify-between items-end mb-2">
@@ -397,7 +455,7 @@
             if (step === 'loading') {
                 return (
                     <div className="min-h-screen bg-green-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6 text-center transition-colors duration-300">
-                        <DarkModeToggle />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
                         <div className="w-16 h-16 border-4 border-green-200 dark:border-green-900 border-t-green-600 dark:border-t-green-400 rounded-full animate-spin mb-4"></div>
                         <h2 className="text-xl font-bold text-gray-800 dark:text-white">당신의 유형을<br/>분석하고 있습니다...</h2>
                     </div>
@@ -411,7 +469,7 @@
 
                 return (
                     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col transition-colors duration-300">
-                        <DarkModeToggle />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
                         <div className="flex-1 py-8 px-4 flex justify-center">
                         <div className="max-w-md w-full mb-10 relative">
 
@@ -424,7 +482,9 @@
                                         <img src={finalType.image} alt={finalType.title} className="absolute inset-0 w-full h-full object-cover z-0" />
                                     }
                                     <div className="relative z-20 text-center pb-6 px-4 w-full">
-                                        <div className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-2">My Golf DNA</div>
+                                        <div className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-2">
+                                            {isGolfMode ? "My Golf DNA" : "My Hidden Golf DNA"}
+                                        </div>
                                         <h1 className="text-3xl font-black text-white drop-shadow-lg leading-tight break-keep">{titleMain}</h1>
                                     </div>
                                 </div>
@@ -433,8 +493,12 @@
                                     <div className="flex flex-wrap justify-center gap-2 mb-8">{finalType.tags.map((tag, i) => <span key={i} className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold">{tag}</span>)}</div>
                                     <div className="mb-8 flex justify-center"><RadarChart data={finalType.chartData} /></div>
                                     <div className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6 mb-6 border border-gray-100 dark:border-gray-600">
-                                        <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2 mb-3 text-lg"><Info /> 어떤 유형이냐면요</h3>
-                                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-justify text-sm">{finalType.desc}</p>
+                                        <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2 mb-3 text-lg">
+                                            <Info /> {isGolfMode ? "어떤 유형이냐면요" : "당신의 숨겨진 골프 재능"}
+                                        </h3>
+                                        <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-justify text-sm">
+                                            {isGolfMode ? finalType.desc : (finalType.descGeneral || finalType.desc)}
+                                        </p>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 mb-4">
                                         <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-2xl text-center border border-blue-100 dark:border-blue-800"><div className="text-xs text-blue-500 dark:text-blue-400 font-bold mb-1 uppercase">추천 연습</div><div className="font-bold text-gray-800 dark:text-white text-sm break-keep">{finalType.drillTitle}</div></div>
@@ -452,7 +516,9 @@
                                 {/* 컨텐츠 */}
                                 <div className="relative z-10 w-full h-full flex flex-col justify-between p-8 pt-20 pb-12">
                                     <div className="text-center">
-                                        <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-4 tracking-widest uppercase">My Golf MBTI</div>
+                                        <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-4 tracking-widest uppercase">
+                                            {isGolfMode ? "My Golf MBTI" : "My Hidden Golf DNA"}
+                                        </div>
                                         <h1 className="text-4xl font-black text-white drop-shadow-xl leading-tight break-keep mb-4">{titleMain}</h1>
                                         <div className="w-16 h-1 bg-white/50 mx-auto rounded-full mb-6"></div>
                                         <p className="text-white/90 text-lg font-medium">"{finalType.subtitle}"</p>
