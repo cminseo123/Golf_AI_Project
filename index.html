@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>나의 골프 MBTI 테스트</title>
+
+    <meta property="og:title" content="나의 골프 MBTI 테스트 ⛳️">
+    <meta property="og:description" content="필드의 승부사? 아니면 매너남? 나의 골프 성향을 알아보세요!">
+    <meta property="og:image" content="https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_risk.png">
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: Pretendard, sans-serif; -webkit-tap-highlight-color: transparent; }
+        .animate-bounce-slow { animation: bounce 2s infinite; }
+        @keyframes bounce { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(0); } }
+        ::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // --- 아이콘 컴포넌트 ---
+        const ChevronRight = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>;
+        const RefreshCw = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 2v6h-6"></path><path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path><path d="M3 22v-6h6"></path><path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path></svg>;
+        const Share2 = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>;
+        const Instagram = () => <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>;
+        const Info = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>;
+        const Target = () => <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="6"></circle><circle cx="12" cy="12" r="2"></circle></svg>;
+        const Sparkles = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /></svg>;
+
+        const SCORING_AXES = { RISK: 'risk', MENTAL: 'mental', TECH: 'tech', SOCIAL: 'social' };
+
+        const QUESTIONS = [
+            { id: 1, question: "파 5홀, 220m 남았는데 앞에 해저드가 있다. 당신의 선택은?", options: [{ text: "인생 뭐 있어? 바로 유틸 잡고 쏜다! (성공하면 평생 안주감)", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "스코어는 거짓말 안 해. 얌전히 끊어서 3온 작전.", scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { text: "캐디님한테 물어보고 시키는 대로 한다.", scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.RISK]: -1 } }] },
+            { id: 2, question: "새 드라이버를 살 때 가장 중요하게 보는 것은?", options: [{ text: "유명 프로가 쓰는 그 채! 스펙이랑 데이터 비교.", scores: { [SCORING_AXES.MENTAL]: 3, [SCORING_AXES.TECH]: 1 } }, { text: "손맛이 쩍! 소리가 깡! 감성이 맞아야 됨.", scores: { [SCORING_AXES.MENTAL]: -2 } }, { text: "일단 간지! 디자인 예쁘고 브랜드가 중요함.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 3, question: "티샷 전, 당신의 프리샷 루틴은?", options: [{ text: "빈 스윙 2번, 에이밍, 호흡. 기계처럼 똑같이.", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "루틴? 그냥 몸 풀리는 대로 대충 꽂고 후려친다.", scores: { [SCORING_AXES.TECH]: -3, [SCORING_AXES.RISK]: 1 } }, { text: "바람 체크하고 코스 공략 머릿속으로 시뮬레이션.", scores: { [SCORING_AXES.MENTAL]: 2 } }] },
+            { id: 4, question: "동반자가 1m 거리의 내기 퍼팅을 남겨두고 있다.", options: [{ text: "'오케이(Concede)' 외치며 쿨하게 넘어가 준다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "숨도 안 쉬고 지켜본다. (넣나 못 넣나 보자)", scores: { [SCORING_AXES.SOCIAL]: -2 } }, { text: "라이 같이 봐주고 '좌측 한 컵!' 훈수 둔다.", scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 5, question: "오늘따라 공이 산으로 간다. 멘탈 상태는?", options: [{ text: "화나지만 스윙 영상 찍어서 분석한다.", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "오늘은 명랑골프 모드! 사진이나 찍고 놀자~", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { text: "채가 문제다. 당장 중고장터 검색 시작.", scores: { [SCORING_AXES.TECH]: -1, [SCORING_AXES.MENTAL]: -2 } }] },
+            { id: 6, question: "레슨 프로가 폼을 뜯어고치자고 하는데 내일 라운딩이다.", options: [{ text: "망하더라도 배운 대로 친다. 난 정석파니까.", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "내일은 내 스타일대로 치고 연습은 나중에.", scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 1 } }, { text: "프로님께 '원포인트 팁'만 알려달라고 딜한다.", scores: { [SCORING_AXES.RISK]: -1, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 7, question: "벙커 턱이 높고 핀은 바로 앞이다.", options: [{ text: "남자는 띄워야지! 로브샷으로 핀 바로 공략.", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "탈출이 목표다. 안전한 곳으로 뺀다.", scores: { [SCORING_AXES.RISK]: -3 } }, { text: "모래 양 체크하고, 발 묻고, 정석대로 탈출.", scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 8, question: "라운딩 끝나고 뒤풀이 장소에서 나는?", options: [{ text: "아까 그 샷 봤어? 복기하면서 토론한다.", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: -1 } }, { text: "술잔 돌리고 분위기 주도한다. (오늘의 MC)", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "조용히 밥 먹으면서 다음 라운딩 잡는다.", scores: { [SCORING_AXES.SOCIAL]: 1 } }] }
+        ];
+
+        const RESULT_TYPES = {
+            [`${SCORING_AXES.RISK}_${SCORING_AXES.SOCIAL}`]: {
+                title: "필드의 분위기 메이커, 핵인싸 장타러", subtitle: "버디보다 썰 푸는 게 더 즐거운 타입",
+                desc: "티샷도 시원하게, 멘트도 시원하게! 당신에게 골프는 스코어 게임이 아니라 '멘탈 & 입담' 게임입니다. 공이 좀 죽으면 어때요? 동반자들이 즐거우면 그게 라베(Life Best)죠!",
+                tags: ["#장타본능", "#명랑골프대장", "#입골프만렙", "#오잘공에목숨검"], advice: "가끔은 입을 다물고 샷에만 집중해보세요. 싱글이 코앞입니다.",
+                drillTitle: "빈 스윙 없이 3초 안에 치기", gearTitle: "소리 크고 관용성 좋은 드라이버",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_social.mp4", isVideo: true,
+                bgStyle: "bg-gradient-to-b from-yellow-400 to-orange-500"
+            },
+            [`${SCORING_AXES.MENTAL}_${SCORING_AXES.RISK}`]: {
+                title: "승부욕 화신, 전략적 승부사", subtitle: "계산은 치밀하게, 샷은 과감하게",
+                desc: "데이터를 기반으로 확률을 계산하지만, 결정적인 순간에는 과감하게 지르는 승부사 기질이 있습니다. 내기에 강하며, 남한테 지는 걸 죽기보다 싫어합니다.",
+                tags: ["#내기골프킬러", "#뇌섹남녀", "#데이터폭격기", "#은근히다혈질"], advice: "파5에서 무조건 2온을 노리지 마세요. 끊어가는 미학이 필요합니다.",
+                drillTitle: "트러블 샷 상황별 시뮬레이션", gearTitle: "조작성이 뛰어난 상급자용 아이언",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_risk.png", isVideo: false,
+                bgStyle: "bg-gradient-to-b from-gray-800 to-black"
+            },
+            [`${SCORING_AXES.RISK}_${SCORING_AXES.TECH}`]: {
+                title: "폼생폼사, 와일드 테크니션", subtitle: "예쁜 폼으로 멀리 보내야 직성이 풀림",
+                desc: "스윙 폼도 완벽해야 하고, 거리도 포기 못 합니다. 난이도 높은 샷을 성공시켰을 때 희열을 느끼며, 교과서적인 스윙으로 공격적인 공략을 즐깁니다.",
+                tags: ["#스윙이예술", "#장비병초기", "#난도높은샷즐김", "#폼에죽고폼에삼"], advice: "필드는 연습장이 아닙니다. 폼보다는 임팩트에 집중하세요.",
+                drillTitle: "하프 스윙으로 정타 맞추기", gearTitle: "샤프트 강도가 높은 커스텀 클럽",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_tech.png", isVideo: false,
+                bgStyle: "bg-gradient-to-b from-red-500 to-orange-600"
+            },
+            [`${SCORING_AXES.MENTAL}_${SCORING_AXES.TECH}`]: {
+                title: "걸어다니는 골프백과, 골프 AI", subtitle: "오차 범위 0%에 도전하는 완벽주의자",
+                desc: "바람, 잔디 결, 경사까지 계산하고 스윙 매커니즘까지 완벽을 추구합니다. 실수는 용납하지 않으며, 연습장에서도 연구원처럼 연습합니다.",
+                tags: ["#골프물리학자", "#독학파", "#유튜브레슨마스터", "#슬로우플레이조심"], advice: "생각을 비우는 연습이 필요합니다. 감각을 믿고 휘두르세요.",
+                drillTitle: "눈 감고 퍼팅 거리감 익히기", gearTitle: "거리측정기 & 피팅 받은 퍼터",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_tech.png", isVideo: false,
+                bgStyle: "bg-gradient-to-b from-blue-600 to-purple-700"
+            },
+            [`${SCORING_AXES.SOCIAL}_${SCORING_AXES.TECH}`]: {
+                title: "매너가 사람을 만든다, 젠틀맨 골퍼", subtitle: "룰과 에티켓을 중시하는 필드의 신사",
+                desc: "동반자를 배려하고 룰을 철저히 지키는 모범생입니다. 스윙도 정석, 매너도 정석. 어디 가서든 환영받는 최고의 동반자입니다.",
+                tags: ["#매너왕", "#초대1순위", "#배려의아이콘", "#캐디님이좋아함"], advice: "너무 남을 배려하느라 내 플레이를 망치지 마세요. 가끔은 이기적으로!",
+                drillTitle: "프리샷 루틴 일정하게 만들기", gearTitle: "타구감이 부드러운 단조 아이언",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_social_tech.png", isVideo: false,
+                bgStyle: "bg-gradient-to-b from-emerald-600 to-teal-800"
+            },
+            DEFAULT: {
+                title: "육각형 밸런스, 올라운더 플레이어", subtitle: "어느 하나 빠지는 게 없는 무결점 골퍼",
+                desc: "공격할 땐 하고, 지킬 땐 지킬 줄 아는 스마트한 골퍼입니다. 멘탈도 안정적이고 사교성도 좋아 누구와 쳐도 잘 어울립니다.",
+                tags: ["#평화주의자", "#기복없는스코어", "#안정감갑", "#수비형미드필더"], advice: "확실한 '필살기' 하나를 연마하면 고수로 도약할 수 있습니다.",
+                drillTitle: "숏게임(어프로치) 거리별 연습", gearTitle: "관용성과 조작성이 균형 잡힌 클럽",
+                image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_all_rounder.png", isVideo: false,
+                bgStyle: "bg-gradient-to-b from-sky-400 to-blue-500"
+            }
+        };
+
+        const RadarChart = ({ data }) => {
+            const size = 200, center = size / 2, radius = 70, maxScore = 100;
+            const axes = [{ key: SCORING_AXES.RISK, label: '공격력' }, { key: SCORING_AXES.MENTAL, label: '분석력' }, { key: SCORING_AXES.TECH, label: '정석력' }, { key: SCORING_AXES.SOCIAL, label: '인싸력' }];
+            const points = axes.map((axis, i) => {
+                const angle = (Math.PI / 2) * i - Math.PI / 2;
+                const value = data[axis.key] || 0;
+                const r = (value / maxScore) * radius;
+                return `${center + r * Math.cos(angle)},${center + r * Math.sin(angle)}`;
+            }).join(' ');
+
+            return (
+                <div className="flex justify-center items-center py-6 relative">
+                    <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} className="overflow-visible z-10">
+                        {[0.25, 0.5, 0.75, 1].map((level, i) => <circle key={i} cx={center} cy={center} r={radius * level} fill="none" stroke="#e5e7eb" strokeWidth="1" />)}
+                        {axes.map((axis, i) => {
+                            const angle = (Math.PI / 2) * i - Math.PI / 2;
+                            return (
+                                <g key={i}>
+                                    <line x1={center} y1={center} x2={center + radius * Math.cos(angle)} y2={center + radius * Math.sin(angle)} stroke="#e5e7eb" strokeWidth="1" />
+                                    <text x={center + (radius + 25) * Math.cos(angle)} y={center + (radius + 25) * Math.sin(angle)} textAnchor="middle" dominantBaseline="middle" className="text-xs fill-gray-600 font-bold">{axis.label}</text>
+                                </g>
+                            );
+                        })}
+                        <polygon points={points} fill="rgba(34, 197, 94, 0.4)" stroke="#16a34a" strokeWidth="3" />
+                    </svg>
+                </div>
+            );
+        };
+
+        function GolfTypeTest() {
+            const [step, setStep] = useState('intro');
+            const [currentQIndex, setCurrentQIndex] = useState(0);
+            const [scores, setScores] = useState({ risk: 0, mental: 0, tech: 0, social: 0 });
+            const [finalType, setFinalType] = useState(null);
+            const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 버튼의 인덱스 저장용
+
+            const handleAnswer = (answerScores, idx) => {
+                // 1. 선택된 버튼을 초록색으로 표시
+                setSelectedIdx(idx);
+
+                // 2. 0.15초 뒤에 다음 로직 실행 (빠른 속도 적용)
+                setTimeout(() => {
+                    const newScores = { ...scores };
+                    Object.keys(answerScores).forEach(key => newScores[key] += answerScores[key]);
+                    setScores(newScores);
+
+                    if (currentQIndex < QUESTIONS.length - 1) {
+                        setCurrentQIndex(currentQIndex + 1);
+                    } else {
+                        setStep('loading');
+                        analyzeResult(newScores);
+                    }
+
+                    // 3. 선택 상태 초기화 (다음 질문을 위해)
+                    setSelectedIdx(null);
+                }, 150); // 0.15초 딜레이
+            };
+
+            const analyzeResult = (finalScores) => {
+                const normalized = {};
+                Object.keys(finalScores).forEach(key => normalized[key] = Math.max(10, Math.min(100, 50 + (finalScores[key] * 10))));
+                const sortedAxes = Object.entries(normalized).sort((a, b) => b[1] - a[1]);
+                let typeKey = [sortedAxes[0][0], sortedAxes[1][0]].sort().join('_');
+                let result = RESULT_TYPES[typeKey];
+                if (!result) {
+                    result = { ...RESULT_TYPES.DEFAULT };
+                    if (sortedAxes[0][0] === SCORING_AXES.RISK) result.title = "본능적인 승부사 (공격형)";
+                    if (sortedAxes[0][0] === SCORING_AXES.SOCIAL) result.title = "즐거운 긍정왕 (사교형)";
+                }
+                setTimeout(() => { setFinalType({ ...result, chartData: normalized }); setStep('result'); }, 2000);
+            };
+
+            const shareUrl = () => {
+                if (navigator.share) {
+                    navigator.share({
+                        title: '나의 골프 MBTI',
+                        text: `내 골프 타입은 "${finalType.title}"입니다!`,
+                        url: window.location.href,
+                    }).catch(console.error);
+                } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert('링크가 복사되었습니다! 카톡에 붙여넣기 하세요.');
+                }
+            };
+
+            const saveResultImage = async () => {
+                const element = document.getElementById("insta-card-hidden");
+                if (!element) return;
+                element.style.display = "flex";
+
+                try {
+                    const canvas = await html2canvas(element, {
+                        useCORS: true,
+                        allowTaint: true,
+                        scale: 2,
+                        backgroundColor: null
+                    });
+
+                    const link = document.createElement('a');
+                    link.download = `golf_mbti_${finalType.title.split(',')[1].trim()}.png`;
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                } catch (err) {
+                    console.error("이미지 저장 실패:", err);
+                    alert("이미지 저장 중 오류가 발생했습니다.");
+                } finally {
+                    element.style.display = "none";
+                }
+            };
+
+            if (step === 'intro') {
+                return (
+                    <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 flex flex-col items-center justify-center p-6 text-center">
+                        <div className="bg-white/90 backdrop-blur-sm p-8 rounded-[2rem] shadow-2xl max-w-md w-full border border-white/50 relative">
+                            <div className="mb-6 flex justify-center relative">
+                                <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce-slow">🏌️</div>
+                                <Sparkles className="absolute top-0 right-[25%] text-yellow-400 animate-pulse" />
+                            </div>
+                            <h1 className="text-3xl font-black text-gray-800 mb-2">나의 골프 MBTI</h1>
+                            <p className="text-green-600 font-bold mb-6 text-sm bg-green-100 inline-block px-3 py-1 rounded-full">당신의 골프 정신연령은?</p>
+                            <button onClick={() => setStep('quiz')} className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-2 group transition-all">
+                                테스트 시작하기 <ChevronRight />
+                            </button>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'quiz') {
+                const question = QUESTIONS[currentQIndex];
+                const progress = ((currentQIndex + 1) / QUESTIONS.length) * 100;
+                return (
+                    <div className="min-h-screen bg-gray-50 flex flex-col items-center py-8 px-4">
+                        <div className="max-w-md w-full">
+                            <div className="mb-8 px-2">
+                                <div className="flex justify-between items-end mb-2">
+                                    <span className="text-green-700 font-bold text-sm">질문 {currentQIndex + 1}</span>
+                                    <span className="text-xs text-gray-400 font-mono">{currentQIndex + 1} / {QUESTIONS.length}</span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden"><div className="bg-green-500 h-full rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div></div>
+                            </div>
+                            <div className="bg-white p-6 rounded-[1.5rem] shadow-xl border border-gray-100 mb-6">
+                                <h2 className="text-xl font-bold text-gray-800 mb-8 leading-snug break-keep">{question.question}</h2>
+                                <div className="space-y-3">
+                                    {question.options.map((option, idx) => (
+                                        <button
+                                            key={`${currentQIndex}-${idx}`}
+                                            onClick={(e) => {
+                                                e.currentTarget.blur();
+                                                handleAnswer(option.scores, idx);
+                                            }}
+                                            disabled={selectedIdx !== null}
+                                            className={`w-full text-left p-4 rounded-xl border-2 transition-all font-medium text-sm focus:outline-none
+                                                ${selectedIdx === idx
+                                                    ? 'bg-green-100 border-green-500 ring-2 ring-green-500 text-green-800'
+                                                    : 'border-gray-100 hover:border-green-500 hover:bg-green-50 text-gray-700'
+                                                }`}
+                                        >
+                                            {option.text}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (step === 'loading') {
+                return (
+                    <div className="min-h-screen bg-green-50 flex flex-col items-center justify-center p-6 text-center">
+                        <div className="w-16 h-16 border-4 border-green-200 border-t-green-600 rounded-full animate-spin mb-4"></div>
+                        <h2 className="text-xl font-bold text-gray-800">당신의 유형을<br/>분석하고 있습니다...</h2>
+                    </div>
+                );
+            }
+
+            if (step === 'result' && finalType) {
+                // 캡처용 이미지 경로 계산 (비디오인 경우 png로 변경)
+                const captureImageSrc = finalType.isVideo ? finalType.image.replace('.mp4', '.png') : finalType.image;
+                const titleMain = finalType.title.split(',')[1] || finalType.title;
+
+                return (
+                    <div className="min-h-screen bg-gray-100 py-8 px-4 flex justify-center">
+                        <div className="max-w-md w-full mb-10 relative">
+
+                            {/* === [보이는 결과 카드] === */}
+                            <div className="bg-white rounded-[2rem] shadow-2xl overflow-hidden relative z-10">
+                                <div className={`relative w-full aspect-square ${finalType.bgStyle} flex items-end justify-center overflow-hidden`}>
+                                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/50 to-transparent z-10"></div>
+                                    {finalType.isVideo ?
+                                        <video src={finalType.image} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0" /> :
+                                        <img src={finalType.image} alt={finalType.title} className="absolute inset-0 w-full h-full object-cover z-0" />
+                                    }
+                                    <div className="relative z-20 text-center pb-6 px-4 w-full">
+                                        <div className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-2">My Golf DNA</div>
+                                        <h1 className="text-3xl font-black text-white drop-shadow-lg leading-tight break-keep">{titleMain}</h1>
+                                    </div>
+                                </div>
+                                <div className="p-6 relative bg-white -mt-4 rounded-t-[2rem] z-30">
+                                    <p className="text-center text-gray-500 font-medium mb-6">"{finalType.subtitle}"</p>
+                                    <div className="flex flex-wrap justify-center gap-2 mb-8">{finalType.tags.map((tag, i) => <span key={i} className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-bold">{tag}</span>)}</div>
+                                    <div className="mb-8 flex justify-center"><RadarChart data={finalType.chartData} /></div>
+                                    <div className="bg-gray-50 rounded-2xl p-6 mb-6 border border-gray-100">
+                                        <h3 className="font-bold text-gray-800 flex items-center gap-2 mb-3 text-lg"><Info /> 어떤 유형이냐면요</h3>
+                                        <p className="text-gray-700 leading-relaxed text-justify text-sm">{finalType.desc}</p>
+                                    </div>
+                                    <div className="grid grid-cols-2 gap-4 mb-4">
+                                        <div className="bg-blue-50 p-4 rounded-2xl text-center border border-blue-100"><div className="text-xs text-blue-500 font-bold mb-1 uppercase">추천 연습</div><div className="font-bold text-gray-800 text-sm break-keep">{finalType.drillTitle}</div></div>
+                                        <div className="bg-purple-50 p-4 rounded-2xl text-center border border-purple-100"><div className="text-xs text-purple-500 font-bold mb-1 uppercase">추천 장비</div><div className="font-bold text-gray-800 text-sm break-keep">{finalType.gearTitle}</div></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* === [숨겨진] 인스타 스토리용 카드 (원형 프로필 디자인 복구) === */}
+                            <div id="insta-card-hidden" style={{display: 'none'}} className={`fixed top-0 left-0 w-[360px] h-[640px] z-[-1] flex-col items-center overflow-hidden ${finalType.bgStyle}`}>
+                                {/* 배경 이미지 (무조건 static 이미지 사용) */}
+                                <img src={captureImageSrc} className="absolute inset-0 w-full h-full object-cover opacity-80 mix-blend-overlay" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+
+                                {/* 컨텐츠 */}
+                                <div className="relative z-10 w-full h-full flex flex-col justify-between p-8 pt-20 pb-12">
+                                    <div className="text-center">
+                                        <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-4 tracking-widest uppercase">My Golf MBTI</div>
+                                        <h1 className="text-4xl font-black text-white drop-shadow-xl leading-tight break-keep mb-4">{titleMain}</h1>
+                                        <div className="w-16 h-1 bg-white/50 mx-auto rounded-full mb-6"></div>
+                                        <p className="text-white/90 text-lg font-medium">"{finalType.subtitle}"</p>
+                                    </div>
+
+                                    <div className="flex flex-col items-center gap-4">
+                                        {/* 캐릭터 이미지 (중앙 강조) */}
+                                        <div className="w-48 h-48 rounded-full border-4 border-white/30 shadow-2xl overflow-hidden relative mb-4">
+                                             <img src={captureImageSrc} className="w-full h-full object-cover" />
+                                        </div>
+                                        <div className="flex flex-wrap justify-center gap-2">
+                                            {finalType.tags.slice(0,3).map((tag, i) =>
+                                                <span key={i} className="bg-white/10 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold border border-white/10">{tag}</span>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* 하단 버튼 그룹 */}
+                            <div className="flex gap-2 mt-6 sticky bottom-4 z-50 px-2">
+                                <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro');}} className="flex-1 bg-white border border-gray-200 text-gray-700 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1"/>다시 하기</button>
+
+                                {/* 사진 저장 버튼 */}
+                                <button onClick={saveResultImage} className="flex-1 bg-gradient-to-br from-pink-500 to-orange-400 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95"><Instagram className="mb-1"/>카드 저장</button>
+
+                                <button onClick={shareUrl} className="flex-1 bg-[#FAE300] hover:bg-[#FDD835] text-[#3B1E1E] py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95">
+                                    {/* 카카오톡 아이콘 */}
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mb-1">
+                                        <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.188.702-.682 2.545-.78 2.94-.122.49.178.483.376.351.155-.103 2.466-1.675 3.464-2.353.54.08 1.1.123 1.67.123 4.97 0 9-3.186 9-7.115C21 6.185 16.97 3 12 3z"/>
+                                    </svg>
+                                    카카오톡 공유
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+            return null;
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<GolfTypeTest />);
+    </script>
+</body>
+</html>
