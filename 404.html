@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV498H772W"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XV498H772W');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <title>404 - 페이지를 찾을 수 없습니다 | Golf MBTI</title>
+    <meta name="robots" content="noindex, nofollow">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+        body { font-family: Pretendard, sans-serif; }
+
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .ball-bounce {
+            animation: bounce-slow 2s ease-in-out infinite;
+        }
+
+        .flag-float {
+            animation: float 3s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 min-h-screen flex items-center justify-center p-4">
+    <div class="text-center max-w-lg mx-auto">
+        <!-- Golf Ball Animation -->
+        <div class="mb-8 relative">
+            <div class="text-8xl ball-bounce">
+                <span class="inline-block">&#9971;</span>
+            </div>
+            <div class="absolute -right-4 top-0 text-6xl flag-float opacity-80">
+                <span>&#127948;</span>
+            </div>
+        </div>
+
+        <!-- Error Code -->
+        <div class="mb-6">
+            <h1 class="text-9xl font-black text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-600">
+                404
+            </h1>
+        </div>
+
+        <!-- Error Message -->
+        <div class="mb-8 space-y-4">
+            <h2 class="text-3xl font-bold text-white">
+                앗! OB가 났네요
+            </h2>
+            <p class="text-gray-400 text-lg">
+                공이 페어웨이를 벗어났습니다.<br>
+                찾으시는 페이지가 존재하지 않아요.
+            </p>
+        </div>
+
+        <!-- Divider -->
+        <div class="flex items-center justify-center gap-4 mb-8">
+            <div class="h-px w-16 bg-gradient-to-r from-transparent to-gray-600"></div>
+            <span class="text-2xl">&#127948;</span>
+            <div class="h-px w-16 bg-gradient-to-l from-transparent to-gray-600"></div>
+        </div>
+
+        <!-- Tips -->
+        <div class="bg-gray-800/50 rounded-2xl p-6 mb-8 border border-gray-700">
+            <p class="text-gray-300 text-sm mb-4">
+                <span class="text-green-400 font-semibold">Pro Tip:</span>
+                OB가 나면 다시 티샷하듯, 홈으로 돌아가서 다시 시작해보세요!
+            </p>
+            <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                <a href="/"
+                   class="inline-flex items-center justify-center gap-2 bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg shadow-green-500/25">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z" />
+                    </svg>
+                    홈으로 돌아가기
+                </a>
+                <button onclick="history.back()"
+                        class="inline-flex items-center justify-center gap-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-3 px-8 rounded-full transition-all duration-300 border border-gray-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    이전 페이지
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <p class="text-gray-600 text-sm">
+            &copy; 2025 Golf MBTI. All rights reserved.
+        </p>
+    </div>
+</body>
+</html>
