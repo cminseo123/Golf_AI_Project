@@ -56,8 +56,160 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
-        // --- 상단 버튼 그룹 컴포넌트 (모드 토글 + 다크모드 토글) ---
-        const TopButtons = ({ isGolfMode, setIsGolfMode }) => {
+        // --- 지원 언어 목록 ---
+        const LANGUAGES = [
+            { code: 'ko', name: '한국어', flag: '🇰🇷' },
+            { code: 'en', name: 'English', flag: '🇺🇸' },
+            { code: 'ja', name: '日本語', flag: '🇯🇵' },
+            { code: 'zh', name: '中文', flag: '🇨🇳' },
+            { code: 'es', name: 'Español', flag: '🇪🇸' },
+            { code: 'fr', name: 'Français', flag: '🇫🇷' },
+            { code: 'ru', name: 'Русский', flag: '🇷🇺' },
+            { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' }
+        ];
+
+        // --- UI 텍스트 다국어 ---
+        const UI_TEXT = {
+            ko: {
+                title: "나의 골프 MBTI", titleGeneral: "나의 잠재적 골프 MBTI",
+                subtitle: "당신의 골프 정신연령은?", subtitleGeneral: "골프 안 쳐봐도 알 수 있는 골프 DNA!",
+                desc: "8가지 질문으로 알아보는 나만의 골프 DNA!", descSub: "공격력, 분석력, 정석력, 인싸력을 분석해 드립니다.",
+                descGeneral: "8가지 일상 질문으로 발견하는 당신의 숨겨진 골프 재능!", descGeneralSub: "골프 안 쳐봐도 당신의 골프 DNA를 알 수 있어요.",
+                startBtn: "테스트 시작하기", typeIntro: "6가지 골프 유형 중 당신은 어떤 타입?",
+                question: "질문", analyzing: "당신의 유형을 분석하고 있습니다...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "어떤 유형이냐면요", hiddenTalent: "당신의 숨겨진 골프 재능",
+                recDrill: "추천 연습", recGear: "추천 장비",
+                retry: "다시 하기", saveCard: "카드 저장", share: "공유하기",
+                linkCopied: "링크가 복사되었습니다!",
+                golferMode: "골퍼 모드", generalMode: "일반인 모드",
+                footer: { about: "서비스 소개", privacy: "개인정보처리방침", terms: "이용약관" },
+                axes: { risk: "공격력", mental: "분석력", tech: "정석력", social: "인싸력" },
+                types: { inssa: "핵인싸 장타러", strategist: "전략적 승부사", technician: "와일드 테크니션", ai: "골프 AI", gentleman: "젠틀맨 골퍼", allrounder: "올라운더" }
+            },
+            en: {
+                title: "My Golf MBTI", titleGeneral: "My Hidden Golf MBTI",
+                subtitle: "What's your golf personality?", subtitleGeneral: "Discover your golf DNA without playing!",
+                desc: "Discover your golf DNA with 8 questions!", descSub: "We analyze your aggression, analysis, technique, and social skills.",
+                descGeneral: "Find your hidden golf talent with 8 daily questions!", descGeneralSub: "Know your golf DNA without ever playing.",
+                startBtn: "Start Test", typeIntro: "Which of the 6 golf types are you?",
+                question: "Question", analyzing: "Analyzing your type...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "Your type explained", hiddenTalent: "Your hidden golf talent",
+                recDrill: "Recommended Drill", recGear: "Recommended Gear",
+                retry: "Try Again", saveCard: "Save Card", share: "Share",
+                linkCopied: "Link copied!",
+                golferMode: "Golfer Mode", generalMode: "General Mode",
+                footer: { about: "About", privacy: "Privacy Policy", terms: "Terms" },
+                axes: { risk: "Aggression", mental: "Analysis", tech: "Technique", social: "Social" },
+                types: { inssa: "Party Long Hitter", strategist: "Strategic Competitor", technician: "Wild Technician", ai: "Golf AI", gentleman: "Gentleman Golfer", allrounder: "All-Rounder" }
+            },
+            ja: {
+                title: "私のゴルフMBTI", titleGeneral: "私の潜在的ゴルフMBTI",
+                subtitle: "あなたのゴルフ精神年齢は？", subtitleGeneral: "ゴルフ未経験でもわかるDNA！",
+                desc: "8つの質問で分かるゴルフDNA！", descSub: "攻撃力、分析力、正確性、社交性を分析します。",
+                descGeneral: "8つの日常質問で隠れたゴルフの才能を発見！", descGeneralSub: "ゴルフをしなくてもDNAがわかります。",
+                startBtn: "テスト開始", typeIntro: "6つのゴルフタイプ、あなたは？",
+                question: "質問", analyzing: "タイプを分析中...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "タイプ説明", hiddenTalent: "隠れたゴルフの才能",
+                recDrill: "おすすめ練習", recGear: "おすすめギア",
+                retry: "もう一度", saveCard: "カード保存", share: "シェア",
+                linkCopied: "リンクをコピーしました！",
+                golferMode: "ゴルファーモード", generalMode: "一般モード",
+                footer: { about: "サービス紹介", privacy: "プライバシー", terms: "利用規約" },
+                axes: { risk: "攻撃力", mental: "分析力", tech: "正確性", social: "社交性" },
+                types: { inssa: "パーティー飛ばし屋", strategist: "戦略的勝負師", technician: "ワイルドテクニシャン", ai: "ゴルフAI", gentleman: "ジェントルマン", allrounder: "オールラウンダー" }
+            },
+            zh: {
+                title: "我的高尔夫MBTI", titleGeneral: "我的潜在高尔夫MBTI",
+                subtitle: "你的高尔夫性格是？", subtitleGeneral: "不打球也能知道的高尔夫DNA！",
+                desc: "8个问题发现你的高尔夫DNA！", descSub: "分析你的攻击力、分析力、技术力、社交力。",
+                descGeneral: "8个日常问题发现隐藏的高尔夫天赋！", descGeneralSub: "不打球也能知道你的高尔夫DNA。",
+                startBtn: "开始测试", typeIntro: "6种高尔夫类型，你是哪种？",
+                question: "问题", analyzing: "正在分析你的类型...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "类型说明", hiddenTalent: "你隐藏的高尔夫天赋",
+                recDrill: "推荐练习", recGear: "推荐装备",
+                retry: "重新测试", saveCard: "保存卡片", share: "分享",
+                linkCopied: "链接已复制！",
+                golferMode: "高尔夫模式", generalMode: "普通模式",
+                footer: { about: "关于我们", privacy: "隐私政策", terms: "使用条款" },
+                axes: { risk: "攻击力", mental: "分析力", tech: "技术力", social: "社交力" },
+                types: { inssa: "派对长打手", strategist: "战略竞争者", technician: "狂野技术派", ai: "高尔夫AI", gentleman: "绅士球手", allrounder: "全能选手" }
+            },
+            es: {
+                title: "Mi Golf MBTI", titleGeneral: "Mi Golf MBTI Oculto",
+                subtitle: "¿Cuál es tu personalidad de golf?", subtitleGeneral: "¡Descubre tu ADN de golf sin jugar!",
+                desc: "¡Descubre tu ADN de golf con 8 preguntas!", descSub: "Analizamos tu agresividad, análisis, técnica y habilidades sociales.",
+                descGeneral: "¡Encuentra tu talento oculto con 8 preguntas diarias!", descGeneralSub: "Conoce tu ADN de golf sin jugar.",
+                startBtn: "Iniciar Test", typeIntro: "¿Cuál de los 6 tipos eres?",
+                question: "Pregunta", analyzing: "Analizando tu tipo...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "Tu tipo explicado", hiddenTalent: "Tu talento oculto de golf",
+                recDrill: "Ejercicio Recomendado", recGear: "Equipo Recomendado",
+                retry: "Reintentar", saveCard: "Guardar", share: "Compartir",
+                linkCopied: "¡Enlace copiado!",
+                golferMode: "Modo Golfista", generalMode: "Modo General",
+                footer: { about: "Acerca de", privacy: "Privacidad", terms: "Términos" },
+                axes: { risk: "Agresividad", mental: "Análisis", tech: "Técnica", social: "Social" },
+                types: { inssa: "Pegador Fiestero", strategist: "Estratega", technician: "Técnico Salvaje", ai: "Golf AI", gentleman: "Caballero", allrounder: "Todoterreno" }
+            },
+            fr: {
+                title: "Mon Golf MBTI", titleGeneral: "Mon Golf MBTI Caché",
+                subtitle: "Quelle est votre personnalité golf?", subtitleGeneral: "Découvrez votre ADN golf sans jouer!",
+                desc: "Découvrez votre ADN golf en 8 questions!", descSub: "Nous analysons votre agressivité, analyse, technique et sociabilité.",
+                descGeneral: "Trouvez votre talent caché en 8 questions!", descGeneralSub: "Connaissez votre ADN golf sans jouer.",
+                startBtn: "Commencer", typeIntro: "Quel type parmi les 6 êtes-vous?",
+                question: "Question", analyzing: "Analyse en cours...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "Votre type expliqué", hiddenTalent: "Votre talent golf caché",
+                recDrill: "Exercice Recommandé", recGear: "Équipement Recommandé",
+                retry: "Réessayer", saveCard: "Sauvegarder", share: "Partager",
+                linkCopied: "Lien copié!",
+                golferMode: "Mode Golfeur", generalMode: "Mode Général",
+                footer: { about: "À propos", privacy: "Confidentialité", terms: "Conditions" },
+                axes: { risk: "Agressivité", mental: "Analyse", tech: "Technique", social: "Social" },
+                types: { inssa: "Frappeur Festif", strategist: "Stratège", technician: "Technicien Sauvage", ai: "Golf AI", gentleman: "Gentleman", allrounder: "Polyvalent" }
+            },
+            ru: {
+                title: "Мой Гольф MBTI", titleGeneral: "Мой Скрытый Гольф MBTI",
+                subtitle: "Какой у вас гольф-характер?", subtitleGeneral: "Узнайте свою ДНК гольфа без игры!",
+                desc: "Узнайте свою гольф-ДНК за 8 вопросов!", descSub: "Мы анализируем агрессию, анализ, технику и социальность.",
+                descGeneral: "Найдите скрытый талант за 8 вопросов!", descGeneralSub: "Узнайте ДНК гольфа без игры.",
+                startBtn: "Начать тест", typeIntro: "Какой из 6 типов вы?",
+                question: "Вопрос", analyzing: "Анализируем ваш тип...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "Описание типа", hiddenTalent: "Ваш скрытый талант",
+                recDrill: "Рекомендуемое упражнение", recGear: "Рекомендуемое снаряжение",
+                retry: "Заново", saveCard: "Сохранить", share: "Поделиться",
+                linkCopied: "Ссылка скопирована!",
+                golferMode: "Режим гольфиста", generalMode: "Обычный режим",
+                footer: { about: "О нас", privacy: "Конфиденциальность", terms: "Условия" },
+                axes: { risk: "Агрессия", mental: "Анализ", tech: "Техника", social: "Социальность" },
+                types: { inssa: "Тусовщик-дальнобойщик", strategist: "Стратег", technician: "Дикий техник", ai: "Гольф ИИ", gentleman: "Джентльмен", allrounder: "Универсал" }
+            },
+            hi: {
+                title: "मेरा गोल्फ MBTI", titleGeneral: "मेरा छिपा गोल्फ MBTI",
+                subtitle: "आपका गोल्फ व्यक्तित्व क्या है?", subtitleGeneral: "बिना खेले अपना गोल्फ DNA जानें!",
+                desc: "8 सवालों में अपना गोल्फ DNA जानें!", descSub: "हम आपकी आक्रामकता, विश्लेषण, तकनीक और सामाजिकता का विश्लेषण करते हैं।",
+                descGeneral: "8 रोज़मर्रा के सवालों से छिपी प्रतिभा खोजें!", descGeneralSub: "बिना खेले अपना गोल्फ DNA जानें।",
+                startBtn: "टेस्ट शुरू करें", typeIntro: "6 प्रकारों में से आप कौन हैं?",
+                question: "सवाल", analyzing: "आपका प्रकार विश्लेषण हो रहा है...",
+                myDna: "My Golf DNA", myHiddenDna: "My Hidden Golf DNA",
+                typeDesc: "आपका प्रकार", hiddenTalent: "आपकी छिपी गोल्फ प्रतिभा",
+                recDrill: "अनुशंसित अभ्यास", recGear: "अनुशंसित उपकरण",
+                retry: "फिर से", saveCard: "कार्ड सहेजें", share: "साझा करें",
+                linkCopied: "लिंक कॉपी हो गया!",
+                golferMode: "गोल्फर मोड", generalMode: "सामान्य मोड",
+                footer: { about: "हमारे बारे में", privacy: "गोपनीयता", terms: "शर्तें" },
+                axes: { risk: "आक्रामकता", mental: "विश्लेषण", tech: "तकनीक", social: "सामाजिक" },
+                types: { inssa: "पार्टी लॉन्ग हिटर", strategist: "रणनीतिक प्रतियोगी", technician: "वाइल्ड तकनीशियन", ai: "गोल्फ AI", gentleman: "सज्जन गोल्फर", allrounder: "ऑलराउंडर" }
+            }
+        };
+
+        // --- 상단 버튼 그룹 컴포넌트 (모드 토글 + 언어 선택 + 다크모드 토글) ---
+        const TopButtons = ({ isGolfMode, setIsGolfMode, lang, setLang, T }) => {
             const [isDark, setIsDark] = useState(() => {
                 if (typeof window !== 'undefined') {
                     const saved = localStorage.getItem('darkMode');
@@ -76,51 +228,61 @@
                 localStorage.setItem('darkMode', isDark);
             }, [isDark]);
 
+            useEffect(() => {
+                localStorage.setItem('lang', lang);
+            }, [lang]);
+
             return (
                 <div className="fixed top-4 right-4 z-50 flex gap-2">
                     {/* 모드 전환 버튼 */}
                     <button
                         onClick={() => setIsGolfMode(!isGolfMode)}
-                        className={`px-4 py-2 rounded-full backdrop-blur-md border shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 text-sm font-medium ${
+                        className={`px-3 py-2 rounded-full backdrop-blur-md border shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1.5 text-sm font-medium ${
                             isGolfMode
                                 ? 'bg-green-500/80 dark:bg-green-600/80 border-green-400 dark:border-green-500 text-white'
                                 : 'bg-amber-500/80 dark:bg-amber-600/80 border-amber-400 dark:border-amber-500 text-white'
                         }`}
                     >
-                        {isGolfMode ? (
-                            <><span>⛳️</span> 골퍼 모드</>
-                        ) : (
-                            <><span>🌱</span> 일반인 모드</>
-                        )}
+                        {isGolfMode ? <><span>⛳️</span><span className="hidden sm:inline">{T.golferMode}</span></> : <><span>🌱</span><span className="hidden sm:inline">{T.generalMode}</span></>}
                     </button>
+
+                    {/* 언어 선택 드롭다운 */}
+                    <div className="relative">
+                        <select
+                            value={lang}
+                            onChange={(e) => setLang(e.target.value)}
+                            className="appearance-none px-3 py-2 pr-7 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 text-sm font-medium text-gray-700 dark:text-gray-200 cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        >
+                            {LANGUAGES.map(l => (
+                                <option key={l.code} value={l.code}>{l.flag} {l.code.toUpperCase()}</option>
+                            ))}
+                        </select>
+                        <div className="absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 dark:text-gray-400">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                        </div>
+                    </div>
 
                     {/* 다크모드 토글 버튼 */}
                     <button
                         onClick={() => setIsDark(!isDark)}
-                        className="px-4 py-2 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-200"
+                        className="px-3 py-2 rounded-full bg-white/70 dark:bg-gray-800/70 backdrop-blur-md border border-gray-200 dark:border-gray-700 shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1.5 text-sm font-medium text-gray-700 dark:text-gray-200"
                     >
                         {isDark ? (
-                            <>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <circle cx="12" cy="12" r="5"></circle>
-                                    <line x1="12" y1="1" x2="12" y2="3"></line>
-                                    <line x1="12" y1="21" x2="12" y2="23"></line>
-                                    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                                    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                                    <line x1="1" y1="12" x2="3" y2="12"></line>
-                                    <line x1="21" y1="12" x2="23" y2="12"></line>
-                                    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                                    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                                </svg>
-                                Light
-                            </>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
                         ) : (
-                            <>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                                </svg>
-                                Dark
-                            </>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
                         )}
                     </button>
                 </div>
@@ -137,18 +299,18 @@
         const Sparkles = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /></svg>;
 
         // --- 푸터 컴포넌트 ---
-        const Footer = () => (
+        const Footer = ({ T }) => (
             <footer className="bg-gray-800 dark:bg-gray-950 text-white mt-auto transition-colors duration-300">
                 <div className="max-w-md mx-auto px-4 py-6">
                     <div className="flex flex-col items-center gap-4">
                         <nav className="flex gap-4 text-xs">
-                            <a href="about.html" className="text-gray-400 hover:text-white transition-colors">서비스 소개</a>
+                            <a href="about.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.about}</a>
                             <span className="text-gray-600">|</span>
-                            <a href="privacy.html" className="text-gray-400 hover:text-white transition-colors">개인정보처리방침</a>
+                            <a href="privacy.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.privacy}</a>
                             <span className="text-gray-600">|</span>
-                            <a href="terms.html" className="text-gray-400 hover:text-white transition-colors">이용약관</a>
+                            <a href="terms.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.terms}</a>
                         </nav>
-                        <p className="text-gray-500 text-xs">&copy; 2025 골프 MBTI. All rights reserved.</p>
+                        <p className="text-gray-500 text-xs">&copy; 2025 Golf MBTI. All rights reserved.</p>
                     </div>
                 </div>
             </footer>
@@ -156,90 +318,102 @@
 
         const SCORING_AXES = { RISK: 'risk', MENTAL: 'mental', TECH: 'tech', SOCIAL: 'social' };
 
-        // --- 골퍼 모드 질문 ---
+        // --- 골퍼 모드 질문 (8개 국어) ---
         const QUESTIONS_GOLF = [
-            { id: 1, question: "파 5홀, 220m 남았는데 앞에 해저드가 있다. 당신의 선택은?", options: [{ text: "인생 뭐 있어? 바로 유틸 잡고 쏜다! (성공하면 평생 안주감)", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "스코어는 거짓말 안 해. 얌전히 끊어서 3온 작전.", scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { text: "캐디님한테 물어보고 시키는 대로 한다.", scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.RISK]: -1 } }] },
-            { id: 2, question: "새 드라이버를 살 때 가장 중요하게 보는 것은?", options: [{ text: "유명 프로가 쓰는 그 채! 스펙이랑 데이터 비교.", scores: { [SCORING_AXES.MENTAL]: 3, [SCORING_AXES.TECH]: 1 } }, { text: "손맛이 쩍! 소리가 깡! 감성이 맞아야 됨.", scores: { [SCORING_AXES.MENTAL]: -2 } }, { text: "일단 간지! 디자인 예쁘고 브랜드가 중요함.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
-            { id: 3, question: "티샷 전, 당신의 프리샷 루틴은?", options: [{ text: "빈 스윙 2번, 에이밍, 호흡. 기계처럼 똑같이.", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "루틴? 그냥 몸 풀리는 대로 대충 꽂고 후려친다.", scores: { [SCORING_AXES.TECH]: -3, [SCORING_AXES.RISK]: 1 } }, { text: "바람 체크하고 코스 공략 머릿속으로 시뮬레이션.", scores: { [SCORING_AXES.MENTAL]: 2 } }] },
-            { id: 4, question: "동반자가 1m 거리의 내기 퍼팅을 남겨두고 있다.", options: [{ text: "'오케이(Concede)' 외치며 쿨하게 넘어가 준다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "숨도 안 쉬고 지켜본다. (넣나 못 넣나 보자)", scores: { [SCORING_AXES.SOCIAL]: -2 } }, { text: "라이 같이 봐주고 '좌측 한 컵!' 훈수 둔다.", scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.MENTAL]: 1 } }] },
-            { id: 5, question: "오늘따라 공이 산으로 간다. 멘탈 상태는?", options: [{ text: "화나지만 스윙 영상 찍어서 분석한다.", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "오늘은 명랑골프 모드! 사진이나 찍고 놀자~", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { text: "채가 문제다. 당장 중고장터 검색 시작.", scores: { [SCORING_AXES.TECH]: -1, [SCORING_AXES.MENTAL]: -2 } }] },
-            { id: 6, question: "레슨 프로가 폼을 뜯어고치자고 하는데 내일 라운딩이다.", options: [{ text: "망하더라도 배운 대로 친다. 난 정석파니까.", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "내일은 내 스타일대로 치고 연습은 나중에.", scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 1 } }, { text: "프로님께 '원포인트 팁'만 알려달라고 딜한다.", scores: { [SCORING_AXES.RISK]: -1, [SCORING_AXES.MENTAL]: 1 } }] },
-            { id: 7, question: "벙커 턱이 높고 핀은 바로 앞이다.", options: [{ text: "남자는 띄워야지! 로브샷으로 핀 바로 공략.", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "탈출이 목표다. 안전한 곳으로 뺀다.", scores: { [SCORING_AXES.RISK]: -3 } }, { text: "모래 양 체크하고, 발 묻고, 정석대로 탈출.", scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
-            { id: 8, question: "라운딩 끝나고 뒤풀이 장소에서 나는?", options: [{ text: "아까 그 샷 봤어? 복기하면서 토론한다.", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: -1 } }, { text: "술잔 돌리고 분위기 주도한다. (오늘의 MC)", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "조용히 밥 먹으면서 다음 라운딩 잡는다.", scores: { [SCORING_AXES.SOCIAL]: 1 } }] }
+            { id: 1, q: { ko: "파 5홀, 220m 남았는데 앞에 해저드가 있다. 당신의 선택은?", en: "Par 5, 220m left with a hazard ahead. Your choice?", ja: "パー5、残り220m、前方にハザード。あなたの選択は？", zh: "五杆洞，还剩220米，前方有障碍。你的选择？", es: "Par 5, quedan 220m con un obstáculo. ¿Tu elección?", fr: "Par 5, 220m restants avec un obstacle. Votre choix?", ru: "Пар 5, 220м до лунки, впереди преграда. Ваш выбор?", hi: "पार 5, 220 मीटर बाकी, आगे खतरा है। आपकी पसंद?" }, opts: [{ t: { ko: "인생 뭐 있어? 바로 유틸 잡고 쏜다!", en: "YOLO! Grab the utility and go for it!", ja: "人生一度きり！ユーティリティで攻める！", zh: "人生苦短！直接上！", es: "¡YOLO! ¡Voy a por ello!", fr: "YOLO! Je tente le coup!", ru: "Живём один раз! Бью!", hi: "एक ही ज़िंदगी है! मारो!" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "스코어는 거짓말 안 해. 얌전히 끊어서 3온.", en: "Play it safe. Lay up for a sure 3rd shot.", ja: "スコアは嘘をつかない。刻んで3オン。", zh: "稳妥起见，分段打。", es: "Juego seguro. Voy por partes.", fr: "Je joue la sécurité.", ru: "Играю безопасно, в 3 удара.", hi: "सुरक्षित खेलो। 3 शॉट में।" }, scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { t: { ko: "캐디님한테 물어보고 시키는 대로.", en: "Ask the caddy and follow their advice.", ja: "キャディに聞いて従う。", zh: "问球童，听建议。", es: "Pregunto al caddy.", fr: "Je demande au caddy.", ru: "Спрошу кедди.", hi: "कैडी से पूछो।" }, scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.RISK]: -1 } }] },
+            { id: 2, q: { ko: "새 드라이버를 살 때 가장 중요하게 보는 것은?", en: "What matters most when buying a new driver?", ja: "新しいドライバーを買う時、最も重視するのは？", zh: "买新球杆时最看重什么？", es: "¿Qué es lo más importante al comprar un driver?", fr: "Qu'est-ce qui compte le plus pour un nouveau driver?", ru: "Что важнее всего при покупке драйвера?", hi: "नया ड्राइवर खरीदते समय सबसे महत्वपूर्ण क्या है?" }, opts: [{ t: { ko: "유명 프로가 쓰는 채! 스펙과 데이터 비교.", en: "What the pros use! Compare specs and data.", ja: "プロが使うクラブ！スペックとデータ比較。", zh: "职业选手用的！比较规格数据。", es: "¡Lo que usan los pros! Comparar especificaciones.", fr: "Ce que les pros utilisent! Comparer les specs.", ru: "Что используют профи! Сравнить характеристики.", hi: "प्रो जो इस्तेमाल करते हैं! स्पेक्स की तुलना।" }, scores: { [SCORING_AXES.MENTAL]: 3, [SCORING_AXES.TECH]: 1 } }, { t: { ko: "손맛이 쩍! 소리가 깡! 감성이 맞아야.", en: "The feel! The sound! It has to feel right.", ja: "打感！音！フィーリングが大事。", zh: "手感！声音！感觉要对。", es: "¡La sensación! ¡El sonido!", fr: "Le feeling! Le son!", ru: "Ощущение! Звук! Должно быть правильно.", hi: "फील! साउंड! सही लगना चाहिए।" }, scores: { [SCORING_AXES.MENTAL]: -2 } }, { t: { ko: "일단 간지! 디자인과 브랜드가 중요.", en: "Style first! Design and brand matter.", ja: "まずは見た目！デザインとブランド。", zh: "颜值第一！设计和品牌。", es: "¡El estilo primero! Diseño y marca.", fr: "Le style d'abord! Design et marque.", ru: "Сначала стиль! Дизайн и бренд.", hi: "स्टाइल पहले! डिज़ाइन और ब्रांड।" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 3, q: { ko: "티샷 전, 당신의 프리샷 루틴은?", en: "What's your pre-shot routine before teeing off?", ja: "ティーショット前のプリショットルーティンは？", zh: "开球前的准备动作是？", es: "¿Cuál es tu rutina antes del tee shot?", fr: "Quelle est votre routine avant le tee shot?", ru: "Какой у вас ритуал перед ударом?", hi: "टी शॉट से पहले आपकी रूटीन क्या है?" }, opts: [{ t: { ko: "빈 스윙 2번, 에이밍, 호흡. 기계처럼 똑같이.", en: "2 practice swings, aim, breathe. Like clockwork.", ja: "素振り2回、エイミング、呼吸。機械のように。", zh: "挥杆2次，瞄准，呼吸。像机器一样。", es: "2 swings de práctica, apuntar, respirar. Como un reloj.", fr: "2 swings d'entraînement, viser, respirer. Comme une horloge.", ru: "2 пробных взмаха, прицел, дыхание. Как часы.", hi: "2 प्रैक्टिस स्विंग, एम, सांस। घड़ी की तरह।" }, scores: { [SCORING_AXES.TECH]: 3 } }, { t: { ko: "루틴? 그냥 대충 꽂고 후려친다.", en: "Routine? Just step up and swing!", ja: "ルーティン？適当に構えて打つ。", zh: "准备？直接上去就打。", es: "¿Rutina? ¡Solo pego!", fr: "Routine? Je frappe!", ru: "Ритуал? Просто бью!", hi: "रूटीन? बस मारो!" }, scores: { [SCORING_AXES.TECH]: -3, [SCORING_AXES.RISK]: 1 } }, { t: { ko: "바람 체크하고 코스 공략 시뮬레이션.", en: "Check wind and visualize the shot.", ja: "風をチェックしてコース攻略をシミュレーション。", zh: "检查风向，模拟球路。", es: "Verificar viento y visualizar el tiro.", fr: "Vérifier le vent et visualiser.", ru: "Проверить ветер и визуализировать.", hi: "हवा चेक करो और शॉट की कल्पना करो।" }, scores: { [SCORING_AXES.MENTAL]: 2 } }] },
+            { id: 4, q: { ko: "동반자가 1m 내기 퍼팅을 남겨두고 있다.", en: "Your partner has a 1m putt for the bet.", ja: "同伴者が1mの賭けパットを残している。", zh: "同伴还剩1米推杆赌局。", es: "Tu compañero tiene un putt de 1m para la apuesta.", fr: "Votre partenaire a un putt de 1m pour le pari.", ru: "У партнёра патт 1м на ставку.", hi: "आपके साथी के पास 1 मीटर पट है।" }, opts: [{ t: { ko: "'오케이' 외치며 쿨하게 넘어간다.", en: "Shout 'OK!' and give it to them.", ja: "「OKパット」と言ってあげる。", zh: "喊'OK'，算他进了。", es: "¡Grito 'OK!' y se lo doy.", fr: "Je crie 'OK!' et je lui donne.", ru: "Кричу 'ОК!' и засчитываю.", hi: "'OK' चिल्लाओ और दे दो।" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }, { t: { ko: "숨도 안 쉬고 지켜본다. 넣나 못 넣나.", en: "Watch silently. Make or miss?", ja: "息を殺して見守る。入るか入らないか。", zh: "屏住呼吸看着。进不进？", es: "Miro en silencio. ¿Entra o no?", fr: "Je regarde en silence. Réussi ou raté?", ru: "Смотрю молча. Попадёт или нет?", hi: "चुपचाप देखो। होगा या नहीं?" }, scores: { [SCORING_AXES.SOCIAL]: -2 } }, { t: { ko: "라이 같이 봐주고 훈수 둔다.", en: "Help read the line and give advice.", ja: "ラインを一緒に読んでアドバイス。", zh: "帮忙看线，给建议。", es: "Ayudo a leer la línea y aconsejo.", fr: "J'aide à lire la ligne et conseille.", ru: "Помогаю читать линию и советую.", hi: "लाइन पढ़ने में मदद करो।" }, scores: { [SCORING_AXES.SOCIAL]: 1, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 5, q: { ko: "오늘따라 공이 산으로 간다. 멘탈 상태는?", en: "Your shots keep going astray today. Mental state?", ja: "今日に限ってボールが曲がる。メンタルは？", zh: "今天球总是打偏。心态如何？", es: "Tus tiros se desvían hoy. ¿Estado mental?", fr: "Vos coups partent mal aujourd'hui. État mental?", ru: "Сегодня мячи летят не туда. Как настрой?", hi: "आज शॉट्स गलत जा रहे हैं। मानसिक स्थिति?" }, opts: [{ t: { ko: "화나지만 스윙 영상 찍어서 분석한다.", en: "Frustrated, but I record and analyze my swing.", ja: "悔しいけどスイング動画を撮って分析。", zh: "生气，但录像分析挥杆。", es: "Frustrado, pero grabo y analizo.", fr: "Frustré, mais j'enregistre et analyse.", ru: "Злюсь, но записываю и анализирую.", hi: "गुस्सा, लेकिन रिकॉर्ड करके विश्लेषण।" }, scores: { [SCORING_AXES.MENTAL]: 3 } }, { t: { ko: "오늘은 명랑골프! 사진이나 찍고 놀자~", en: "Fun golf day! Let's take photos and enjoy!", ja: "今日は楽しくゴルフ！写真撮って遊ぼう〜", zh: "今天开心打球！拍照玩吧〜", es: "¡Día de golf divertido! ¡Fotos!", fr: "Golf fun! Prenons des photos!", ru: "Весёлый гольф! Фоткаемся!", hi: "मज़ेदार गोल्फ! फोटो लो!" }, scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { t: { ko: "채가 문제다. 당장 중고장터 검색.", en: "It's the club's fault. Time to shop online.", ja: "クラブのせいだ。中古市場を検索。", zh: "是球杆的问题。上网找新的。", es: "Es culpa del palo. A buscar online.", fr: "C'est la faute du club. Shopping en ligne.", ru: "Виновата клюшка. Ищу в интернете.", hi: "क्लब की गलती है। ऑनलाइन खोजो।" }, scores: { [SCORING_AXES.TECH]: -1, [SCORING_AXES.MENTAL]: -2 } }] },
+            { id: 6, q: { ko: "레슨 프로가 폼을 뜯어고치자는데 내일 라운딩이다.", en: "Coach wants to rebuild your swing but you play tomorrow.", ja: "レッスンプロがフォームを直そうと言うが明日ラウンド。", zh: "教练要改动作，但明天就打球。", es: "El coach quiere cambiar tu swing pero juegas mañana.", fr: "Le coach veut changer votre swing mais vous jouez demain.", ru: "Тренер хочет переделать свинг, но завтра раунд.", hi: "कोच स्विंग बदलना चाहते हैं लेकिन कल खेलना है।" }, opts: [{ t: { ko: "망하더라도 배운 대로. 난 정석파.", en: "I'll play by the book even if I fail.", ja: "失敗しても教わった通りに。正統派だから。", zh: "即使失败也按教的打。我是正统派。", es: "Juego según el libro aunque falle.", fr: "Je joue selon les règles même si j'échoue.", ru: "Буду играть по правилам, даже если проиграю.", hi: "किताब के अनुसार खेलूंगा।" }, scores: { [SCORING_AXES.TECH]: 3 } }, { t: { ko: "내일은 내 스타일대로. 연습은 나중에.", en: "My style tomorrow. Practice later.", ja: "明日は自分流で。練習は後で。", zh: "明天按我的风格。练习以后再说。", es: "Mi estilo mañana. Practicaré después.", fr: "Mon style demain. Pratique plus tard.", ru: "Завтра по-своему. Практика потом.", hi: "कल मेरी स्टाइल। प्रैक्टिस बाद में।" }, scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 1 } }, { t: { ko: "프로님께 원포인트 팁만 달라고 딜.", en: "Ask for just one quick tip.", ja: "プロにワンポイントだけ教えてもらう。", zh: "只要一个小技巧就好。", es: "Pido solo un consejo rápido.", fr: "Je demande juste un conseil rapide.", ru: "Прошу только один совет.", hi: "बस एक टिप मांगो।" }, scores: { [SCORING_AXES.RISK]: -1, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 7, q: { ko: "벙커 턱이 높고 핀은 바로 앞이다.", en: "High bunker lip, pin is right in front.", ja: "バンカーの縁が高く、ピンはすぐ前。", zh: "沙坑边缘高，旗杆就在前面。", es: "Bunker alto, bandera justo delante.", fr: "Bunker haut, drapeau juste devant.", ru: "Высокий бункер, флаг прямо впереди.", hi: "बंकर ऊंचा है, पिन सामने है।" }, opts: [{ t: { ko: "남자는 띄워야지! 로브샷으로 핀 공략.", en: "Go big! Lob shot straight at the pin.", ja: "男は上げる！ロブショットでピンを狙う。", zh: "要有气势！高吊球直攻旗杆。", es: "¡A lo grande! Lob shot al pin.", fr: "On y va! Lob shot vers le drapeau.", ru: "Играю красиво! Лоб к флагу.", hi: "बड़ा खेलो! लॉब शॉट पिन पर।" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "탈출이 목표. 안전한 곳으로.", en: "Just escape safely.", ja: "脱出が目標。安全な場所へ。", zh: "先出来再说，打安全区。", es: "Solo escapar a salvo.", fr: "Juste sortir en sécurité.", ru: "Главное выбраться безопасно.", hi: "सुरक्षित निकलो।" }, scores: { [SCORING_AXES.RISK]: -3 } }, { t: { ko: "모래 양 체크, 발 묻고, 정석대로.", en: "Check the sand, set feet, textbook escape.", ja: "砂の量をチェック、足を埋めて、教科書通り。", zh: "检查沙量，站稳，按标准打。", es: "Revisar arena, fijar pies, manual.", fr: "Vérifier le sable, pieds fixés, par le livre.", ru: "Проверить песок, встать, по учебнику.", hi: "रेत चेक करो, पैर जमाओ, किताब के अनुसार।" }, scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 8, q: { ko: "라운딩 끝나고 뒤풀이 장소에서 나는?", en: "At the after-party, you are?", ja: "ラウンド後の打ち上げで自分は？", zh: "打完球聚餐时你是？", es: "En la fiesta después del juego, ¿tú eres?", fr: "À l'après-golf, vous êtes?", ru: "На вечеринке после раунда, вы?", hi: "पार्टी में आप?" }, opts: [{ t: { ko: "아까 그 샷 봤어? 복기하며 토론.", en: "Did you see that shot? Let's analyze!", ja: "さっきのショット見た？復習しながら議論。", zh: "看到那个球了吗？来复盘！", es: "¿Viste ese tiro? ¡Analicemos!", fr: "Tu as vu ce coup? Analysons!", ru: "Видел тот удар? Давай разберём!", hi: "वो शॉट देखा? विश्लेषण करें!" }, scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: -1 } }, { t: { ko: "술잔 돌리고 분위기 주도. 오늘의 MC!", en: "Leading the party! I'm the MC tonight!", ja: "お酒を回して盛り上げる。今日のMC！", zh: "带动气氛！今天我是MC！", es: "¡Liderando la fiesta! ¡Soy el MC!", fr: "Je mène la fête! Je suis le MC!", ru: "Веду вечеринку! Я MC!", hi: "पार्टी लीड करो! मैं MC हूं!" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }, { t: { ko: "조용히 밥 먹으며 다음 라운딩 잡는다.", en: "Quietly eat and plan the next round.", ja: "静かに食べながら次のラウンドを決める。", zh: "安静吃饭，约下次球局。", es: "Comer tranquilo y planear la próxima.", fr: "Manger tranquille et planifier la prochaine.", ru: "Тихо ем и планирую следующий раунд.", hi: "शांति से खाओ और अगला राउंड प्लान करो।" }, scores: { [SCORING_AXES.SOCIAL]: 1 } }] }
         ];
 
-        // --- 일반인 모드 질문 (20대 일상 소재) ---
+        // --- 일반인 모드 질문 (8개 국어) ---
         const QUESTIONS_GENERAL = [
-            { id: 1, question: "친구들이랑 여행 계획 짜는 날. 당신의 역할은?", options: [{ text: "엑셀 켜고 시간표, 교통편, 숙소 가격 비교 정리!", scores: { [SCORING_AXES.TECH]: 3, [SCORING_AXES.MENTAL]: 1 } }, { text: "일단 항공권 질러! 나머진 가서 생각하자~", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "카톡방에서 반응 보면서 다수결로 따라간다.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }] },
-            { id: 2, question: "마라탕집 앞이다. 매운맛 레벨 선택!", options: [{ text: "가장 매운 맛 도전! 인생은 한 번뿐이잖아?", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "중간 맛으로 안전하게. 맛있게 먹는 게 목표.", scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { text: "친구들이 뭐 시키는지 보고 맞춰서 시킨다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
-            { id: 3, question: "조별과제 마감이 3일 남았다. 당신은?", options: [{ text: "역할 분담표 만들고 데드라인 체크리스트 공유!", scores: { [SCORING_AXES.TECH]: 3 } }, { text: "D-1에 몰아서 밤새기. 그게 진정한 열정이지.", scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 2 } }, { text: "팀원들 멘탈 케어하면서 분위기 띄우는 역할.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
-            { id: 4, question: "연애 상대한테 연락이 늦게 왔다. 반응은?", options: [{ text: "읽씹 시간, 답장 패턴 분석 시작... 뭔가 이상해.", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "에이~ 바쁜갑지! 나도 느긋하게 답장.", scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { text: "바로 전화해서 직접 물어본다. 답답해 못 살아!", scores: { [SCORING_AXES.RISK]: 3, [SCORING_AXES.SOCIAL]: -1 } }] },
-            { id: 5, question: "요즘 빠진 취미나 관심사가 생겼을 때?", options: [{ text: "유튜브 강의부터 장비 추천까지 올인 리서치!", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.TECH]: 2 } }, { text: "일단 질러본다! 해봐야 아는 거 아님?", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "관련 동호회 가입해서 사람들 만나면서 배운다.", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
-            { id: 6, question: "친구가 고민 상담을 요청했다. 당신의 스타일은?", options: [{ text: "객관적으로 상황 분석하고 해결책 제시!", scores: { [SCORING_AXES.MENTAL]: 3 } }, { text: "일단 들어주고 공감! 해결보다 위로가 먼저지.", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "'걍 니가 하고 싶은 대로 해!' 시원하게 밀어준다.", scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.TECH]: -1 } }] },
-            { id: 7, question: "처음 가보는 맛집에서 메뉴 고를 때?", options: [{ text: "네이버 리뷰 인기메뉴 1위로 확정!", scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }, { text: "아무도 안 시킬 것 같은 특이한 메뉴 도전!", scores: { [SCORING_AXES.RISK]: 3 } }, { text: "일행들이랑 다른 거 시켜서 나눠먹자~", scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
-            { id: 8, question: "술자리 분위기가 살짝 가라앉았다. 당신은?", options: [{ text: "게임 제안! 내가 분위기 살릴게~ 🎲", scores: { [SCORING_AXES.SOCIAL]: 3 } }, { text: "조용히 대화 주제 바꾸면서 자연스럽게 유도.", scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: 1 } }, { text: "2차 가자! 장소 바꾸면 분위기도 바뀐다!", scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.SOCIAL]: 1 } }] }
+            { id: 1, q: { ko: "친구들이랑 여행 계획 짜는 날. 당신의 역할은?", en: "Planning a trip with friends. Your role?", ja: "友達と旅行計画を立てる日。あなたの役割は？", zh: "和朋友计划旅行。你的角色？", es: "Planificando un viaje con amigos. ¿Tu rol?", fr: "Planifier un voyage avec des amis. Votre rôle?", ru: "Планируете поездку с друзьями. Ваша роль?", hi: "दोस्तों के साथ यात्रा की योजना। आपकी भूमिका?" }, opts: [{ t: { ko: "엑셀 켜고 시간표, 교통편, 숙소 가격 비교!", en: "Spreadsheet time! Compare schedules, transport, hotels!", ja: "エクセルで時刻表、交通、宿泊料金を比較！", zh: "打开表格！比较时间、交通、住宿！", es: "¡Hora de la hoja de cálculo! Comparar todo.", fr: "Tableur! Comparer horaires, transport, hôtels!", ru: "Таблицы! Сравнить расписание, транспорт, отели!", hi: "स्प्रेडशीट! शेड्यूल, ट्रांसपोर्ट, होटल तुलना!" }, scores: { [SCORING_AXES.TECH]: 3, [SCORING_AXES.MENTAL]: 1 } }, { t: { ko: "일단 항공권 질러! 나머진 가서 생각하자~", en: "Just book the flight! Figure out the rest later!", ja: "とりあえず航空券予約！あとは現地で考える〜", zh: "先订机票！剩下的到了再说〜", es: "¡Reserva el vuelo! ¡El resto después!", fr: "Réserve le vol! Le reste plus tard!", ru: "Бронируй билет! Остальное потом!", hi: "फ्लाइट बुक करो! बाकी बाद में!" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "카톡방에서 반응 보면서 다수결로.", en: "Watch the group chat and go with majority.", ja: "グループチャットの反応を見て多数決で。", zh: "看群里反应，少数服从多数。", es: "Miro el chat grupal y sigo a la mayoría.", fr: "Je regarde le chat et suis la majorité.", ru: "Смотрю чат и иду с большинством.", hi: "ग्रुप चैट देखो और बहुमत के साथ जाओ।" }, scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }] },
+            { id: 2, q: { ko: "매운 음식점 앞이다. 매운맛 레벨 선택!", en: "At a spicy restaurant. Choose your spice level!", ja: "辛い料理店の前。辛さレベルを選んで！", zh: "在辣餐厅前。选择辣度！", es: "En un restaurante picante. ¡Elige el nivel!", fr: "Dans un resto épicé. Choisissez le niveau!", ru: "В остром ресторане. Выберите уровень!", hi: "मसालेदार रेस्तरां में। स्पाइस लेवल चुनो!" }, opts: [{ t: { ko: "가장 매운 맛 도전! 인생은 한 번뿐!", en: "Maximum spice! YOLO!", ja: "最も辛いのに挑戦！人生は一度きり！", zh: "最辣！人生只有一次！", es: "¡Máximo picante! ¡YOLO!", fr: "Maximum épicé! YOLO!", ru: "Максимум остроты! Живём раз!", hi: "सबसे तीखा! YOLO!" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "중간 맛으로 안전하게. 맛있게 먹는 게 목표.", en: "Medium is safe. Goal is to enjoy the meal.", ja: "中辛で安全に。美味しく食べるのが目標。", zh: "中辣安全。目标是好好享用。", es: "Medio es seguro. El objetivo es disfrutar.", fr: "Moyen c'est sûr. Le but est de profiter.", ru: "Средний безопасно. Цель - наслаждаться.", hi: "मध्यम सुरक्षित। लक्ष्य आनंद लेना।" }, scores: { [SCORING_AXES.RISK]: -2, [SCORING_AXES.MENTAL]: 1 } }, { t: { ko: "친구들이 뭐 시키는지 보고 맞춰서.", en: "See what friends order and match them.", ja: "友達が何を頼むか見てから合わせる。", zh: "看朋友点什么就跟着点。", es: "Veo qué piden mis amigos y los sigo.", fr: "Je vois ce que commandent mes amis.", ru: "Смотрю что заказывают друзья.", hi: "दोस्त क्या मंगाते हैं देखो।" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 3, q: { ko: "조별과제 마감이 3일 남았다. 당신은?", en: "Group project due in 3 days. You?", ja: "グループ課題の締切まで3日。あなたは？", zh: "小组作业还有3天截止。你？", es: "Proyecto grupal en 3 días. ¿Tú?", fr: "Projet de groupe dans 3 jours. Vous?", ru: "Групповой проект через 3 дня. Вы?", hi: "ग्रुप प्रोजेक्ट 3 दिन में। आप?" }, opts: [{ t: { ko: "역할 분담표 만들고 데드라인 체크리스트!", en: "Make a task list and deadline checklist!", ja: "役割分担表を作ってデッドラインチェックリスト！", zh: "做任务分配表和截止日期清单！", es: "¡Lista de tareas y checklist de plazos!", fr: "Liste de tâches et checklist des délais!", ru: "Список задач и чеклист дедлайнов!", hi: "टास्क लिस्ट और डेडलाइन चेकलिस्ट!" }, scores: { [SCORING_AXES.TECH]: 3 } }, { t: { ko: "D-1에 몰아서 밤새기. 진정한 열정!", en: "All-nighter on D-1. True passion!", ja: "D-1で徹夜。それが本当の情熱！", zh: "D-1通宵。这才是真正的热情！", es: "Trasnochar el D-1. ¡Verdadera pasión!", fr: "Nuit blanche le D-1. Vraie passion!", ru: "Ночь перед дедлайном. Настоящая страсть!", hi: "D-1 पर रात भर। सच्चा जुनून!" }, scores: { [SCORING_AXES.TECH]: -2, [SCORING_AXES.RISK]: 2 } }, { t: { ko: "팀원들 멘탈 케어하며 분위기 띄우기.", en: "Support teammates and keep morale up.", ja: "チームメイトのメンタルケアしながら雰囲気作り。", zh: "照顾队友情绪，活跃气氛。", es: "Apoyar al equipo y mantener el ánimo.", fr: "Soutenir l'équipe et garder le moral.", ru: "Поддерживать команду и настроение.", hi: "टीम का सपोर्ट और मोराल बनाए रखो।" }, scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.MENTAL]: 1 } }] },
+            { id: 4, q: { ko: "연애 상대한테 연락이 늦게 왔다. 반응은?", en: "Your partner replied late. Your reaction?", ja: "恋人からの返信が遅い。反応は？", zh: "对象回复晚了。你的反应？", es: "Tu pareja respondió tarde. ¿Tu reacción?", fr: "Votre partenaire a répondu tard. Réaction?", ru: "Партнёр ответил поздно. Ваша реакция?", hi: "पार्टनर ने देर से रिप्लाई किया। आपकी प्रतिक्रिया?" }, opts: [{ t: { ko: "읽씹 시간, 답장 패턴 분석... 뭔가 이상해.", en: "Analyzing read time, reply patterns... something's off.", ja: "既読時間、返信パターンを分析...何かおかしい。", zh: "分析已读时间、回复模式...有点奇怪。", es: "Analizando tiempo de lectura... algo está mal.", fr: "Analyser le temps de lecture... quelque chose cloche.", ru: "Анализирую время прочтения... что-то не так.", hi: "रीड टाइम, रिप्लाई पैटर्न विश्लेषण... कुछ गड़बड़ है।" }, scores: { [SCORING_AXES.MENTAL]: 3 } }, { t: { ko: "에이~ 바쁜갑지! 나도 느긋하게.", en: "Ah, they must be busy! I'll reply chill too.", ja: "まあ〜忙しいんだろう！私ものんびり返信。", zh: "啊〜肯定忙！我也慢慢回。", es: "¡Deben estar ocupados! Respondo tranquilo.", fr: "Ils doivent être occupés! Je réponds cool.", ru: "А, наверное заняты! Тоже отвечу спокойно.", hi: "अरे बिज़ी होंगे! मैं भी आराम से।" }, scores: { [SCORING_AXES.SOCIAL]: 2, [SCORING_AXES.RISK]: -1 } }, { t: { ko: "바로 전화! 답답해 못 살아!", en: "Call right now! Can't stand the suspense!", ja: "すぐ電話！もどかしくて我慢できない！", zh: "直接打电话！憋不住！", es: "¡Llamo ahora! ¡No aguanto!", fr: "J'appelle! Je ne supporte pas!", ru: "Звоню сразу! Не могу ждать!", hi: "अभी फोन! सस्पेंस नहीं सहता!" }, scores: { [SCORING_AXES.RISK]: 3, [SCORING_AXES.SOCIAL]: -1 } }] },
+            { id: 5, q: { ko: "요즘 빠진 취미가 생겼을 때?", en: "When you get into a new hobby?", ja: "最近ハマった趣味ができた時？", zh: "最近有了新爱好？", es: "¿Cuando te metes en un nuevo hobby?", fr: "Quand vous avez un nouveau hobby?", ru: "Когда появилось новое хобби?", hi: "जब नया शौक लगा?" }, opts: [{ t: { ko: "유튜브 강의부터 장비 추천까지 올인 리서치!", en: "Full research! YouTube tutorials to gear reviews!", ja: "YouTube講座から機材レビューまで全力リサーチ！", zh: "全力研究！从教程到装备评测！", es: "¡Investigación total! Tutoriales a reseñas.", fr: "Recherche complète! Tutoriels aux critiques.", ru: "Полное исследование! От уроков до обзоров.", hi: "पूरी रिसर्च! ट्यूटोरियल से गियर रिव्यू तक!" }, scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.TECH]: 2 } }, { t: { ko: "일단 질러본다! 해봐야 아는 거.", en: "Just buy it! You learn by doing.", ja: "とりあえず買う！やってみなきゃ分からない。", zh: "先买！试了才知道。", es: "¡Comprarlo! Se aprende haciendo.", fr: "L'acheter! On apprend en faisant.", ru: "Просто куплю! Узнаю на практике.", hi: "बस खरीद लो! करके सीखोगे।" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "동호회 가입해서 사람들과 배운다.", en: "Join a club and learn with people.", ja: "サークルに入って人と一緒に学ぶ。", zh: "加入社团，和大家一起学。", es: "Unirme a un club y aprender con gente.", fr: "Rejoindre un club et apprendre ensemble.", ru: "Вступлю в клуб и учусь с людьми.", hi: "क्लब जॉइन करो और लोगों के साथ सीखो।" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 6, q: { ko: "친구가 고민 상담을 요청했다. 당신의 스타일?", en: "Friend asks for advice. Your style?", ja: "友達が相談を求めてきた。あなたのスタイルは？", zh: "朋友来咨询。你的风格？", es: "Un amigo pide consejo. ¿Tu estilo?", fr: "Un ami demande conseil. Votre style?", ru: "Друг просит совета. Ваш стиль?", hi: "दोस्त सलाह मांगता है। आपकी स्टाइल?" }, opts: [{ t: { ko: "객관적으로 상황 분석하고 해결책 제시!", en: "Analyze objectively and offer solutions!", ja: "客観的に状況を分析して解決策を提示！", zh: "客观分析情况，提供解决方案！", es: "¡Analizar objetivamente y ofrecer soluciones!", fr: "Analyser objectivement et proposer des solutions!", ru: "Объективный анализ и решения!", hi: "तटस्थ विश्लेषण और समाधान!" }, scores: { [SCORING_AXES.MENTAL]: 3 } }, { t: { ko: "일단 들어주고 공감! 해결보다 위로.", en: "Listen and empathize! Comfort over solutions.", ja: "まず聞いて共感！解決より慰め。", zh: "先听再共情！安慰比解决重要。", es: "¡Escuchar y empatizar! Consuelo primero.", fr: "Écouter et compatir! Réconfort d'abord.", ru: "Слушать и сочувствовать! Утешение важнее.", hi: "सुनो और सहानुभूति! समाधान से पहले दिलासा।" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }, { t: { ko: "'걍 니 맘대로 해!' 시원하게 밀어준다.", en: "'Just do what you want!' Bold support.", ja: "「好きにしなよ！」と背中を押す。", zh: "'随心所欲！'给力支持。", es: "'¡Haz lo que quieras!' Apoyo decidido.", fr: "'Fais ce que tu veux!' Soutien audacieux.", ru: "'Делай как хочешь!' Смело поддерживаю.", hi: "'जो मन करे करो!' बोल्ड सपोर्ट।" }, scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.TECH]: -1 } }] },
+            { id: 7, q: { ko: "처음 가보는 맛집에서 메뉴 고를 때?", en: "Choosing a menu at a new restaurant?", ja: "初めての店でメニューを選ぶ時？", zh: "在新餐厅选菜时？", es: "¿Eligiendo menú en un restaurante nuevo?", fr: "Choisir le menu dans un nouveau resto?", ru: "Выбираете меню в новом ресторане?", hi: "नए रेस्तरां में मेनू चुनते समय?" }, opts: [{ t: { ko: "리뷰에서 인기메뉴 1위로 확정!", en: "Go with the #1 popular item from reviews!", ja: "レビューで人気No.1に決定！", zh: "选评论里的人气第一！", es: "¡El #1 popular según reseñas!", fr: "Le #1 populaire des avis!", ru: "#1 популярное из отзывов!", hi: "रिव्यू से #1 पॉपुलर!" }, scores: { [SCORING_AXES.TECH]: 2, [SCORING_AXES.MENTAL]: 1 } }, { t: { ko: "아무도 안 시킬 것 같은 특이한 메뉴!", en: "The unique item no one else orders!", ja: "誰も頼まなさそうなユニークなメニュー！", zh: "选没人会点的特别菜！", es: "¡El plato único que nadie pide!", fr: "Le plat unique que personne ne commande!", ru: "Уникальное блюдо, что никто не берёт!", hi: "जो कोई नहीं मंगाता वो यूनिक आइटम!" }, scores: { [SCORING_AXES.RISK]: 3 } }, { t: { ko: "다른 거 시켜서 나눠먹자~", en: "Order different things and share!", ja: "違うのを頼んでシェアしよう〜", zh: "点不同的，大家分着吃〜", es: "¡Pedir diferente y compartir!", fr: "Commander différent et partager!", ru: "Заказать разное и поделиться!", hi: "अलग-अलग मंगाकर शेयर करो!" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }] },
+            { id: 8, q: { ko: "모임 분위기가 살짝 가라앉았다. 당신은?", en: "The gathering's mood is fading. You?", ja: "飲み会の雰囲気が沈んできた。あなたは？", zh: "聚会气氛有点冷。你？", es: "El ambiente de la reunión decae. ¿Tú?", fr: "L'ambiance de la réunion baisse. Vous?", ru: "Настроение встречи падает. Вы?", hi: "मीटिंग का मूड डाउन है। आप?" }, opts: [{ t: { ko: "게임 제안! 내가 분위기 살릴게~", en: "Suggest a game! I'll save the mood!", ja: "ゲーム提案！私が盛り上げる〜", zh: "提议游戏！我来救场〜", es: "¡Propongo un juego! ¡Yo salvo el ambiente!", fr: "Je propose un jeu! Je sauve l'ambiance!", ru: "Предлагаю игру! Спасу настроение!", hi: "गेम सजेस्ट करो! मैं मूड बचाऊंगा!" }, scores: { [SCORING_AXES.SOCIAL]: 3 } }, { t: { ko: "조용히 대화 주제 바꾸며 자연스럽게.", en: "Quietly change the topic naturally.", ja: "静かに話題を変えて自然に。", zh: "悄悄换话题，自然转移。", es: "Cambio el tema tranquilamente.", fr: "Changer le sujet tranquillement.", ru: "Тихо меняю тему.", hi: "चुपचाप टॉपिक बदलो।" }, scores: { [SCORING_AXES.MENTAL]: 2, [SCORING_AXES.SOCIAL]: 1 } }, { t: { ko: "2차 가자! 장소 바꾸면 분위기도!", en: "Let's go somewhere else! Change of scene!", ja: "二次会行こう！場所変えれば雰囲気も！", zh: "换个地方！换个场子换心情！", es: "¡Vamos a otro sitio! ¡Cambio de escena!", fr: "Allons ailleurs! Changement de décor!", ru: "Пойдём в другое место! Смена обстановки!", hi: "कहीं और चलो! जगह बदलो!" }, scores: { [SCORING_AXES.RISK]: 2, [SCORING_AXES.SOCIAL]: 1 } }] }
         ];
 
         const RESULT_TYPES = {
             [`${SCORING_AXES.RISK}_${SCORING_AXES.SOCIAL}`]: {
-                title: "필드의 분위기 메이커, 핵인싸 장타러", subtitle: "버디보다 썰 푸는 게 더 즐거운 타입",
-                desc: "티샷도 시원하게, 멘트도 시원하게! 당신에게 골프는 스코어 게임이 아니라 '멘탈 & 입담' 게임입니다. 공이 좀 죽으면 어때요? 동반자들이 즐거우면 그게 라베(Life Best)죠!",
-                descGeneral: "일상에서 분위기 띄우기를 좋아하고, 도전을 두려워하지 않는 당신! 골프장에 가면 틀림없이 '핵인싸 장타러'가 될 재목입니다. 친구들과 함께라면 누구보다 시원하게 공을 날리며 웃음을 책임지게 될 거예요!",
-                tags: ["#장타본능", "#명랑골프대장", "#입골프만렙", "#오잘공에목숨검"], advice: "가끔은 입을 다물고 샷에만 집중해보세요. 싱글이 코앞입니다.",
-                drillTitle: "빈 스윙 없이 3초 안에 치기", gearTitle: "소리 크고 관용성 좋은 드라이버",
+                title: { ko: "핵인싸 장타러", en: "Party Long Hitter", ja: "パーティー飛ばし屋", zh: "派对长打手", es: "Pegador Fiestero", fr: "Frappeur Festif", ru: "Тусовщик-дальнобойщик", hi: "पार्टी लॉन्ग हिटर" },
+                subtitle: { ko: "버디보다 썰 푸는 게 더 즐거운 타입", en: "Stories matter more than birdies", ja: "バーディより話が楽しいタイプ", zh: "比起小鸟球更爱聊天", es: "Las historias importan más que los birdies", fr: "Les histoires comptent plus que les birdies", ru: "Истории важнее бёрди", hi: "बर्डी से ज़्यादा कहानियाँ" },
+                desc: { ko: "티샷도 시원하게, 멘트도 시원하게! 당신에게 골프는 스코어 게임이 아니라 '멘탈 & 입담' 게임입니다.", en: "Bold drives, bold comments! Golf isn't about the score for you—it's about the fun and banter.", ja: "ティーショットも爽快、トークも爽快！あなたにとってゴルフはスコアじゃなく楽しさ。", zh: "开球爽快，聊天更爽！对你来说高尔夫不是分数游戏，是社交游戏。", es: "¡Drives atrevidos, comentarios atrevidos! El golf es diversión, no puntuación.", fr: "Drives audacieux, commentaires audacieux! Le golf c'est le fun, pas le score.", ru: "Смелые удары, смелые комментарии! Гольф для вас — веселье, а не счёт.", hi: "बोल्ड ड्राइव, बोल्ड कमेंट्स! गोल्फ स्कोर नहीं, मज़े के लिए!" },
+                descGeneral: { ko: "일상에서 분위기 띄우기를 좋아하고, 도전을 두려워하지 않는 당신! 골프장에 가면 '핵인싸 장타러'가 될 재목입니다.", en: "You love lifting the mood and aren't afraid to take risks! You're destined to be the 'Party Long Hitter' on the course.", ja: "日常で盛り上げるのが好きで、挑戦を恐れないあなた！コースでは「パーティー飛ばし屋」になる素質あり。", zh: "你喜欢活跃气氛，不怕挑战！在球场上你会成为'派对长打手'。", es: "¡Te encanta animar y no temes arriesgarte! Serás el 'Pegador Fiestero' en el campo.", fr: "Vous aimez animer et n'avez pas peur des risques! Vous serez le 'Frappeur Festif' sur le parcours.", ru: "Вы любите поднимать настроение и не боитесь рисковать! Вы станете 'Тусовщиком-дальнобойщиком' на поле.", hi: "आप मूड बनाना पसंद करते हैं और रिस्क से नहीं डरते! आप 'पार्टी लॉन्ग हिटर' बनेंगे।" },
+                tags: { ko: ["#장타본능", "#명랑골프", "#파티왕"], en: ["#LongHitter", "#FunGolf", "#PartyKing"], ja: ["#飛ばし屋", "#楽しいゴルフ", "#パーティー王"], zh: ["#长打", "#开心高尔夫", "#派对王"], es: ["#Pegador", "#GolfDivertido", "#ReyFiesta"], fr: ["#Frappeur", "#GolfFun", "#RoiFête"], ru: ["#Дальнобойщик", "#ВесёлыйГольф", "#КорольТусовки"], hi: ["#लॉन्गहिटर", "#फनगोल्फ", "#पार्टीकिंग"] },
+                drill: { ko: "빈 스윙 없이 3초 안에 치기", en: "Hit within 3 seconds, no practice swing", ja: "素振りなしで3秒以内に打つ", zh: "3秒内挥杆，不要试挥", es: "Golpear en 3 segundos sin práctica", fr: "Frapper en 3 secondes sans essai", ru: "Удар за 3 секунды без замаха", hi: "3 सेकंड में मारो, प्रैक्टिस स्विंग नहीं" },
+                gear: { ko: "소리 크고 관용성 좋은 드라이버", en: "Loud, forgiving driver", ja: "音が大きく寛容なドライバー", zh: "声音大且容错高的球杆", es: "Driver ruidoso y tolerante", fr: "Driver bruyant et tolérant", ru: "Громкий и прощающий драйвер", hi: "लाउड, फॉरगिविंग ड्राइवर" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_social.mp4", isVideo: true,
                 bgStyle: "bg-gradient-to-b from-yellow-400 to-orange-500"
             },
             [`${SCORING_AXES.MENTAL}_${SCORING_AXES.RISK}`]: {
-                title: "승부욕 화신, 전략적 승부사", subtitle: "계산은 치밀하게, 샷은 과감하게",
-                desc: "데이터를 기반으로 확률을 계산하지만, 결정적인 순간에는 과감하게 지르는 승부사 기질이 있습니다. 내기에 강하며, 남한테 지는 걸 죽기보다 싫어합니다.",
-                descGeneral: "평소 치밀하게 분석하면서도, 결정적 순간에 과감한 선택을 하는 당신! 당신의 숨겨진 골프 DNA는 '전략적 승부사'입니다. 필드 위에서 내기 골프의 절대강자가 될 운명이에요!",
-                tags: ["#내기골프킬러", "#뇌섹남녀", "#데이터폭격기", "#은근히다혈질"], advice: "파5에서 무조건 2온을 노리지 마세요. 끊어가는 미학이 필요합니다.",
-                drillTitle: "트러블 샷 상황별 시뮬레이션", gearTitle: "조작성이 뛰어난 상급자용 아이언",
+                title: { ko: "전략적 승부사", en: "Strategic Competitor", ja: "戦略的勝負師", zh: "战略竞争者", es: "Estratega Competitivo", fr: "Stratège Compétitif", ru: "Стратегический конкурент", hi: "रणनीतिक प्रतियोगी" },
+                subtitle: { ko: "계산은 치밀하게, 샷은 과감하게", en: "Calculate precisely, strike boldly", ja: "計算は緻密に、ショットは大胆に", zh: "精密计算，大胆出击", es: "Calcula con precisión, golpea con audacia", fr: "Calculer précisément, frapper hardiment", ru: "Точный расчёт, смелый удар", hi: "सटीक गणना, बोल्ड स्ट्राइक" },
+                desc: { ko: "데이터를 기반으로 확률을 계산하지만, 결정적인 순간에는 과감하게 지르는 승부사입니다.", en: "You calculate odds with data, but strike boldly when it counts. You're a fierce competitor.", ja: "データで確率を計算するが、決定的な瞬間には大胆に攻める勝負師。", zh: "用数据计算概率，但关键时刻敢于出击。你是真正的竞争者。", es: "Calculas probabilidades con datos, pero golpeas con audacia cuando importa.", fr: "Vous calculez les probabilités avec des données, mais frappez hardiment quand ça compte.", ru: "Вы рассчитываете шансы, но бьёте смело когда это важно.", hi: "आप डेटा से ऑड्स कैलकुलेट करते हैं, लेकिन जब ज़रूरी हो बोल्डली मारते हैं।" },
+                descGeneral: { ko: "평소 치밀하게 분석하면서도, 결정적 순간에 과감한 선택을 하는 당신! '전략적 승부사'가 될 운명입니다.", en: "You analyze meticulously but make bold choices at crucial moments! You're destined to be a 'Strategic Competitor'.", ja: "普段は緻密に分析しながらも、決定的瞬間には大胆な選択をするあなた！「戦略的勝負師」になる運命。", zh: "平时细致分析，关键时刻果断选择！你注定成为'战略竞争者'。", es: "¡Analizas meticulosamente pero decides con audacia! Serás un 'Estratega Competitivo'.", fr: "Vous analysez minutieusement mais décidez avec audace! Vous serez un 'Stratège Compétitif'.", ru: "Вы тщательно анализируете, но принимаете смелые решения! Вы станете 'Стратегическим конкурентом'.", hi: "आप सावधानी से विश्लेषण करते हैं लेकिन बोल्ड चॉइस करते हैं! आप 'रणनीतिक प्रतियोगी' बनेंगे।" },
+                tags: { ko: ["#내기킬러", "#데이터분석", "#승부사"], en: ["#BetKiller", "#DataDriven", "#Competitor"], ja: ["#賭け上手", "#データ派", "#勝負師"], zh: ["#赌神", "#数据分析", "#竞争者"], es: ["#MatadorApuestas", "#DatosFirst", "#Competidor"], fr: ["#TueurParis", "#DataDriven", "#Compétiteur"], ru: ["#УбийцаСтавок", "#Данные", "#Конкурент"], hi: ["#बेटकिलर", "#डेटाड्रिवन", "#कॉम्पिटिटर"] },
+                drill: { ko: "트러블 샷 상황별 시뮬레이션", en: "Trouble shot scenario practice", ja: "トラブルショットシミュレーション", zh: "困难球位模拟练习", es: "Práctica de tiros difíciles", fr: "Simulation de coups difficiles", ru: "Практика сложных ударов", hi: "ट्रबल शॉट सिनेरियो प्रैक्टिस" },
+                gear: { ko: "조작성이 뛰어난 상급자용 아이언", en: "Workable irons for advanced players", ja: "操作性に優れた上級者用アイアン", zh: "操控性强的高级铁杆", es: "Hierros manejables para avanzados", fr: "Fers maniables pour joueurs avancés", ru: "Управляемые айроны для продвинутых", hi: "एडवांस्ड प्लेयर्स के लिए वर्केबल आयरन" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_risk.png", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-gray-800 to-black"
             },
             [`${SCORING_AXES.RISK}_${SCORING_AXES.TECH}`]: {
-                title: "폼생폼사, 와일드 테크니션", subtitle: "예쁜 폼으로 멀리 보내야 직성이 풀림",
-                desc: "스윙 폼도 완벽해야 하고, 거리도 포기 못 합니다. 난이도 높은 샷을 성공시켰을 때 희열을 느끼며, 교과서적인 스윙으로 공격적인 공략을 즐깁니다.",
-                descGeneral: "뭘 하든 폼이 나야 직성이 풀리고, 어려운 도전에서 성공했을 때 쾌감을 느끼는 당신! 골프를 시작하면 '와일드 테크니션'의 재능이 폭발할 거예요. 멋진 스윙으로 갤러리를 사로잡을 운명입니다!",
-                tags: ["#스윙이예술", "#장비병초기", "#난도높은샷즐김", "#폼에죽고폼에삼"], advice: "필드는 연습장이 아닙니다. 폼보다는 임팩트에 집중하세요.",
-                drillTitle: "하프 스윙으로 정타 맞추기", gearTitle: "샤프트 강도가 높은 커스텀 클럽",
+                title: { ko: "와일드 테크니션", en: "Wild Technician", ja: "ワイルドテクニシャン", zh: "狂野技术派", es: "Técnico Salvaje", fr: "Technicien Sauvage", ru: "Дикий техник", hi: "वाइल्ड तकनीशियन" },
+                subtitle: { ko: "예쁜 폼으로 멀리 보내야 직성이 풀림", en: "Perfect form, maximum distance", ja: "美しいフォームで飛ばしてこそ満足", zh: "完美姿势，最远距离", es: "Forma perfecta, distancia máxima", fr: "Forme parfaite, distance maximale", ru: "Идеальная форма, максимальная дистанция", hi: "परफेक्ट फॉर्म, मैक्सिमम डिस्टेंस" },
+                desc: { ko: "스윙 폼도 완벽해야 하고, 거리도 포기 못 합니다. 난이도 높은 샷을 성공시켰을 때 희열을 느낍니다.", en: "Your swing must be perfect and distance matters. You thrill at pulling off difficult shots.", ja: "スイングも完璧で、距離も譲れない。難しいショットを決めた時の喜びがたまらない。", zh: "挥杆要完美，距离也不能少。完成高难度击球时最有成就感。", es: "Tu swing debe ser perfecto y la distancia importa. Te encanta lograr tiros difíciles.", fr: "Votre swing doit être parfait et la distance compte. Vous adorez réussir des coups difficiles.", ru: "Ваш свинг должен быть идеальным, а расстояние важно. Вы кайфуете от сложных ударов.", hi: "आपका स्विंग परफेक्ट होना चाहिए और दूरी मायने रखती है।" },
+                descGeneral: { ko: "뭘 하든 폼이 나야 직성이 풀리는 당신! 골프를 시작하면 '와일드 테크니션'의 재능이 폭발할 거예요.", en: "You need style in everything you do! You're destined to be a 'Wild Technician' on the course.", ja: "何をするにも形から入るあなた！ゴルフを始めたら「ワイルドテクニシャン」の才能が爆発する。", zh: "做什么都要有范儿的你！打高尔夫一定会成为'狂野技术派'。", es: "¡Necesitas estilo en todo! Serás un 'Técnico Salvaje' en el campo.", fr: "Vous avez besoin de style en tout! Vous serez un 'Technicien Sauvage' sur le parcours.", ru: "Вам нужен стиль во всём! Вы станете 'Диким техником' на поле.", hi: "आपको हर चीज़ में स्टाइल चाहिए! आप 'वाइल्ड तकनीशियन' बनेंगे।" },
+                tags: { ko: ["#스윙예술", "#장비덕후", "#폼생폼사"], en: ["#SwingArt", "#GearHead", "#FormFirst"], ja: ["#スイング芸術", "#ギアマニア", "#フォーム重視"], zh: ["#挥杆艺术", "#装备控", "#姿势为王"], es: ["#ArteSwing", "#AmantesEquipo", "#FormaPrimero"], fr: ["#ArtSwing", "#PassionnéEquip", "#FormeDabord"], ru: ["#ИскусствоСвинга", "#ФанатСнаряжения", "#ФормаПрежде"], hi: ["#स्विंगआर्ट", "#गियरहेड", "#फॉर्मफर्स्ट"] },
+                drill: { ko: "하프 스윙으로 정타 맞추기", en: "Half swing solid contact drill", ja: "ハーフスイングで正確に当てる", zh: "半挥杆精准击球", es: "Swing medio con contacto sólido", fr: "Demi-swing contact solide", ru: "Полусвинг точный контакт", hi: "हाफ स्विंग सॉलिड कॉन्टैक्ट" },
+                gear: { ko: "샤프트 강도가 높은 커스텀 클럽", en: "Custom clubs with stiff shafts", ja: "シャフト硬度の高いカスタムクラブ", zh: "硬杆身定制球杆", es: "Palos custom con varillas rígidas", fr: "Clubs custom avec shafts rigides", ru: "Клюшки с жёсткими шафтами", hi: "स्टिफ शाफ्ट के साथ कस्टम क्लब" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_risk_tech.png", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-red-500 to-orange-600"
             },
             [`${SCORING_AXES.MENTAL}_${SCORING_AXES.TECH}`]: {
-                title: "걸어다니는 골프백과, 골프 AI", subtitle: "오차 범위 0%에 도전하는 완벽주의자",
-                desc: "바람, 잔디 결, 경사까지 계산하고 스윙 매커니즘까지 완벽을 추구합니다. 실수는 용납하지 않으며, 연습장에서도 연구원처럼 연습합니다.",
-                descGeneral: "뭐든지 완벽하게 분석하고 준비하는 당신! 일상에서 보이는 꼼꼼함을 보니, 당신은 필드 위의 '골프 AI'가 될 재목입니다. 바람, 경사까지 계산하는 두뇌 플레이어로 성장할 거예요!",
-                tags: ["#골프물리학자", "#독학파", "#유튜브레슨마스터", "#슬로우플레이조심"], advice: "생각을 비우는 연습이 필요합니다. 감각을 믿고 휘두르세요.",
-                drillTitle: "눈 감고 퍼팅 거리감 익히기", gearTitle: "거리측정기 & 피팅 받은 퍼터",
+                title: { ko: "골프 AI", en: "Golf AI", ja: "ゴルフAI", zh: "高尔夫AI", es: "Golf AI", fr: "Golf AI", ru: "Гольф ИИ", hi: "गोल्फ AI" },
+                subtitle: { ko: "오차 범위 0%에 도전하는 완벽주의자", en: "Perfectionist aiming for 0% error", ja: "誤差0%を目指す完璧主義者", zh: "追求零误差的完美主义者", es: "Perfeccionista buscando 0% error", fr: "Perfectionniste visant 0% d'erreur", ru: "Перфекционист с целью 0% ошибок", hi: "0% एरर का लक्ष्य रखने वाला परफेक्शनिस्ट" },
+                desc: { ko: "바람, 잔디 결, 경사까지 계산하고 스윙 매커니즘까지 완벽을 추구합니다. 실수는 용납하지 않습니다.", en: "You calculate wind, grass grain, slope, and perfect your swing mechanics. Mistakes aren't tolerated.", ja: "風、芝目、傾斜まで計算し、スイングメカニズムも完璧を追求。ミスは許さない。", zh: "计算风向、草纹、坡度，追求完美挥杆机制。不容许失误。", es: "Calculas viento, hierba, pendiente y perfeccionas tu mecánica. No toleras errores.", fr: "Vous calculez vent, herbe, pente et perfectionnez votre mécanique. Pas d'erreurs tolérées.", ru: "Вы рассчитываете ветер, траву, склон и совершенствуете механику. Ошибки недопустимы.", hi: "आप हवा, घास, ढलान कैलकुलेट करते हैं और स्विंग मेकेनिक्स परफेक्ट करते हैं।" },
+                descGeneral: { ko: "뭐든지 완벽하게 분석하고 준비하는 당신! 필드 위의 '골프 AI'가 될 재목입니다.", en: "You analyze and prepare everything perfectly! You're destined to be a 'Golf AI' on the course.", ja: "何でも完璧に分析・準備するあなた！フィールドの「ゴルフAI」になる素質あり。", zh: "什么都完美分析准备的你！注定成为球场上的'高尔夫AI'。", es: "¡Analizas y preparas todo perfectamente! Serás un 'Golf AI' en el campo.", fr: "Vous analysez et préparez tout parfaitement! Vous serez un 'Golf AI' sur le parcours.", ru: "Вы всё идеально анализируете и готовите! Вы станете 'Гольф ИИ' на поле.", hi: "आप सब कुछ परफेक्टली एनालाइज और प्रिपेयर करते हैं! आप 'गोल्फ AI' बनेंगे।" },
+                tags: { ko: ["#분석왕", "#완벽주의", "#두뇌플레이"], en: ["#Analyst", "#Perfectionist", "#BrainPlayer"], ja: ["#分析王", "#完璧主義", "#頭脳プレー"], zh: ["#分析王", "#完美主义", "#脑力玩家"], es: ["#Analista", "#Perfeccionista", "#JugadorCerebral"], fr: ["#Analyste", "#Perfectionniste", "#JoueurCérébral"], ru: ["#Аналитик", "#Перфекционист", "#МозговойИгрок"], hi: ["#एनालिस्ट", "#परफेक्शनिस्ट", "#ब्रेनप्लेयर"] },
+                drill: { ko: "눈 감고 퍼팅 거리감 익히기", en: "Eyes-closed putting distance drill", ja: "目を閉じてパット距離感を養う", zh: "闭眼练习推杆距离感", es: "Putt con ojos cerrados", fr: "Putt les yeux fermés", ru: "Патт с закрытыми глазами", hi: "आंखें बंद करके पटिंग" },
+                gear: { ko: "거리측정기 & 피팅 받은 퍼터", en: "Rangefinder & fitted putter", ja: "距離計＆フィッティングパター", zh: "测距仪&定制推杆", es: "Telémetro y putter ajustado", fr: "Télémètre et putter ajusté", ru: "Дальномер и подогнанный паттер", hi: "रेंजफाइंडर & फिटेड पटर" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_mental_tech.png", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-blue-600 to-purple-700"
             },
             [`${SCORING_AXES.SOCIAL}_${SCORING_AXES.TECH}`]: {
-                title: "매너가 사람을 만든다, 젠틀맨 골퍼", subtitle: "룰과 에티켓을 중시하는 필드의 신사",
-                desc: "동반자를 배려하고 룰을 철저히 지키는 모범생입니다. 스윙도 정석, 매너도 정석. 어디 가서든 환영받는 최고의 동반자입니다.",
-                descGeneral: "일상에서 주변을 배려하고, 원칙을 중시하는 당신! 당신의 숨겨진 골프 DNA는 '젠틀맨 골퍼'입니다. 어디를 가든 환영받는 매너 플레이어로, 모두가 함께 치고 싶어하는 동반자가 될 거예요!",
-                tags: ["#매너왕", "#초대1순위", "#배려의아이콘", "#캐디님이좋아함"], advice: "너무 남을 배려하느라 내 플레이를 망치지 마세요. 가끔은 이기적으로!",
-                drillTitle: "프리샷 루틴 일정하게 만들기", gearTitle: "타구감이 부드러운 단조 아이언",
+                title: { ko: "젠틀맨 골퍼", en: "Gentleman Golfer", ja: "ジェントルマンゴルファー", zh: "绅士球手", es: "Golfista Caballero", fr: "Golfeur Gentleman", ru: "Джентльмен-гольфист", hi: "जेंटलमैन गोल्फर" },
+                subtitle: { ko: "룰과 에티켓을 중시하는 필드의 신사", en: "A true gentleman who values rules and etiquette", ja: "ルールとエチケットを重んじるフィールドの紳士", zh: "重视规则和礼仪的球场绅士", es: "Un caballero que valora las reglas y la etiqueta", fr: "Un gentleman qui valorise les règles et l'étiquette", ru: "Истинный джентльмен, ценящий правила и этикет", hi: "नियम और शिष्टाचार को महत्व देने वाला सच्चा जेंटलमैन" },
+                desc: { ko: "동반자를 배려하고 룰을 철저히 지키는 모범생입니다. 어디 가서든 환영받는 최고의 동반자입니다.", en: "You're considerate of others and follow rules strictly. You're the most welcome playing partner anywhere.", ja: "同伴者を思いやり、ルールを徹底的に守る模範生。どこでも歓迎される最高のパートナー。", zh: "体贴同伴，严格遵守规则。你是最受欢迎的球伴。", es: "Eres considerado y sigues las reglas. Eres el compañero más bienvenido.", fr: "Vous êtes attentionné et suivez les règles. Vous êtes le partenaire le plus bienvenu.", ru: "Вы внимательны к другим и строго следуете правилам. Вы самый желанный партнёр.", hi: "आप दूसरों का ख्याल रखते हैं और नियमों का पालन करते हैं।" },
+                descGeneral: { ko: "일상에서 주변을 배려하고, 원칙을 중시하는 당신! '젠틀맨 골퍼'가 될 재목입니다.", en: "You're considerate and principled in daily life! You're destined to be a 'Gentleman Golfer'.", ja: "日常で周りを思いやり、原則を重視するあなた！「ジェントルマンゴルファー」になる素質あり。", zh: "日常中体贴周到、重视原则的你！注定成为'绅士球手'。", es: "¡Eres considerado y con principios! Serás un 'Golfista Caballero'.", fr: "Vous êtes attentionné et avez des principes! Vous serez un 'Golfeur Gentleman'.", ru: "Вы внимательны и принципиальны! Вы станете 'Джентльменом-гольфистом'.", hi: "आप विचारशील और सिद्धांतवादी हैं! आप 'जेंटलमैन गोल्फर' बनेंगे।" },
+                tags: { ko: ["#매너왕", "#배려왕", "#캐디픽"], en: ["#MannerKing", "#Considerate", "#CaddyFav"], ja: ["#マナー王", "#思いやり", "#キャディ推し"], zh: ["#礼仪王", "#体贴", "#球童最爱"], es: ["#ReyModales", "#Considerado", "#FavCaddy"], fr: ["#RoiManières", "#Attentionné", "#FavCaddy"], ru: ["#КорольМанер", "#Внимательный", "#ЛюбимецКедди"], hi: ["#मैनरकिंग", "#केयरिंग", "#कैडीफेव"] },
+                drill: { ko: "프리샷 루틴 일정하게 만들기", en: "Consistent pre-shot routine", ja: "プリショットルーティンを一定に", zh: "固定挥杆前准备动作", es: "Rutina pre-tiro consistente", fr: "Routine pré-coup constante", ru: "Постоянный пре-шот ритуал", hi: "कंसिस्टेंट प्री-शॉट रूटीन" },
+                gear: { ko: "타구감이 부드러운 단조 아이언", en: "Soft-feel forged irons", ja: "打感の柔らかい鍛造アイアン", zh: "手感柔和的锻造铁杆", es: "Hierros forjados de tacto suave", fr: "Fers forgés au toucher doux", ru: "Кованые айроны с мягким откликом", hi: "सॉफ्ट-फील फोर्ज्ड आयरन" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_social_tech.png", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-emerald-600 to-teal-800"
             },
             DEFAULT: {
-                title: "육각형 밸런스, 올라운더 플레이어", subtitle: "어느 하나 빠지는 게 없는 무결점 골퍼",
-                desc: "공격할 땐 하고, 지킬 땐 지킬 줄 아는 스마트한 골퍼입니다. 멘탈도 안정적이고 사교성도 좋아 누구와 쳐도 잘 어울립니다.",
-                descGeneral: "균형 잡힌 성격의 당신! 일상 생활 패턴을 보니, 당신은 필드 위에서 '올라운더 플레이어'가 될 재목입니다. 어떤 상황에서도 흔들리지 않는 안정적인 플레이로 모두를 놀라게 할 거예요!",
-                tags: ["#평화주의자", "#기복없는스코어", "#안정감갑", "#수비형미드필더"], advice: "확실한 '필살기' 하나를 연마하면 고수로 도약할 수 있습니다.",
-                drillTitle: "숏게임(어프로치) 거리별 연습", gearTitle: "관용성과 조작성이 균형 잡힌 클럽",
+                title: { ko: "올라운더", en: "All-Rounder", ja: "オールラウンダー", zh: "全能选手", es: "Todoterreno", fr: "Polyvalent", ru: "Универсал", hi: "ऑलराउंडर" },
+                subtitle: { ko: "어느 하나 빠지는 게 없는 균형형", en: "Balanced with no weaknesses", ja: "どれも欠けないバランス型", zh: "没有短板的均衡型", es: "Equilibrado sin debilidades", fr: "Équilibré sans faiblesses", ru: "Сбалансированный без слабостей", hi: "बिना कमज़ोरी के संतुलित" },
+                desc: { ko: "공격할 땐 하고, 지킬 땐 지킬 줄 아는 스마트한 골퍼입니다. 누구와 쳐도 잘 어울립니다.", en: "You know when to attack and when to defend. You get along with anyone on the course.", ja: "攻める時は攻め、守る時は守るスマートなゴルファー。誰とでも相性抜群。", zh: "知道何时进攻何时防守的聪明球手。和谁都合得来。", es: "Sabes cuándo atacar y defender. Te llevas bien con todos.", fr: "Vous savez quand attaquer et défendre. Vous vous entendez avec tous.", ru: "Вы знаете когда атаковать и защищаться. Ладите со всеми.", hi: "आप जानते हैं कब अटैक करना है और कब डिफेंड। सबके साथ जमते हैं।" },
+                descGeneral: { ko: "균형 잡힌 성격의 당신! 필드 위에서 '올라운더'가 될 재목입니다.", en: "You have a balanced personality! You're destined to be an 'All-Rounder' on the course.", ja: "バランスの取れた性格のあなた！フィールドで「オールラウンダー」になる素質あり。", zh: "性格均衡的你！注定成为球场上的'全能选手'。", es: "¡Tienes una personalidad equilibrada! Serás un 'Todoterreno' en el campo.", fr: "Vous avez une personnalité équilibrée! Vous serez un 'Polyvalent' sur le parcours.", ru: "У вас сбалансированная личность! Вы станете 'Универсалом' на поле.", hi: "आपकी संतुलित पर्सनैलिटी है! आप 'ऑलराउंडर' बनेंगे।" },
+                tags: { ko: ["#균형왕", "#안정감", "#만능"], en: ["#Balanced", "#Stable", "#Versatile"], ja: ["#バランス王", "#安定感", "#万能"], zh: ["#均衡王", "#稳定", "#万能"], es: ["#Equilibrado", "#Estable", "#Versátil"], fr: ["#Équilibré", "#Stable", "#Polyvalent"], ru: ["#Сбалансированный", "#Стабильный", "#Универсальный"], hi: ["#बैलेंस्ड", "#स्टेबल", "#वर्सेटाइल"] },
+                drill: { ko: "숏게임 거리별 연습", en: "Short game distance practice", ja: "ショートゲーム距離別練習", zh: "短杆距离练习", es: "Práctica de juego corto", fr: "Pratique du jeu court", ru: "Практика короткой игры", hi: "शॉर्ट गेम डिस्टेंस प्रैक्टिस" },
+                gear: { ko: "관용성과 조작성이 균형 잡힌 클럽", en: "Balanced clubs for forgiveness and workability", ja: "寛容性と操作性のバランスが取れたクラブ", zh: "容错与操控平衡的球杆", es: "Palos equilibrados", fr: "Clubs équilibrés", ru: "Сбалансированные клюшки", hi: "बैलेंस्ड क्लब" },
                 image: "https://raw.githubusercontent.com/cminseo123/golf-mbti/main/images/type_all_rounder.png", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-sky-400 to-blue-500"
             }
         };
 
-        const RadarChart = ({ data }) => {
+        const RadarChart = ({ data, T }) => {
             const size = 200, center = size / 2, radius = 70, maxScore = 100;
-            const axes = [{ key: SCORING_AXES.RISK, label: '공격력' }, { key: SCORING_AXES.MENTAL, label: '분석력' }, { key: SCORING_AXES.TECH, label: '정석력' }, { key: SCORING_AXES.SOCIAL, label: '인싸력' }];
+            const axes = [{ key: SCORING_AXES.RISK, label: T.axes.risk }, { key: SCORING_AXES.MENTAL, label: T.axes.mental }, { key: SCORING_AXES.TECH, label: T.axes.tech }, { key: SCORING_AXES.SOCIAL, label: T.axes.social }];
             const points = axes.map((axis, i) => {
                 const angle = (Math.PI / 2) * i - Math.PI / 2;
                 const value = data[axis.key] || 0;
@@ -275,8 +449,20 @@
             const [currentQIndex, setCurrentQIndex] = useState(0);
             const [scores, setScores] = useState({ risk: 0, mental: 0, tech: 0, social: 0 });
             const [finalType, setFinalType] = useState(null);
-            const [selectedIdx, setSelectedIdx] = useState(null); // 선택된 버튼의 인덱스 저장용
-            const [isGolfMode, setIsGolfMode] = useState(true); // 골퍼 모드 / 일반인 모드 전환
+            const [selectedIdx, setSelectedIdx] = useState(null);
+            const [isGolfMode, setIsGolfMode] = useState(true);
+            const [lang, setLang] = useState(() => {
+                if (typeof window !== 'undefined') {
+                    const saved = localStorage.getItem('lang');
+                    if (saved) return saved;
+                    const browserLang = navigator.language.split('-')[0];
+                    return LANGUAGES.find(l => l.code === browserLang) ? browserLang : 'ko';
+                }
+                return 'ko';
+            });
+
+            // 현재 언어 텍스트
+            const T = UI_TEXT[lang] || UI_TEXT.ko;
 
             // 현재 모드에 따른 질문 배열 선택
             const QUESTIONS = isGolfMode ? QUESTIONS_GOLF : QUESTIONS_GENERAL;
@@ -318,10 +504,11 @@
             };
 
             const shareUrl = () => {
-                const shareTitle = isGolfMode ? '나의 골프 MBTI' : '나의 잠재적 골프 MBTI';
+                const typeTitle = finalType.title[lang] || finalType.title.ko;
+                const shareTitle = isGolfMode ? T.title : T.titleGeneral;
                 const shareText = isGolfMode
-                    ? `내 골프 타입은 "${finalType.title}"입니다!`
-                    : `내 숨겨진 골프 DNA는 "${finalType.title}"입니다! 골프 안 쳐봐도 알 수 있대요!`;
+                    ? `${T.myDna}: "${typeTitle}"!`
+                    : `${T.myHiddenDna}: "${typeTitle}"!`;
 
                 if (navigator.share) {
                     navigator.share({
@@ -331,7 +518,7 @@
                     }).catch(console.error);
                 } else {
                     navigator.clipboard.writeText(window.location.href);
-                    alert('링크가 복사되었습니다! 카톡에 붙여넣기 하세요.');
+                    alert(T.linkCopied);
                 }
             };
 
@@ -363,7 +550,7 @@
             if (step === 'intro') {
                 return (
                     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800 flex flex-col transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
                         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-8 rounded-[2rem] shadow-2xl max-w-md w-full border border-white/50 dark:border-gray-700/50 relative">
                                 <div className="mb-6 flex justify-center relative">
@@ -371,42 +558,42 @@
                                     <Sparkles className="absolute top-0 right-[25%] text-yellow-400 animate-pulse" />
                                 </div>
                                 <h1 className="text-3xl font-black text-gray-800 dark:text-white mb-2">
-                                    {isGolfMode ? "나의 골프 MBTI" : "나의 잠재적 골프 MBTI"}
+                                    {isGolfMode ? T.title : T.titleGeneral}
                                 </h1>
                                 <p className={`font-bold mb-4 text-sm inline-block px-3 py-1 rounded-full ${
                                     isGolfMode
                                         ? 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/50'
                                         : 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/50'
                                 }`}>
-                                    {isGolfMode ? "당신의 골프 정신연령은?" : "골프 안 쳐봐도 알 수 있는 골프 DNA!"}
+                                    {isGolfMode ? T.subtitle : T.subtitleGeneral}
                                 </p>
 
                                 <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
                                     {isGolfMode ? (
-                                        <>8가지 질문으로 알아보는 나만의 골프 DNA!<br/>공격력, 분석력, 정석력, 인싸력을 분석해 드립니다.</>
+                                        <>{T.desc}<br/>{T.descSub}</>
                                     ) : (
-                                        <>8가지 일상 질문으로 발견하는 당신의 숨겨진 골프 재능!<br/>골프 안 쳐봐도 당신의 골프 DNA를 알 수 있어요.</>
+                                        <>{T.descGeneral}<br/>{T.descGeneralSub}</>
                                     )}
                                 </p>
 
                                 <button onClick={() => setStep('quiz')} className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-bold py-4 px-6 rounded-2xl shadow-lg flex items-center justify-center gap-2 group transition-all">
-                                    테스트 시작하기 <ChevronRight />
+                                    {T.startBtn} <ChevronRight />
                                 </button>
 
                                 <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
-                                    <p className="text-gray-400 dark:text-gray-500 text-xs">6가지 골프 유형 중 당신은 어떤 타입?</p>
+                                    <p className="text-gray-400 dark:text-gray-500 text-xs">{T.typeIntro}</p>
                                     <div className="flex flex-wrap justify-center gap-2 mt-3">
-                                        <span className="bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-400 px-2 py-1 rounded text-xs">핵인싸 장타러</span>
-                                        <span className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">전략적 승부사</span>
-                                        <span className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 px-2 py-1 rounded text-xs">와일드 테크니션</span>
-                                        <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 px-2 py-1 rounded text-xs">골프 AI</span>
-                                        <span className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded text-xs">젠틀맨 골퍼</span>
-                                        <span className="bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-400 px-2 py-1 rounded text-xs">올라운더</span>
+                                        <span className="bg-yellow-100 dark:bg-yellow-900/50 text-yellow-700 dark:text-yellow-400 px-2 py-1 rounded text-xs">{T.types.inssa}</span>
+                                        <span className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-2 py-1 rounded text-xs">{T.types.strategist}</span>
+                                        <span className="bg-red-100 dark:bg-red-900/50 text-red-700 dark:text-red-400 px-2 py-1 rounded text-xs">{T.types.technician}</span>
+                                        <span className="bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-400 px-2 py-1 rounded text-xs">{T.types.ai}</span>
+                                        <span className="bg-emerald-100 dark:bg-emerald-900/50 text-emerald-700 dark:text-emerald-400 px-2 py-1 rounded text-xs">{T.types.gentleman}</span>
+                                        <span className="bg-sky-100 dark:bg-sky-900/50 text-sky-700 dark:text-sky-400 px-2 py-1 rounded text-xs">{T.types.allrounder}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <Footer />
+                        <Footer T={T} />
                     </div>
                 );
             }
@@ -416,19 +603,19 @@
                 const progress = ((currentQIndex + 1) / QUESTIONS.length) * 100;
                 return (
                     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center py-8 px-4 transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
                         <div className="max-w-md w-full">
                             <div className="mb-8 px-2">
                                 <div className="flex justify-between items-end mb-2">
-                                    <span className="text-green-700 dark:text-green-400 font-bold text-sm">질문 {currentQIndex + 1}</span>
+                                    <span className="text-green-700 dark:text-green-400 font-bold text-sm">{T.question} {currentQIndex + 1}</span>
                                     <span className="text-xs text-gray-400 dark:text-gray-500 font-mono">{currentQIndex + 1} / {QUESTIONS.length}</span>
                                 </div>
                                 <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3 overflow-hidden"><div className="bg-green-500 h-full rounded-full transition-all duration-500" style={{ width: `${progress}%` }}></div></div>
                             </div>
                             <div className="bg-white dark:bg-gray-800 p-6 rounded-[1.5rem] shadow-xl border border-gray-100 dark:border-gray-700 mb-6">
-                                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-8 leading-snug break-keep">{question.question}</h2>
+                                <h2 className="text-xl font-bold text-gray-800 dark:text-white mb-8 leading-snug break-keep">{question.q[lang] || question.q.ko}</h2>
                                 <div className="space-y-3">
-                                    {question.options.map((option, idx) => (
+                                    {question.opts.map((option, idx) => (
                                         <button
                                             key={`${currentQIndex}-${idx}`}
                                             onClick={(e) => {
@@ -442,7 +629,7 @@
                                                     : 'border-gray-100 dark:border-gray-600 hover:border-green-500 hover:bg-green-50 dark:hover:bg-green-900/30 text-gray-700 dark:text-gray-300'
                                                 }`}
                                         >
-                                            {option.text}
+                                            {option.t[lang] || option.t.ko}
                                         </button>
                                     ))}
                                 </div>
@@ -455,9 +642,9 @@
             if (step === 'loading') {
                 return (
                     <div className="min-h-screen bg-green-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6 text-center transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
                         <div className="w-16 h-16 border-4 border-green-200 dark:border-green-900 border-t-green-600 dark:border-t-green-400 rounded-full animate-spin mb-4"></div>
-                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">당신의 유형을<br/>분석하고 있습니다...</h2>
+                        <h2 className="text-xl font-bold text-gray-800 dark:text-white">{T.analyzing}</h2>
                     </div>
                 );
             }
@@ -465,11 +652,17 @@
             if (step === 'result' && finalType) {
                 // 캡처용 이미지 경로 계산 (비디오인 경우 png로 변경)
                 const captureImageSrc = finalType.isVideo ? finalType.image.replace('.mp4', '.png') : finalType.image;
-                const titleMain = finalType.title.split(',')[1] || finalType.title;
+                const typeTitle = finalType.title[lang] || finalType.title.ko;
+                const typeSubtitle = finalType.subtitle[lang] || finalType.subtitle.ko;
+                const typeDesc = finalType.desc[lang] || finalType.desc.ko;
+                const typeDescGeneral = finalType.descGeneral ? (finalType.descGeneral[lang] || finalType.descGeneral.ko) : typeDesc;
+                const typeTags = finalType.tags[lang] || finalType.tags.ko;
+                const typeDrill = finalType.drill[lang] || finalType.drill.ko;
+                const typeGear = finalType.gear[lang] || finalType.gear.ko;
 
                 return (
                     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} />
+                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
                         <div className="flex-1 py-8 px-4 flex justify-center">
                         <div className="max-w-md w-full mb-10 relative">
 
@@ -479,30 +672,30 @@
                                     <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-t from-black/50 to-transparent z-10"></div>
                                     {finalType.isVideo ?
                                         <video src={finalType.image} autoPlay loop muted playsInline className="absolute inset-0 w-full h-full object-cover z-0" /> :
-                                        <img src={finalType.image} alt={finalType.title} className="absolute inset-0 w-full h-full object-cover z-0" />
+                                        <img src={finalType.image} alt={typeTitle} className="absolute inset-0 w-full h-full object-cover z-0" />
                                     }
                                     <div className="relative z-20 text-center pb-6 px-4 w-full">
                                         <div className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-2">
-                                            {isGolfMode ? "My Golf DNA" : "My Hidden Golf DNA"}
+                                            {isGolfMode ? T.myDna : T.myHiddenDna}
                                         </div>
-                                        <h1 className="text-3xl font-black text-white drop-shadow-lg leading-tight break-keep">{titleMain}</h1>
+                                        <h1 className="text-3xl font-black text-white drop-shadow-lg leading-tight break-keep">{typeTitle}</h1>
                                     </div>
                                 </div>
                                 <div className="p-6 relative bg-white dark:bg-gray-800 -mt-4 rounded-t-[2rem] z-30">
-                                    <p className="text-center text-gray-500 dark:text-gray-400 font-medium mb-6">"{finalType.subtitle}"</p>
-                                    <div className="flex flex-wrap justify-center gap-2 mb-8">{finalType.tags.map((tag, i) => <span key={i} className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold">{tag}</span>)}</div>
-                                    <div className="mb-8 flex justify-center"><RadarChart data={finalType.chartData} /></div>
+                                    <p className="text-center text-gray-500 dark:text-gray-400 font-medium mb-6">"{typeSubtitle}"</p>
+                                    <div className="flex flex-wrap justify-center gap-2 mb-8">{typeTags.map((tag, i) => <span key={i} className="bg-gray-100 dark:bg-gray-700 text-gray-600 dark:text-gray-300 px-3 py-1 rounded-full text-xs font-bold">{tag}</span>)}</div>
+                                    <div className="mb-8 flex justify-center"><RadarChart data={finalType.chartData} T={T} /></div>
                                     <div className="bg-gray-50 dark:bg-gray-700/50 rounded-2xl p-6 mb-6 border border-gray-100 dark:border-gray-600">
                                         <h3 className="font-bold text-gray-800 dark:text-white flex items-center gap-2 mb-3 text-lg">
-                                            <Info /> {isGolfMode ? "어떤 유형이냐면요" : "당신의 숨겨진 골프 재능"}
+                                            <Info /> {isGolfMode ? T.typeDesc : T.hiddenTalent}
                                         </h3>
                                         <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-justify text-sm">
-                                            {isGolfMode ? finalType.desc : (finalType.descGeneral || finalType.desc)}
+                                            {isGolfMode ? typeDesc : typeDescGeneral}
                                         </p>
                                     </div>
                                     <div className="grid grid-cols-2 gap-4 mb-4">
-                                        <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-2xl text-center border border-blue-100 dark:border-blue-800"><div className="text-xs text-blue-500 dark:text-blue-400 font-bold mb-1 uppercase">추천 연습</div><div className="font-bold text-gray-800 dark:text-white text-sm break-keep">{finalType.drillTitle}</div></div>
-                                        <div className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-2xl text-center border border-purple-100 dark:border-purple-800"><div className="text-xs text-purple-500 dark:text-purple-400 font-bold mb-1 uppercase">추천 장비</div><div className="font-bold text-gray-800 dark:text-white text-sm break-keep">{finalType.gearTitle}</div></div>
+                                        <div className="bg-blue-50 dark:bg-blue-900/30 p-4 rounded-2xl text-center border border-blue-100 dark:border-blue-800"><div className="text-xs text-blue-500 dark:text-blue-400 font-bold mb-1 uppercase">{T.recDrill}</div><div className="font-bold text-gray-800 dark:text-white text-sm break-keep">{typeDrill}</div></div>
+                                        <div className="bg-purple-50 dark:bg-purple-900/30 p-4 rounded-2xl text-center border border-purple-100 dark:border-purple-800"><div className="text-xs text-purple-500 dark:text-purple-400 font-bold mb-1 uppercase">{T.recGear}</div><div className="font-bold text-gray-800 dark:text-white text-sm break-keep">{typeGear}</div></div>
                                     </div>
                                 </div>
                             </div>
@@ -517,11 +710,11 @@
                                 <div className="relative z-10 w-full h-full flex flex-col justify-between p-8 pt-20 pb-12">
                                     <div className="text-center">
                                         <div className="inline-block px-4 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-white text-xs font-bold mb-4 tracking-widest uppercase">
-                                            {isGolfMode ? "My Golf MBTI" : "My Hidden Golf DNA"}
+                                            {isGolfMode ? T.myDna : T.myHiddenDna}
                                         </div>
-                                        <h1 className="text-4xl font-black text-white drop-shadow-xl leading-tight break-keep mb-4">{titleMain}</h1>
+                                        <h1 className="text-4xl font-black text-white drop-shadow-xl leading-tight break-keep mb-4">{typeTitle}</h1>
                                         <div className="w-16 h-1 bg-white/50 mx-auto rounded-full mb-6"></div>
-                                        <p className="text-white/90 text-lg font-medium">"{finalType.subtitle}"</p>
+                                        <p className="text-white/90 text-lg font-medium">"{typeSubtitle}"</p>
                                     </div>
 
                                     <div className="flex flex-col items-center gap-4">
@@ -530,7 +723,7 @@
                                              <img src={captureImageSrc} className="w-full h-full object-cover" />
                                         </div>
                                         <div className="flex flex-wrap justify-center gap-2">
-                                            {finalType.tags.slice(0,3).map((tag, i) =>
+                                            {typeTags.slice(0,3).map((tag, i) =>
                                                 <span key={i} className="bg-white/10 backdrop-blur-sm text-white px-3 py-1 rounded-full text-xs font-bold border border-white/10">{tag}</span>
                                             )}
                                         </div>
@@ -540,22 +733,22 @@
 
                             {/* 하단 버튼 그룹 */}
                             <div className="flex gap-2 mt-6 sticky bottom-4 z-50 px-2">
-                                <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro');}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1"/>다시 하기</button>
+                                <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro');}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1"/>{T.retry}</button>
 
                                 {/* 사진 저장 버튼 */}
-                                <button onClick={saveResultImage} className="flex-1 bg-gradient-to-br from-pink-500 to-orange-400 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95"><Instagram className="mb-1"/>카드 저장</button>
+                                <button onClick={saveResultImage} className="flex-1 bg-gradient-to-br from-pink-500 to-orange-400 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95"><Instagram className="mb-1"/>{T.saveCard}</button>
 
                                 <button onClick={shareUrl} className="flex-1 bg-[#FAE300] hover:bg-[#FDD835] text-[#3B1E1E] py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95">
                                     {/* 카카오톡 아이콘 */}
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mb-1">
                                         <path d="M12 3c-4.97 0-9 3.185-9 7.115 0 2.557 1.707 4.8 4.27 6.054-.188.702-.682 2.545-.78 2.94-.122.49.178.483.376.351.155-.103 2.466-1.675 3.464-2.353.54.08 1.1.123 1.67.123 4.97 0 9-3.186 9-7.115C21 6.185 16.97 3 12 3z"/>
                                     </svg>
-                                    카카오톡 공유
+                                    {T.share}
                                 </button>
                             </div>
                         </div>
                         </div>
-                        <Footer />
+                        <Footer T={T} />
                     </div>
                 );
             }
