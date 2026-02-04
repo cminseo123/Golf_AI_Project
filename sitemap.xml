@@ -4,73 +4,73 @@
 
   <!-- Main Page (Korean) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/</loc>
+    <loc>https://thegolfcode.com/</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/index.html"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://golf-mbti.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://thegolfcode.com/"/>
   </url>
 
   <!-- About Page (Korean) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/about.html</loc>
+    <loc>https://thegolfcode.com/about.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/about.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/about_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/about_en.html"/>
   </url>
 
   <!-- About Page (English) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/about_en.html</loc>
+    <loc>https://thegolfcode.com/about_en.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/about.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/about_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/about_en.html"/>
   </url>
 
   <!-- Privacy Policy (Korean) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/privacy.html</loc>
+    <loc>https://thegolfcode.com/privacy.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/privacy_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/privacy_en.html"/>
   </url>
 
   <!-- Privacy Policy (English) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/privacy_en.html</loc>
+    <loc>https://thegolfcode.com/privacy_en.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/privacy.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/privacy_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/privacy_en.html"/>
   </url>
 
   <!-- Terms of Service (Korean) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/terms.html</loc>
+    <loc>https://thegolfcode.com/terms.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/terms_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/terms_en.html"/>
   </url>
 
   <!-- Terms of Service (English) -->
   <url>
-    <loc>https://golf-mbti.pages.dev/terms_en.html</loc>
+    <loc>https://thegolfcode.com/terms_en.html</loc>
     <lastmod>2025-02-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.5</priority>
-    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/terms.html"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/terms_en.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://thegolfcode.com/terms_en.html"/>
   </url>
 
 </urlset>
