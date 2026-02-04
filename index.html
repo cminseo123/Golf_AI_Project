@@ -299,22 +299,26 @@
         const Sparkles = ({ className }) => <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none" className={className}><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" /></svg>;
 
         // --- 푸터 컴포넌트 ---
-        const Footer = ({ T }) => (
-            <footer className="bg-gray-800 dark:bg-gray-950 text-white mt-auto transition-colors duration-300">
-                <div className="max-w-md mx-auto px-4 py-6">
-                    <div className="flex flex-col items-center gap-4">
-                        <nav className="flex gap-4 text-xs">
-                            <a href="about.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.about}</a>
-                            <span className="text-gray-600">|</span>
-                            <a href="privacy.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.privacy}</a>
-                            <span className="text-gray-600">|</span>
-                            <a href="terms.html" className="text-gray-400 hover:text-white transition-colors">{T.footer.terms}</a>
-                        </nav>
-                        <p className="text-gray-500 text-xs">&copy; 2025 Golf MBTI. All rights reserved.</p>
+        const Footer = ({ T, lang }) => {
+            // 한국어면 한국어 페이지, 그 외 언어는 영어 페이지로 연결
+            const suffix = lang === 'ko' ? '' : '_en';
+            return (
+                <footer className="bg-gray-800 dark:bg-gray-950 text-white mt-auto transition-colors duration-300">
+                    <div className="max-w-md mx-auto px-4 py-6">
+                        <div className="flex flex-col items-center gap-4">
+                            <nav className="flex gap-4 text-xs">
+                                <a href={`about${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.about}</a>
+                                <span className="text-gray-600">|</span>
+                                <a href={`privacy${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.privacy}</a>
+                                <span className="text-gray-600">|</span>
+                                <a href={`terms${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.terms}</a>
+                            </nav>
+                            <p className="text-gray-500 text-xs">&copy; 2025 Golf MBTI. All rights reserved.</p>
+                        </div>
                     </div>
-                </div>
-            </footer>
-        );
+                </footer>
+            );
+        };
 
         const SCORING_AXES = { RISK: 'risk', MENTAL: 'mental', TECH: 'tech', SOCIAL: 'social' };
 
@@ -604,7 +608,7 @@
                                 </div>
                             </div>
                         </div>
-                        <Footer T={T} />
+                        <Footer T={T} lang={lang} />
                     </div>
                 );
             }
@@ -759,7 +763,7 @@
                             </div>
                         </div>
                         </div>
-                        <Footer T={T} />
+                        <Footer T={T} lang={lang} />
                     </div>
                 );
             }
