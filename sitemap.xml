@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+
+  <!-- Main Page (Korean) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://golf-mbti.pages.dev/"/>
+  </url>
+
+  <!-- About Page (Korean) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/about.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/about_en.html"/>
+  </url>
+
+  <!-- About Page (English) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/about_en.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/about.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/about_en.html"/>
+  </url>
+
+  <!-- Privacy Policy (Korean) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/privacy.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/privacy_en.html"/>
+  </url>
+
+  <!-- Privacy Policy (English) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/privacy_en.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/privacy_en.html"/>
+  </url>
+
+  <!-- Terms of Service (Korean) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/terms.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/terms_en.html"/>
+  </url>
+
+  <!-- Terms of Service (English) -->
+  <url>
+    <loc>https://golf-mbti.pages.dev/terms_en.html</loc>
+    <lastmod>2025-02-05</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.5</priority>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://golf-mbti.pages.dev/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://golf-mbti.pages.dev/terms_en.html"/>
+  </url>
+
+</urlset>
