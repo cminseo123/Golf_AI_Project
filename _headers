@@ -3,3 +3,21 @@
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   X-XSS-Protection: 1; mode=block
+
+# HTML - Cloudflare 엣지에서 1시간 캐싱, 브라우저는 항상 재검증
+/*.html
+  Cache-Control: public, max-age=0, s-maxage=3600, must-revalidate
+
+# SVG favicon - 하루 캐싱
+/*.svg
+  Cache-Control: public, max-age=86400
+
+# 텍스트 정적 파일 - 하루 캐싱
+/robots.txt
+  Cache-Control: public, max-age=86400
+
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/ads.txt
+  Cache-Control: public, max-age=86400
