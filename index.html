@@ -177,6 +177,8 @@
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
 
+    <div id="root"></div>
+
     <!-- =====================================================
          정적 소개 섹션 — JS 없이도 크롤러/리뷰어가 읽을 수 있는 본문
          ===================================================== -->
@@ -266,8 +268,6 @@
         </main>
     </div>
     <!-- / 정적 소개 섹션 끝 -->
-
-    <div id="root"></div>
 
     <noscript>
         <div style="max-width: 720px; margin: 40px auto; padding: 20px; text-align: center; font-family: sans-serif;">
@@ -738,6 +738,12 @@
                     setEmailLoading(false);
                 }
             };
+
+            // step 변경 시 static-intro 섹션 show/hide
+            useEffect(() => {
+                const el = document.getElementById('static-intro');
+                if (el) el.style.display = step === 'intro' ? 'block' : 'none';
+            }, [step]);
 
             // 현재 언어 텍스트
             const T = UI_TEXT[lang] || UI_TEXT.ko;
