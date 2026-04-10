@@ -1186,6 +1186,63 @@
                         </div>
                         </div>
 
+                        <div className="w-full max-w-md mx-auto px-4 pb-8">
+                            <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5">
+                                <div className="text-[10px] font-bold uppercase tracking-[0.22em] text-green-500 dark:text-green-400 mb-1">COMING SOON</div>
+                                <h3 className="text-base font-black text-gray-800 dark:text-white leading-snug mb-2">AI 스윙 분석 앱 베타 먼저 받아보기</h3>
+                                <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                                    출시 알림과 무료 베타 기회를 먼저 받아보세요.
+                                </p>
+                                <button
+                                    onClick={() => setShowCoachBannerForm(true)}
+                                    className="w-full bg-gradient-to-r from-green-600 to-emerald-600 text-white py-3 rounded-xl font-black text-sm shadow-md active:scale-95 transition-transform"
+                                >
+                                    무료 베타 신청
+                                </button>
+
+                                {showCoachBannerForm && (
+                                    <div className="mt-4 border-t border-gray-100 dark:border-gray-700 pt-4">
+                                        {!emailSubmitted ? (
+                                            <div className="space-y-3">
+                                                <select
+                                                    value={golfLevel}
+                                                    onChange={e => setGolfLevel(e.target.value)}
+                                                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                >
+                                                    <option value="">내 골프 실력은? (선택)</option>
+                                                    <option value="beginner">초보 (100타 이상)</option>
+                                                    <option value="amateur">아마추어 (80~100타)</option>
+                                                    <option value="single">싱글 (80타 이하)</option>
+                                                </select>
+                                                <input
+                                                    type="email"
+                                                    placeholder="이메일 주소 입력"
+                                                    value={emailInput}
+                                                    onChange={e => setEmailInput(e.target.value)}
+                                                    className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
+                                                />
+                                                <button
+                                                    onClick={submitEmail}
+                                                    disabled={emailLoading || !emailInput}
+                                                    className="w-full bg-green-600 text-white font-black px-4 py-2.5 rounded-xl text-sm shadow disabled:opacity-50 active:scale-95 transition-transform"
+                                                >
+                                                    {emailLoading ? '...' : '알림 받기'}
+                                                </button>
+                                                <p className="text-[11px] text-gray-400 dark:text-gray-500 leading-relaxed">
+                                                    이메일은 앱 출시 알림 및 베타 안내 목적으로만 사용됩니다.
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 text-center">
+                                                <div className="font-black text-green-700 dark:text-green-300">등록 완료!</div>
+                                                <div className="text-green-600 dark:text-green-400 text-xs mt-1">앱 출시 시 가장 먼저 알려드릴게요.</div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
                         <Footer T={T} lang={lang} />
                     </div>
                 );
