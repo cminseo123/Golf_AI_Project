@@ -5,7 +5,7 @@
   <!-- Main Page (Korean) -->
   <url>
     <loc>https://thegolfcode.com/</loc>
-    <lastmod>2026-03-28</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/"/>
@@ -16,7 +16,7 @@
   <!-- About Page (Korean) -->
   <url>
     <loc>https://thegolfcode.com/about.html</loc>
-    <lastmod>2026-03-28</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
     <xhtml:link rel="alternate" hreflang="ko" href="https://thegolfcode.com/about.html"/>
@@ -91,7 +91,7 @@
 
   <url>
     <loc>https://thegolfcode.com/golf-club-guide.html</loc>
-    <lastmod>2026-03-28</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -126,7 +126,7 @@
 
   <url>
     <loc>https://thegolfcode.com/golf-break-100.html</loc>
-    <lastmod>2026-03-28</lastmod>
+    <lastmod>2026-04-10</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
