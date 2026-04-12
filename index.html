@@ -713,6 +713,7 @@
             const [emailSubmitted, setEmailSubmitted] = useState(false);
             const [emailLoading, setEmailLoading] = useState(false);
             const [showCoachBannerForm, setShowCoachBannerForm] = useState(false);
+            const [charPlaying, setCharPlaying] = useState(false);
 
             const submitEmail = async () => {
                 if (!emailInput || !emailInput.includes('@')) return;
@@ -1150,7 +1151,7 @@
                             <div className="mt-6 sticky bottom-4 z-50 px-2 space-y-3">
                                 {/* 1행: 다시하기 + 카드저장 */}
                                 <div className="flex gap-2">
-                                    <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro'); setEmailInput(''); setGolfLevel(''); setEmailSubmitted(false); setEmailLoading(false); setShowCoachBannerForm(false);}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1" size={18}/>{T.retry}</button>
+                                    <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro'); setEmailInput(''); setGolfLevel(''); setEmailSubmitted(false); setEmailLoading(false); setShowCoachBannerForm(false); setCharPlaying(false);}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1" size={18}/>{T.retry}</button>
                                     <button onClick={saveResultImage} className="flex-1 bg-gradient-to-br from-pink-500 to-orange-400 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95"><Instagram className="mb-1" size={18}/>{T.saveCard}</button>
                                 </div>
 
@@ -1184,11 +1185,23 @@
 
                         {/* === AI 스윙 분석 앱 신청 카드 (데스크톱: 우측 / 모바일: 하단) === */}
                         <div className="w-full md:w-72 flex-shrink-0 pb-8 md:pb-0 md:sticky md:top-8 relative">
-                            <img
-                                src="tgc-character.png"
-                                alt=""
-                                className="absolute -top-10 left-4 w-16 h-16 object-contain drop-shadow-lg z-10 animate-bounce-slow"
-                            />
+                            {charPlaying ? (
+                                <video
+                                    src="tgc-character.mp4"
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    onEnded={() => setCharPlaying(false)}
+                                    className="absolute -top-3 left-4 w-20 h-20 object-contain z-10"
+                                />
+                            ) : (
+                                <img
+                                    src="tgc-character.png"
+                                    alt=""
+                                    onClick={() => setCharPlaying(true)}
+                                    className="absolute -top-3 left-4 w-20 h-20 object-contain drop-shadow-lg z-10 animate-bounce-slow cursor-pointer"
+                                />
+                            )}
                             <div className="relative pt-10">
                             <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5 pt-10">
                                 <div className="flex items-center gap-2 mb-3">
