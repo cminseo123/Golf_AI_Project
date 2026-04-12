@@ -172,6 +172,7 @@
         body { font-family: Pretendard, sans-serif; -webkit-tap-highlight-color: transparent; }
         .animate-bounce-slow { animation: bounce 2s infinite; }
         @keyframes bounce { 0%, 100% { transform: translateY(-5%); } 50% { transform: translateY(0); } }
+        @keyframes charPopIn { 0% { transform: scale(0.3); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
         ::-webkit-scrollbar { display: none; }
     </style>
 </head>
@@ -714,6 +715,11 @@
             const [emailLoading, setEmailLoading] = useState(false);
             const [showCoachBannerForm, setShowCoachBannerForm] = useState(false);
             const [charPlaying, setCharPlaying] = useState(false);
+            const [charTransitioning, setCharTransitioning] = useState(false);
+            const handleCharClick = () => {
+                setCharTransitioning(true);
+                setTimeout(() => { setCharPlaying(true); setCharTransitioning(false); }, 380);
+            };
 
             const submitEmail = async () => {
                 if (!emailInput || !emailInput.includes('@')) return;
@@ -1151,7 +1157,7 @@
                             <div className="mt-6 sticky bottom-4 z-50 px-2 space-y-3">
                                 {/* 1행: 다시하기 + 카드저장 */}
                                 <div className="flex gap-2">
-                                    <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro'); setEmailInput(''); setGolfLevel(''); setEmailSubmitted(false); setEmailLoading(false); setShowCoachBannerForm(false); setCharPlaying(false);}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1" size={18}/>{T.retry}</button>
+                                    <button onClick={() => {setScores({ risk: 0, mental: 0, tech: 0, social: 0 }); setCurrentQIndex(0); setFinalType(null); setStep('intro'); setEmailInput(''); setGolfLevel(''); setEmailSubmitted(false); setEmailLoading(false); setShowCoachBannerForm(false); setCharPlaying(false); setCharTransitioning(false);}} className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-sm transition-transform active:scale-95"><RefreshCw className="mb-1" size={18}/>{T.retry}</button>
                                     <button onClick={saveResultImage} className="flex-1 bg-gradient-to-br from-pink-500 to-orange-400 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center text-xs shadow-lg transition-transform active:scale-95"><Instagram className="mb-1" size={18}/>{T.saveCard}</button>
                                 </div>
 
@@ -1193,14 +1199,24 @@
                                     playsInline
                                     onEnded={() => setCharPlaying(false)}
                                     className="absolute -top-3 left-4 w-20 h-20 object-contain z-10 rounded-full pointer-events-none"
-                                    style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.25))', WebkitMaskImage: 'radial-gradient(circle, black 30%, transparent 100%)' }}
+                                    style={{
+                                        filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.25))',
+                                        WebkitMaskImage: 'radial-gradient(circle, black 30%, transparent 100%)',
+                                        animation: 'charPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards'
+                                    }}
                                 />
                             ) : (
                                 <img
                                     src="tgc-character.png"
                                     alt=""
-                                    onClick={() => setCharPlaying(true)}
-                                    className="absolute -top-3 left-4 w-20 h-20 object-contain drop-shadow-lg z-10 animate-bounce-slow cursor-pointer"
+                                    onClick={handleCharClick}
+                                    className="absolute -top-3 left-4 w-20 h-20 object-contain drop-shadow-lg z-10 cursor-pointer"
+                                    style={{
+                                        transition: 'transform 0.38s ease, opacity 0.38s ease',
+                                        transform: charTransitioning ? 'scale(1.5)' : 'scale(1)',
+                                        opacity: charTransitioning ? 0 : 1,
+                                        animation: charTransitioning ? 'none' : 'bounce 2s infinite'
+                                    }}
                                 />
                             )}
                             <div className="relative pt-10">
