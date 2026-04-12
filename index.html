@@ -893,7 +893,11 @@
                         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-8 rounded-[2rem] shadow-2xl max-w-md w-full border border-white/50 dark:border-gray-700/50 relative">
                                 <div className="mb-6 flex justify-center relative">
-                                    <div className="w-24 h-24 bg-green-100 dark:bg-green-900/50 rounded-full flex items-center justify-center text-5xl shadow-inner animate-bounce-slow">🏌️</div>
+                                    <img
+                                        src="tgc-character.png"
+                                        alt=""
+                                        className="w-28 h-28 object-contain drop-shadow-lg animate-bounce-slow"
+                                    />
                                     <Sparkles className="absolute top-0 right-[25%] text-yellow-400 animate-pulse" />
                                 </div>
                                 <h1 className="text-3xl font-black text-gray-800 dark:text-white mb-2">
@@ -1054,7 +1058,15 @@
                 return (
                     <div className="min-h-screen bg-green-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6 text-center transition-colors duration-300">
                         <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
-                        <div className="w-16 h-16 border-4 border-green-200 dark:border-green-900 border-t-green-600 dark:border-t-green-400 rounded-full animate-spin mb-4"></div>
+                        <video
+                            src="tgc-character.mp4"
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            className="w-32 h-32 object-contain mb-2 pointer-events-none"
+                            style={{ WebkitMaskImage: 'radial-gradient(circle, black 55%, transparent 100%)' }}
+                        />
                         <h2 className="text-xl font-bold text-gray-800 dark:text-white">{T.analyzing}</h2>
                     </div>
                 );
