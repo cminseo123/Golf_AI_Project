@@ -1186,16 +1186,15 @@
                         {/* === AI 스윙 분석 앱 신청 카드 (데스크톱: 우측 / 모바일: 하단) === */}
                         <div className="w-full md:w-72 flex-shrink-0 pb-8 md:pb-0 md:sticky md:top-8 relative">
                             {charPlaying ? (
-                                <div className="absolute -top-3 left-4 w-20 h-20 z-10 rounded-full p-[2px]" style={{ background: 'linear-gradient(135deg, #16a34a, #34d399, #059669)' }}>
-                                    <video
-                                        src="tgc-character.mp4"
-                                        autoPlay
-                                        muted
-                                        playsInline
-                                        onEnded={() => setCharPlaying(false)}
-                                        className="w-full h-full object-cover rounded-full"
-                                    />
-                                </div>
+                                <video
+                                    src="tgc-character.mp4"
+                                    autoPlay
+                                    muted
+                                    playsInline
+                                    onEnded={() => setCharPlaying(false)}
+                                    className="absolute -top-3 left-4 w-20 h-20 object-contain z-10 rounded-full"
+                                    style={{ filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.25))', WebkitMaskImage: 'radial-gradient(circle, black 60%, transparent 100%)' }}
+                                />
                             ) : (
                                 <img
                                     src="tgc-character.png"
