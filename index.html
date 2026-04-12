@@ -1184,9 +1184,14 @@
 
                         {/* === AI 스윙 분석 앱 신청 카드 (데스크톱: 우측 / 모바일: 하단) === */}
                         <div className="w-full md:w-72 flex-shrink-0 pb-8 md:pb-0 md:sticky md:top-8">
-                            <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5">
+                            <div className="relative pt-10">
+                                <img
+                                    src="tgc-character.png"
+                                    alt=""
+                                    className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 object-contain drop-shadow-lg z-10 animate-bounce-slow"
+                                />
+                            <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5 pt-12">
                                 <div className="flex items-center gap-2 mb-3">
-                                    <img src="favicon.svg" alt="" className="w-5 h-5 animate-bounce-slow opacity-80" />
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-green-500 dark:text-green-400">COMING SOON</span>
                                 </div>
                                 <h3 className="text-base font-black text-gray-800 dark:text-white leading-snug mb-2">AI 스윙 분석 앱 베타 먼저 받아보기</h3>
@@ -1236,6 +1241,7 @@
                                         <div className="text-green-600 dark:text-green-400 text-xs mt-1">앱 출시 시 가장 먼저 알려드릴게요.</div>
                                     </div>
                                 )}
+                            </div>
                             </div>
                         </div>
                         </div>
