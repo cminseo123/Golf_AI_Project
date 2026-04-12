@@ -1206,18 +1206,22 @@
                                     }}
                                 />
                             ) : (
-                                <img
-                                    src="tgc-character.png"
-                                    alt=""
+                                <div
                                     onClick={handleCharClick}
-                                    className="absolute -top-3 left-4 w-20 h-20 object-contain drop-shadow-lg z-10 cursor-pointer hover:scale-125 transition-transform duration-200"
-                                    style={{
-                                        transition: 'transform 0.38s ease, opacity 0.38s ease',
-                                        transform: charTransitioning ? 'scale(1.5)' : 'scale(1)',
-                                        opacity: charTransitioning ? 0 : 1,
-                                        animation: charTransitioning ? 'none' : 'bounce 2s infinite'
-                                    }}
-                                />
+                                    className="absolute -top-6 left-0 w-32 h-32 z-10 cursor-pointer flex items-center justify-center group"
+                                >
+                                    <img
+                                        src="tgc-character.png"
+                                        alt=""
+                                        className="w-20 h-20 object-contain drop-shadow-lg group-hover:scale-125 transition-transform duration-200"
+                                        style={{
+                                            transform: charTransitioning ? 'scale(1.5)' : '',
+                                            opacity: charTransitioning ? 0 : 1,
+                                            transition: 'transform 0.38s ease, opacity 0.38s ease',
+                                            animation: charTransitioning ? 'none' : 'bounce 2s infinite'
+                                        }}
+                                    />
+                                </div>
                             )}
                             <div className="relative pt-10">
                             <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5 pt-10">
