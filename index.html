@@ -722,11 +722,11 @@
             const [emailSubmitted, setEmailSubmitted] = useState(false);
             const [emailLoading, setEmailLoading] = useState(false);
             const [showCoachBannerForm, setShowCoachBannerForm] = useState(false);
-            const [charPlaying, setCharPlaying] = useState(false);
             const [charTransitioning, setCharTransitioning] = useState(false);
             const handleCharClick = () => {
                 setCharTransitioning(true);
-                setTimeout(() => { setCharPlaying(true); setCharTransitioning(false); }, 380);
+                setShowCoachBannerForm(true);
+                setTimeout(() => { setCharTransitioning(false); }, 380);
             };
 
             const submitEmail = async () => {
@@ -1029,7 +1029,7 @@
                                                     <option value="amateur">아마추어 (80~100타)</option>
                                                     <option value="single">싱글 (80타 이하)</option>
                                                 </select>
-                                                <div className="flex gap-2">
+                                                <div className="flex flex-col sm:flex-row gap-2">
                                                     <input
                                                         type="email"
                                                         placeholder="이메일 주소 입력"
@@ -1040,7 +1040,7 @@
                                                     <button
                                                         onClick={submitEmail}
                                                         disabled={emailLoading || !emailInput}
-                                                        className="bg-green-600 text-white font-black px-4 py-2.5 rounded-xl text-sm shadow disabled:opacity-50 active:scale-95 transition-transform whitespace-nowrap"
+                                                        className="w-full sm:w-auto bg-green-600 text-white font-black px-4 py-2.5 rounded-xl text-sm shadow disabled:opacity-50 active:scale-95 transition-transform whitespace-nowrap"
                                                     >
                                                         {emailLoading ? '...' : '알림 받기'}
                                                     </button>
@@ -1210,38 +1210,22 @@
 
                         {/* === AI 스윙 분석 앱 신청 카드 (데스크톱: 우측 / 모바일: 하단) === */}
                         <div className="w-full md:w-72 flex-shrink-0 pb-8 md:pb-0 md:sticky md:top-8 relative">
-                            {charPlaying ? (
-                                <video
-                                    src="tgc-character.mp4"
-                                    autoPlay
-                                    muted
-                                    playsInline
-                                    onEnded={() => setCharPlaying(false)}
-                                    className="absolute -top-3 left-4 w-20 h-20 object-contain z-10 rounded-full pointer-events-none"
+                            <div
+                                onClick={handleCharClick}
+                                className="absolute -top-6 left-0 w-32 h-32 z-10 cursor-pointer flex items-center justify-center group"
+                            >
+                                <img
+                                    src="tgc-character.png"
+                                    alt=""
+                                    className="w-20 h-20 object-contain drop-shadow-lg group-hover:scale-125 transition-transform duration-200"
                                     style={{
-                                        filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.25))',
-                                        WebkitMaskImage: 'radial-gradient(circle, black 30%, transparent 100%)',
-                                        animation: 'charPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1) forwards'
+                                        transform: charTransitioning ? 'scale(1.35)' : '',
+                                        opacity: charTransitioning ? 0.88 : 1,
+                                        transition: 'transform 0.38s ease, opacity 0.38s ease',
+                                        animation: charTransitioning ? 'none' : 'bounce 2s infinite'
                                     }}
                                 />
-                            ) : (
-                                <div
-                                    onClick={handleCharClick}
-                                    className="absolute -top-6 left-0 w-32 h-32 z-10 cursor-pointer flex items-center justify-center group"
-                                >
-                                    <img
-                                        src="tgc-character.png"
-                                        alt=""
-                                        className="w-20 h-20 object-contain drop-shadow-lg group-hover:scale-125 transition-transform duration-200"
-                                        style={{
-                                            transform: charTransitioning ? 'scale(1.5)' : '',
-                                            opacity: charTransitioning ? 0 : 1,
-                                            transition: 'transform 0.38s ease, opacity 0.38s ease',
-                                            animation: charTransitioning ? 'none' : 'bounce 2s infinite'
-                                        }}
-                                    />
-                                </div>
-                            )}
+                            </div>
                             <div className="relative pt-10">
                             <div className="bg-white dark:bg-gray-800 rounded-[1.75rem] border border-gray-100 dark:border-gray-700 shadow-xl p-5 pt-10">
                                 <div className="flex items-center gap-2 mb-3">
