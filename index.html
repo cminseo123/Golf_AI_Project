@@ -688,6 +688,48 @@
             }
         };
 
+        const RESULT_ARTICLE_RECOMMENDATIONS = {
+            "핵인싸 장타러": [
+                { href: "golf-etiquette.html", category: "에티켓", title: "골프 에티켓 완벽 가이드", desc: "같이 치기 좋은 골퍼가 되기 위한 기본 태도와 실제 라운드 매너를 먼저 익혀보세요." },
+                { href: "golf-short-game.html", category: "숏게임", title: "숏게임 마스터하기", desc: "장타의 재미는 살리고, 스코어는 그린 주변에서 지키는 법을 연결해서 볼 수 있습니다." }
+            ],
+            "전략적 승부사": [
+                { href: "golf-course-management.html", category: "코스 전략", title: "코스 매니지먼트 전략", desc: "계산형 성향을 실제 홀 공략과 의사결정으로 연결하기 좋은 글입니다." },
+                { href: "golf-break-100.html", category: "스코어", title: "100타 깨기 실전 전략", desc: "판단과 운영으로 타수를 줄이는 흐름을 가장 빠르게 체감할 수 있습니다." }
+            ],
+            "와일드 테크니션": [
+                { href: "golf-driver-tips.html", category: "드라이버", title: "드라이버 잘 치는 법", desc: "폼과 비거리 둘 다 놓치고 싶지 않은 유형에게 가장 직접적인 가이드입니다." },
+                { href: "golf-iron-tips.html", category: "아이언", title: "아이언 정확도 높이기", desc: "정타 감각과 임팩트 완성도를 끌어올리는 데 도움이 되는 실전 글입니다." }
+            ],
+            "골프 AI": [
+                { href: "golf-type-practice.html", category: "연습법", title: "유형별 맞춤 연습법", desc: "분석 성향을 실행 가능한 루틴으로 바꾸는 데 가장 잘 맞는 추천 글입니다." },
+                { href: "golf-club-guide.html", category: "장비", title: "클럽 선택 가이드", desc: "구질, 거리, 피팅 기준으로 장비를 더 정교하게 고르는 데 도움이 됩니다." }
+            ],
+            "젠틀맨 골퍼": [
+                { href: "golf-etiquette.html", category: "에티켓", title: "골프 에티켓 완벽 가이드", desc: "룰과 매너를 중시하는 성향을 실제 필드 태도로 더 정교하게 다듬을 수 있습니다." },
+                { href: "golf-round-prep.html", category: "루틴", title: "라운드 전날 준비 루틴", desc: "정돈된 준비와 흐름을 좋아하는 유형에게 잘 맞는 라운드 준비 가이드입니다." }
+            ],
+            "올라운더": [
+                { href: "golf-type-practice.html", category: "연습법", title: "유형별 맞춤 연습법", desc: "균형형 골퍼가 정체기를 벗어나기 위해 무엇을 집중해야 하는지 확인해보세요." },
+                { href: "golf-seasonal.html", category: "시즌", title: "계절별 골프 공략법", desc: "상황 대응력이 강한 유형에게 계절별 전략 변화까지 넓혀주는 글입니다." }
+            ]
+        };
+
+        const RESULT_LINK_TEXT = {
+            ko: {
+                badge: "추천 콘텐츠",
+                heading: "이 유형이 바로 보면 좋은 글",
+                sub: "결과를 끝내지 말고, 아래 실전 가이드로 바로 이어가보세요.",
+                browseAll: "골프 팁 전체 보기"
+            },
+            en: {
+                badge: "Recommended",
+                heading: "Best reads for your type",
+                sub: "Take your result into real practice with these guides.",
+                browseAll: "Browse all guides"
+            }
+        };
+
         const RadarChart = ({ data, T }) => {
             const size = 200, center = size / 2, radius = 70, maxScore = 100;
             const axes = [{ key: SCORING_AXES.RISK, label: T.axes.risk }, { key: SCORING_AXES.MENTAL, label: T.axes.mental }, { key: SCORING_AXES.TECH, label: T.axes.tech }, { key: SCORING_AXES.SOCIAL, label: T.axes.social }];
@@ -1112,6 +1154,8 @@
                 const typeTags = finalType.tags[lang] || finalType.tags.ko;
                 const typeDrill = finalType.drill[lang] || finalType.drill.ko;
                 const typeGear = finalType.gear[lang] || finalType.gear.ko;
+                const resultLinkText = RESULT_LINK_TEXT[lang] || RESULT_LINK_TEXT.en;
+                const recommendedArticles = RESULT_ARTICLE_RECOMMENDATIONS[finalType.title.ko] || RESULT_ARTICLE_RECOMMENDATIONS["올라운더"];
 
                 return (
                     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col transition-colors duration-300">
@@ -1194,6 +1238,43 @@
                                     </div>
                                 </div>
                             )}
+
+                            <div className="mt-6 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-[1.5rem] shadow-lg p-5">
+                                <div className="flex items-center justify-between gap-3 mb-4">
+                                    <div>
+                                        <p className="text-[11px] font-bold uppercase tracking-widest text-green-600 dark:text-green-400 mb-1">{resultLinkText.badge}</p>
+                                        <h3 className="text-lg font-black text-gray-800 dark:text-white">{resultLinkText.heading}</h3>
+                                        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{resultLinkText.sub}</p>
+                                    </div>
+                                    <a
+                                        href="articles.html"
+                                        className="shrink-0 hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-bold border border-green-100 dark:border-green-800"
+                                    >
+                                        {resultLinkText.browseAll}
+                                    </a>
+                                </div>
+                                <div className="grid gap-3">
+                                    {recommendedArticles.map((article) => (
+                                        <a
+                                            key={article.href}
+                                            href={article.href}
+                                            className="block rounded-2xl border border-gray-100 dark:border-gray-700 bg-gray-50 dark:bg-gray-900/60 p-4 transition-transform active:scale-[0.99]"
+                                        >
+                                            <div className="inline-flex px-2.5 py-1 rounded-full bg-white dark:bg-gray-800 text-[11px] font-bold text-green-700 dark:text-green-300 border border-gray-100 dark:border-gray-700 mb-2">
+                                                {article.category}
+                                            </div>
+                                            <p className="font-bold text-gray-800 dark:text-white leading-snug">{article.title}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-1">{article.desc}</p>
+                                        </a>
+                                    ))}
+                                </div>
+                                <a
+                                    href="articles.html"
+                                    className="mt-3 sm:hidden flex items-center justify-center px-4 py-3 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm font-bold border border-green-100 dark:border-green-800"
+                                >
+                                    {resultLinkText.browseAll}
+                                </a>
+                            </div>
 
                             {/* 하단 버튼 그룹 */}
                             <div className="mt-6 sticky bottom-4 z-50 px-2 space-y-3">
