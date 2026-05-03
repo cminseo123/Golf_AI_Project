@@ -1,0 +1,19 @@
+# Android 서명 키 — 절대 커밋 금지
+*.keystore
+*.jks
+
+# Bubblewrap 빌드 산출물
+app/build/
+build/
+.gradle/
+
+# 대용량 에셋 (필요 시 개별 추가)
+Premium_horizontal_hero_banner_for_golf_website_1-1775822066337.png
+
+# 로컬 스크립트
+_patch.py
+enhance_content.py
+
+# IDE / OS
+.DS_Store
+Thumbs.db
