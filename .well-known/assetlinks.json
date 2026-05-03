@@ -4,7 +4,7 @@
     "target": {
       "namespace": "android_app",
       "package_name": "com.thegolfcode.twa",
-      "sha256_cert_fingerprints": ["여기에_SHA256_입력"]
+      "sha256_cert_fingerprints": ["DB:2C:5B:F4:21:E3:A3:D6:41:52:0E:CA:A7:05:F9:E1:AB:B3:FA:0D:DF:55:6D:E4:A6:4C:CF:96:B7:A2:49:05"]
     }
   }
 ]
