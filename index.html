@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- TWA 플래그 감지 (반드시 AdSense보다 먼저 실행) -->
+    <script>
+    (function () {
+        var params = new URLSearchParams(window.location.search);
+        if (params.get('source') === 'twa') {
+            sessionStorage.setItem('isTwa', 'true');
+        }
+    })();
+    </script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV498H772W"></script>
     <script>
@@ -33,7 +43,15 @@
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://thegolfcode.com/">
 
-    <!-- Google AdSense -->
+    <!-- [PWA] Web App Manifest & Mobile Meta -->
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#16a34a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="골프 MBTI">
+    <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
+    <!-- Google AdSense (하드코딩 유지 — AdSense 심사 통과 후 TWA 출시 시 삭제) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5870520544791160"
      crossorigin="anonymous"></script>
 
@@ -177,6 +195,21 @@
     </style>
 </head>
 <body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+
+    <!-- TWA 환경 AdSense 무력화 (하드코딩 로드 후 즉시 push 차단 + 슬롯 제거) -->
+    <script>
+    (function () {
+        if (sessionStorage.getItem('isTwa') !== 'true') return;
+        // adsbygoogle.push 무력화 — 이미 로드된 스크립트가 광고를 실행하지 못하게 차단
+        window.adsbygoogle = { push: function () {} };
+        // 혹시라도 DOM에 삽입된 <ins class="adsbygoogle"> 슬롯 제거
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('ins.adsbygoogle').forEach(function (el) {
+                el.remove();
+            });
+        });
+    })();
+    </script>
 
     <div id="root"></div>
 
@@ -1428,6 +1461,19 @@
             localStorage.setItem('cookie_consent', 'declined');
             document.getElementById('cookie-banner').style.display = 'none';
         }
+    </script>
+
+    <!-- [PWA] Service Worker 등록 -->
+    <script>
+    window.addEventListener('load', function () {
+        if ('serviceWorker' in navigator &&
+            (location.protocol === 'https:' || location.hostname === 'localhost')) {
+            navigator.serviceWorker.register('/service-worker.js')
+                .catch(function (err) {
+                    console.error('Service Worker 등록 실패:', err);
+                });
+        }
+    });
     </script>
 </body>
 </html>
