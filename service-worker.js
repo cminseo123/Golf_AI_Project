@@ -1,4 +1,4 @@
-const CACHE_NAME = 'golf-mbti-v1';
+const CACHE_NAME = 'golf-mbti-v2';
 
 const PRECACHE_URLS = [
   '/',
