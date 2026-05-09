@@ -526,14 +526,14 @@
         };
 
         const MODE_SELECT_TEXT = {
-            ko: { title: '골프 MBTI', sub: '나의 골프 성향을 2분 안에 알아보세요', heading: '어떤 테스트를 받으시겠어요?', golf: { desc: '골프 경험 기반 질문으로\n나의 골프 유형 분석' }, general: { desc: '일상 감각으로 풀어보는\n숨겨진 골프 DNA 발견' } },
-            en: { title: 'Golf MBTI', sub: 'Discover your golf style in 2 minutes', heading: 'Choose your test type', golf: { desc: 'Golf-based questions\nto find your player type' }, general: { desc: 'Daily questions to discover\nyour hidden golf DNA' } },
-            ja: { title: 'Golf MBTI', sub: '2分で自分のゴルフタイプを見つけよう', heading: 'テストの種類を選んでください', golf: { desc: 'ゴルフ経験をもとに\nプレースタイルを分析' }, general: { desc: '日常の感覚で答える\n隠れたゴルフDNA発見' } },
-            zh: { title: 'Golf MBTI', sub: '用2分钟了解你的高尔夫风格', heading: '请选择测试类型', golf: { desc: '基于高尔夫经验的问题\n分析你的球员类型' }, general: { desc: '日常问题发现\n你的隐藏高尔夫DNA' } },
-            es: { title: 'Golf MBTI', sub: 'Descubre tu estilo de golf en 2 minutos', heading: 'Elige el tipo de test', golf: { desc: 'Preguntas basadas en golf\npara tu tipo de jugador' }, general: { desc: 'Preguntas diarias\npara descubrir tu ADN de golf' } },
-            fr: { title: 'Golf MBTI', sub: 'Découvrez votre style de golf en 2 minutes', heading: 'Choisissez votre type de test', golf: { desc: 'Questions golf pour\ntrouver votre style de jeu' }, general: { desc: 'Questions du quotidien pour\ndécouvrir votre ADN golf' } },
-            ru: { title: 'Golf MBTI', sub: 'Узнайте свой стиль гольфа за 2 минуты', heading: 'Выберите тип теста', golf: { desc: 'Вопросы о гольфе\nдля анализа стиля игры' }, general: { desc: 'Повседневные вопросы\nдля открытия ДНК гольфа' } },
-            hi: { title: 'Golf MBTI', sub: '2 मिनट में अपना गोल्फ स्टाइल जानें', heading: 'परीक्षण प्रकार चुनें', golf: { desc: 'गोल्फ अनुभव आधारित\nप्रश्नों से विश्लेषण' }, general: { desc: 'रोज़मर्रा के सवालों से\nगोल्फ DNA खोजें' } },
+            ko: { title: '골프 MBTI', sub: '나의 골프 성향을 2분 안에 알아보세요', heading: '어떤 테스트를 받으시겠어요?', golf: { label: '골프 쳐봤어요', desc: '골프 경험 기반 질문으로\n나의 골프 유형 분석' }, general: { label: '골프 처음이에요', desc: '일상 감각으로 풀어보는\n숨겨진 골프 DNA 발견' } },
+            en: { title: 'Golf MBTI', sub: 'Discover your golf style in 2 minutes', heading: 'Choose your test type', golf: { label: 'I play golf', desc: 'Golf-based questions\nto find your player type' }, general: { label: 'New to golf', desc: 'Daily questions to discover\nyour hidden golf DNA' } },
+            ja: { title: 'Golf MBTI', sub: '2分で自分のゴルフタイプを見つけよう', heading: 'テストの種類を選んでください', golf: { label: 'ゴルフ経験あり', desc: 'ゴルフ経験をもとに\nプレースタイルを分析' }, general: { label: 'ゴルフは初めて', desc: '日常の感覚で答える\n隠れたゴルフDNA発見' } },
+            zh: { title: 'Golf MBTI', sub: '用2分钟了解你的高尔夫风格', heading: '请选择测试类型', golf: { label: '打过高尔夫', desc: '基于高尔夫经验的问题\n分析你的球员类型' }, general: { label: '刚接触高尔夫', desc: '日常问题发现\n你的隐藏高尔夫DNA' } },
+            es: { title: 'Golf MBTI', sub: 'Descubre tu estilo de golf en 2 minutos', heading: 'Elige el tipo de test', golf: { label: 'Ya juego golf', desc: 'Preguntas basadas en golf\npara tu tipo de jugador' }, general: { label: 'Soy nuevo en golf', desc: 'Preguntas diarias\npara descubrir tu ADN de golf' } },
+            fr: { title: 'Golf MBTI', sub: 'Découvrez votre style de golf en 2 minutes', heading: 'Choisissez votre type de test', golf: { label: 'Je joue au golf', desc: 'Questions golf pour\ntrouver votre style de jeu' }, general: { label: 'Je débute au golf', desc: 'Questions du quotidien pour\ndécouvrir votre ADN golf' } },
+            ru: { title: 'Golf MBTI', sub: 'Узнайте свой стиль гольфа за 2 минуты', heading: 'Выберите тип теста', golf: { label: 'Я играю в гольф', desc: 'Вопросы о гольфе\nдля анализа стиля игры' }, general: { label: 'Я новичок в гольфе', desc: 'Повседневные вопросы\nдля открытия ДНК гольфа' } },
+            hi: { title: 'Golf MBTI', sub: '2 मिनट में अपना गोल्फ स्टाइल जानें', heading: 'परीक्षण प्रकार चुनें', golf: { label: 'गोल्फ खेला है', desc: 'गोल्फ अनुभव आधारित\nप्रश्नों से विश्लेषण' }, general: { label: 'गोल्फ पहली बार', desc: 'रोज़मर्रा के सवालों से\nगोल्फ DNA खोजें' } },
         };
 
         const BUTTON_STYLES = {
@@ -1143,8 +1143,8 @@
                                 </p>
                                 <div className="grid grid-cols-2 gap-3 mb-5">
                                     {[
-                                        { golf: true,  emoji: '🏌️', label: T.golferMode,  desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).golf.desc },
-                                        { golf: false, emoji: '🌱', label: T.generalMode, desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).general.desc },
+                                        { golf: true,  emoji: '🏌️', label: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).golf.label,  desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).golf.desc },
+                                        { golf: false, emoji: '🌱', label: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).general.label, desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).general.desc },
                                     ].map(({ golf, emoji, label, desc }) => {
                                         const chosen = modeChosen && isGolfMode === golf;
                                         return (
