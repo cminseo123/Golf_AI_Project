@@ -525,6 +525,21 @@
             }
         };
 
+        const MODE_SELECT_TEXT = {
+            ko: {
+                heading: '어떤 테스트를 받으시겠어요?',
+                golf: { label: '골프 쳐봤어요', desc: '골프 경험 기반 질문으로\n나의 골프 유형 분석' },
+                general: { label: '골프 처음이에요', desc: '일상 감각으로 풀어보는\n숨겨진 골프 DNA 발견' },
+                confirm: '이 모드로 시작하기'
+            },
+            en: {
+                heading: 'Choose your test type',
+                golf: { label: 'I play golf', desc: 'Golf-based questions\nto find your player type' },
+                general: { label: 'New to golf', desc: 'Daily questions to discover\nyour hidden golf DNA' },
+                confirm: 'Start this test'
+            }
+        };
+
         const BUTTON_STYLES = {
             primary: 'bg-gradient-to-r from-emerald-600 via-green-600 to-emerald-700 hover:from-emerald-700 hover:via-green-700 hover:to-emerald-800 text-white shadow-lg shadow-emerald-500/25',
             secondary: 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 shadow-sm hover:border-emerald-300 dark:hover:border-emerald-700 hover:text-emerald-700 dark:hover:text-emerald-300',
@@ -845,6 +860,7 @@
             const [showCoachBannerForm, setShowCoachBannerForm] = useState(false);
             const [charTransitioning, setCharTransitioning] = useState(false);
             const [showExitConfirm, setShowExitConfirm] = useState(false);
+            const [modeChosen, setModeChosen] = useState(false);
             const answerTimeoutRef = useRef(null);
             const analyzeTimeoutRef = useRef(null);
             const charTransitionTimeoutRef = useRef(null);
@@ -927,6 +943,7 @@
                 setCharTransitioning(false);
                 setShowToast(false);
                 setShowExitConfirm(false);
+                setModeChosen(false);
             };
 
             const requestExitToIntro = () => {
@@ -1121,28 +1138,45 @@
                                     />
                                     <Sparkles className="absolute top-0 right-[25%] text-yellow-400 animate-pulse" />
                                 </div>
-                                <h1 className="text-3xl font-black text-gray-800 dark:text-white mb-2">
-                                    {isGolfMode ? T.title : T.titleGeneral}
-                                </h1>
-                                <p className={`font-bold mb-4 text-sm inline-block px-3 py-1 rounded-full ${
-                                    isGolfMode
-                                        ? 'text-green-600 dark:text-green-400 bg-green-100 dark:bg-green-900/50'
-                                        : 'text-amber-600 dark:text-amber-400 bg-amber-100 dark:bg-amber-900/50'
-                                }`}>
-                                    {isGolfMode ? T.subtitle : T.subtitleGeneral}
-                                </p>
+                                <h1 className="text-2xl font-black text-gray-800 dark:text-white mb-1">골프 MBTI</h1>
+                                <p className="text-gray-400 dark:text-gray-500 text-sm mb-5">나의 골프 성향을 2분 안에 알아보세요</p>
 
-                                <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-                                    {isGolfMode ? (
-                                        <>{T.desc}<br/>{T.descSub}</>
-                                    ) : (
-                                        <>{T.descGeneral}<br/>{T.descGeneralSub}</>
-                                    )}
+                                {/* 모드 선택 카드 */}
+                                <p className="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">
+                                    {(MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).heading}
                                 </p>
+                                <div className="grid grid-cols-2 gap-3 mb-5">
+                                    {[
+                                        { golf: true,  emoji: '🏌️', label: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).golf.label,    desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).golf.desc },
+                                        { golf: false, emoji: '🌱', label: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).general.label,  desc: (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).general.desc },
+                                    ].map(({ golf, emoji, label, desc }) => {
+                                        const chosen = modeChosen && isGolfMode === golf;
+                                        return (
+                                            <button
+                                                key={String(golf)}
+                                                onClick={() => { setIsGolfMode(golf); setModeChosen(true); }}
+                                                className={`text-left p-4 rounded-2xl border-2 transition-all ${
+                                                    chosen
+                                                        ? golf
+                                                            ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/30 ring-4 ring-emerald-100 dark:ring-emerald-900/40'
+                                                            : 'border-amber-400 bg-amber-50 dark:bg-amber-900/30 ring-4 ring-amber-100 dark:ring-amber-900/40'
+                                                        : 'border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800/60 hover:border-gray-300 dark:hover:border-gray-500'
+                                                }`}
+                                            >
+                                                <div className="text-2xl mb-2">{emoji}</div>
+                                                <div className={`font-black text-sm mb-1 ${chosen ? (golf ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300') : 'text-gray-800 dark:text-white'}`}>{label}</div>
+                                                <div className="text-[11px] leading-snug text-gray-400 dark:text-gray-500 whitespace-pre-line">{desc}</div>
+                                            </button>
+                                        );
+                                    })}
+                                </div>
 
-                                <button onClick={() => { gtag('event', 'test_start', { 'event_category': 'MBTI', 'event_label': '테스트 시작' }); setStep('quiz'); }} className={`w-full ${BUTTON_STYLES.primary} font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 group transition-all`}>
-                                    {T.startBtn} <ChevronRight />
-                                </button>
+                                {/* 선택 후에만 시작 버튼 노출 */}
+                                {modeChosen && (
+                                    <button onClick={() => { gtag('event', 'test_start', { 'event_category': 'MBTI', 'event_label': isGolfMode ? '골퍼모드' : '일반모드' }); setStep('quiz'); }} className={`w-full ${BUTTON_STYLES.primary} font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 group transition-all`}>
+                                        {(MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).confirm} <ChevronRight />
+                                    </button>
+                                )}
 
                                 <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
                                     <p className="text-gray-400 dark:text-gray-500 text-xs">{T.typeIntro}</p>
