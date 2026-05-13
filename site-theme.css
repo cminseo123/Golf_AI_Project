@@ -143,6 +143,10 @@ body {
     color: #bbf7d0 !important;
 }
 
+.dark .tip-box strong {
+    color: #dcfce7 !important;
+}
+
 .dark .warn-box {
     background: rgba(146, 64, 14, 0.22) !important;
     border-left-color: #f59e0b !important;
@@ -150,4 +154,21 @@ body {
 
 .dark .warn-box p {
     color: #fcd34d !important;
+}
+
+.dark .warn-box strong {
+    color: #fde68a !important;
+}
+
+.dark .info-box {
+    background: rgba(30, 64, 175, 0.22) !important;
+    border-left-color: #60a5fa !important;
+}
+
+.dark .info-box p {
+    color: #dbeafe !important;
+}
+
+.dark .info-box strong {
+    color: #bfdbfe !important;
 }

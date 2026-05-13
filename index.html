@@ -5,8 +5,18 @@
     <script>
     (function () {
         var params = new URLSearchParams(window.location.search);
-        if (params.get('source') === 'twa') {
-            sessionStorage.setItem('isTwa', 'true');
+        var isTwa = false;
+        try {
+            if (params.get('source') === 'twa') {
+                sessionStorage.setItem('isTwa', 'true');
+            }
+            isTwa = params.get('source') === 'twa' || sessionStorage.getItem('isTwa') === 'true';
+        } catch (error) {
+            isTwa = params.get('source') === 'twa';
+        }
+
+        if (isTwa) {
+            document.documentElement.setAttribute('data-twa', 'true');
         }
     })();
     </script>
@@ -195,6 +205,9 @@
         html.dark #static-intro {
             background: #020617 !important;
             border-bottom-color: #1f2937 !important;
+        }
+        html[data-twa='true'] #static-intro {
+            display: none !important;
         }
         html.dark #static-intro [style*="background: #fff"],
         html.dark #static-intro [style*="background: #ffffff"],
@@ -951,7 +964,8 @@
             // step 변경 시 static-intro 섹션 show/hide
             useEffect(() => {
                 const el = document.getElementById('static-intro');
-                if (el) el.style.display = step === 'intro' ? 'block' : 'none';
+                const isTwa = typeof window !== 'undefined' && sessionStorage.getItem('isTwa') === 'true';
+                if (el) el.style.display = step === 'intro' && !isTwa ? 'block' : 'none';
             }, [step]);
 
             useEffect(() => () => {
