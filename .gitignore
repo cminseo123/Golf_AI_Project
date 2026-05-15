@@ -10,6 +10,9 @@ build/
 # 대용량 에셋 (필요 시 개별 추가)
 Premium_horizontal_hero_banner_for_golf_website_1-1775822066337.png
 
+# 로컬 설정
+local.properties
+
 # 로컬 스크립트
 _patch.py
 enhance_content.py
