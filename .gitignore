@@ -14,6 +14,26 @@ Premium_horizontal_hero_banner_for_golf_website_1-1775822066337.png
 local.properties
 terminal_debrief_2026-05-13.md
 
+# 로컬 백업 / 메모
+.local_sync_backup_*/
+analytics_tracker.md
+
+# Android 릴리스 산출물
+*.aab
+*.apk
+*.idsig
+manifest-checksum.txt
+
+# 로컬 스토어 / 시안 자산
+store-feature-graphic.png
+store_icon.png
+icons/icon.png
+icons/icon_bright*.png
+icons/그래픽 이미지*.png
+icons/아이콘*.png
+icons/휴대폰 스크린샷/
+더골프코드 캐릭터/
+
 # 로컬 스크립트
 _patch.py
 enhance_content.py
