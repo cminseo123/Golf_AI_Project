@@ -812,44 +812,87 @@
 
         const RESULT_ARTICLE_RECOMMENDATIONS = {
             "핵인싸 장타러": [
-                { href: "golf-etiquette.html", category: "에티켓", title: "골프 에티켓 완벽 가이드", desc: "같이 치기 좋은 골퍼가 되기 위한 기본 태도와 실제 라운드 매너를 먼저 익혀보세요." },
-                { href: "golf-short-game.html", category: "숏게임", title: "숏게임 마스터하기", desc: "장타의 재미는 살리고, 스코어는 그린 주변에서 지키는 법을 연결해서 볼 수 있습니다." }
+                { href: "golf-etiquette.html",
+                  category: { ko: "에티켓", en: "Etiquette", ja: "エチケット", zh: "礼仪", es: "Etiqueta", fr: "Étiquette", ru: "Этикет", hi: "शिष्टाचार" },
+                  title: { ko: "골프 에티켓 완벽 가이드", en: "Complete Golf Etiquette Guide", ja: "ゴルフエチケット完全ガイド", zh: "高尔夫礼仪完整指南", es: "Guía de Etiqueta de Golf", fr: "Guide d'Étiquette Golf", ru: "Руководство по этикету гольфа", hi: "गोल्फ शिष्टाचार गाइड" },
+                  desc: { ko: "같이 치기 좋은 골퍼가 되기 위한 기본 태도와 실제 라운드 매너를 먼저 익혀보세요.", en: "Learn the essential attitudes and real-round manners to become a great playing partner.", ja: "一緒にプレーしやすいゴルファーになるための基本姿勢とマナーを学びましょう。", zh: "学习成为好球友所需的基本态度和实际礼仪。", es: "Aprende las actitudes esenciales para ser un gran compañero de juego.", fr: "Apprenez les attitudes essentielles pour être un excellent partenaire de jeu.", ru: "Изучите основные манеры для хорошей совместной игры.", hi: "एक अच्छे खेल साथी बनने के लिए ज़रूरी शिष्टाचार सीखें।" } },
+                { href: "golf-short-game.html",
+                  category: { ko: "숏게임", en: "Short Game", ja: "ショートゲーム", zh: "短打", es: "Juego Corto", fr: "Jeu Court", ru: "Короткая игра", hi: "शॉर्ट गेम" },
+                  title: { ko: "숏게임 마스터하기", en: "Mastering the Short Game", ja: "ショートゲームのマスター", zh: "掌握短打技术", es: "Dominar el Juego Corto", fr: "Maîtriser le Jeu Court", ru: "Мастерство короткой игры", hi: "शॉर्ट गेम में महारत" },
+                  desc: { ko: "장타의 재미는 살리고, 스코어는 그린 주변에서 지키는 법을 연결해서 볼 수 있습니다.", en: "Keep the fun of long drives while protecting your score around the green.", ja: "飛距離の楽しさを活かしながら、グリーン周りでスコアを守る方法を学びましょう。", zh: "保持长打乐趣的同时，学习在果岭周围保护分数。", es: "Mantén la diversión de los drives largos mientras proteges tu puntuación.", fr: "Gardez le plaisir des longs drives tout en protégeant votre score près du green.", ru: "Сохраняйте удовольствие от длинных ударов, защищая счёт у грина.", hi: "लंबे शॉट्स का मज़ा रखते हुए ग्रीन के पास स्कोर बचाएं।" } }
             ],
             "전략적 승부사": [
-                { href: "golf-course-management.html", category: "코스 전략", title: "코스 매니지먼트 전략", desc: "계산형 성향을 실제 홀 공략과 의사결정으로 연결하기 좋은 글입니다." },
-                { href: "golf-break-100.html", category: "스코어", title: "100타 깨기 실전 전략", desc: "판단과 운영으로 타수를 줄이는 흐름을 가장 빠르게 체감할 수 있습니다." }
+                { href: "golf-course-management.html",
+                  category: { ko: "코스 전략", en: "Course Strategy", ja: "コース戦略", zh: "球场策略", es: "Estrategia", fr: "Stratégie", ru: "Стратегия", hi: "कोर्स स्ट्रैटेजी" },
+                  title: { ko: "코스 매니지먼트 전략", en: "Course Management Strategy", ja: "コースマネジメント戦略", zh: "球场管理策略", es: "Gestión del Campo", fr: "Gestion du Parcours", ru: "Управление полем", hi: "कोर्स मैनेजमेंट स्ट्रैटेजी" },
+                  desc: { ko: "계산형 성향을 실제 홀 공략과 의사결정으로 연결하기 좋은 글입니다.", en: "Connect your analytical mindset to real hole strategy and decision-making.", ja: "分析思考を実際のホール攻略と意思決定に結びつけます。", zh: "将分析思维与实际策略和决策相结合。", es: "Conecta tu mentalidad analítica con la estrategia real de juego.", fr: "Reliez votre mentalité analytique à la vraie stratégie de jeu.", ru: "Соединение аналитического мышления с реальной стратегией.", hi: "विश्लेषणात्मक सोच को असल रणनीति से जोड़ें।" } },
+                { href: "golf-break-100.html",
+                  category: { ko: "스코어", en: "Score", ja: "スコア", zh: "得分", es: "Puntuación", fr: "Score", ru: "Счёт", hi: "स्कोर" },
+                  title: { ko: "100타 깨기 실전 전략", en: "Breaking 100: Real Strategy", ja: "100打突破の実践戦略", zh: "破百实战策略", es: "Estrategia para Romper 100", fr: "Passer sous les 100 Coups", ru: "Выход за 100 ударов", hi: "100 तोड़ने की रणनीति" },
+                  desc: { ko: "판단과 운영으로 타수를 줄이는 흐름을 가장 빠르게 체감할 수 있습니다.", en: "The fastest way to feel how smart decisions reduce your score.", ja: "判断とマネジメントでスコアを減らす流れを最も早く体感できます。", zh: "最快感受判断和管理如何降低成绩。", es: "La forma más rápida de ver cómo las buenas decisiones reducen tu puntuación.", fr: "La façon la plus rapide de voir comment les décisions réduisent votre score.", ru: "Быстрее всего почувствуйте, как решения снижают счёт.", hi: "सही फैसलों से स्कोर कैसे कम होता है।" } }
             ],
             "와일드 테크니션": [
-                { href: "golf-driver-tips.html", category: "드라이버", title: "드라이버 잘 치는 법", desc: "폼과 비거리 둘 다 놓치고 싶지 않은 유형에게 가장 직접적인 가이드입니다." },
-                { href: "golf-iron-tips.html", category: "아이언", title: "아이언 정확도 높이기", desc: "정타 감각과 임팩트 완성도를 끌어올리는 데 도움이 되는 실전 글입니다." }
+                { href: "golf-driver-tips.html",
+                  category: { ko: "드라이버", en: "Driver", ja: "ドライバー", zh: "一号木杆", es: "Driver", fr: "Driver", ru: "Драйвер", hi: "ड्राइवर" },
+                  title: { ko: "드라이버 잘 치는 법", en: "How to Hit the Driver Well", ja: "ドライバーの打ち方", zh: "如何打好一号木", es: "Cómo Golpear Bien el Driver", fr: "Bien Frapper le Driver", ru: "Как бить драйвером", hi: "ड्राइवर अच्छे से कैसे मारें" },
+                  desc: { ko: "폼과 비거리 둘 다 놓치고 싶지 않은 유형에게 가장 직접적인 가이드입니다.", en: "The most direct guide for those who want both perfect form and maximum distance.", ja: "フォームと飛距離の両方を求める人への最も直接的なガイドです。", zh: "想要完美姿势和最大距离的最直接指南。", es: "La guía más directa para quienes quieren forma y distancia.", fr: "Le guide le plus direct pour forme parfaite et distance maximale.", ru: "Самое прямое руководство для тех, кто хочет и форму, и дистанцию.", hi: "परफेक्ट फॉर्म और दूरी दोनों के लिए सबसे सीधी गाइड।" } },
+                { href: "golf-iron-tips.html",
+                  category: { ko: "아이언", en: "Iron", ja: "アイアン", zh: "铁杆", es: "Hierro", fr: "Fer", ru: "Айрон", hi: "आयरन" },
+                  title: { ko: "아이언 정확도 높이기", en: "Improving Iron Accuracy", ja: "アイアンの精度向上", zh: "提高铁杆精度", es: "Mejorar Precisión del Hierro", fr: "Améliorer la Précision du Fer", ru: "Точность айрона", hi: "आयरन सटीकता सुधारें" },
+                  desc: { ko: "정타 감각과 임팩트 완성도를 끌어올리는 데 도움이 되는 실전 글입니다.", en: "A practical guide to elevating your solid contact and impact quality.", ja: "正確な打感とインパクト精度を高めるための実践的な記事です。", zh: "提升扎实击球感和冲击质量的实践指南。", es: "Guía práctica para mejorar tu contacto e impacto.", fr: "Guide pratique pour améliorer contact et impact.", ru: "Практическое руководство по улучшению контакта.", hi: "ठोस संपर्क और इम्पैक्ट गुणवत्ता सुधारने की गाइड।" } }
             ],
             "골프 AI": [
-                { href: "golf-type-practice.html", category: "연습법", title: "유형별 맞춤 연습법", desc: "분석 성향을 실행 가능한 루틴으로 바꾸는 데 가장 잘 맞는 추천 글입니다." },
-                { href: "golf-club-guide.html", category: "장비", title: "클럽 선택 가이드", desc: "구질, 거리, 피팅 기준으로 장비를 더 정교하게 고르는 데 도움이 됩니다." }
+                { href: "golf-type-practice.html",
+                  category: { ko: "연습법", en: "Practice", ja: "練習法", zh: "练习法", es: "Práctica", fr: "Pratique", ru: "Практика", hi: "अभ्यास" },
+                  title: { ko: "유형별 맞춤 연습법", en: "Type-Based Practice Guide", ja: "タイプ別練習法", zh: "按类型定制练习法", es: "Práctica Personalizada por Tipo", fr: "Pratique par Type", ru: "Практика по типу", hi: "टाइप-बेस्ड अभ्यास गाइड" },
+                  desc: { ko: "분석 성향을 실행 가능한 루틴으로 바꾸는 데 가장 잘 맞는 추천 글입니다.", en: "The best guide for turning your analytical mindset into actionable practice routines.", ja: "分析思考を実行可能なルーティンに変えるのに最適な記事です。", zh: "将分析思维转化为可行练习常规的最佳文章。", es: "La mejor guía para convertir tu mentalidad en rutinas de práctica.", fr: "Le meilleur guide pour transformer votre analyse en pratique.", ru: "Лучшее руководство для превращения анализа в практику.", hi: "विश्लेषणात्मक सोच को अभ्यास दिनचर्या में बदलने की गाइड।" } },
+                { href: "golf-club-guide.html",
+                  category: { ko: "장비", en: "Equipment", ja: "装備", zh: "装备", es: "Equipo", fr: "Équipement", ru: "Снаряжение", hi: "उपकरण" },
+                  title: { ko: "클럽 선택 가이드", en: "Club Selection Guide", ja: "クラブ選択ガイド", zh: "球杆选择指南", es: "Guía de Selección de Palos", fr: "Guide de Sélection des Clubs", ru: "Выбор клюшек", hi: "क्लब चयन गाइड" },
+                  desc: { ko: "구질, 거리, 피팅 기준으로 장비를 더 정교하게 고르는 데 도움이 됩니다.", en: "Helps you choose equipment precisely based on ball flight, distance, and fitting.", ja: "球筋、飛距離、フィッティング基準で装備を選ぶのに役立ちます。", zh: "根据球路、距离和拟合标准精确选择装备。", es: "Elige equipo con precisión según vuelo, distancia y fitting.", fr: "Choisissez l'équipement selon trajectoire, distance et fitting.", ru: "Выбор снаряжения по траектории, дистанции и подгонке.", hi: "बॉल फ्लाइट, दूरी और फिटिंग के आधार पर सटीक उपकरण चुनें।" } }
             ],
             "젠틀맨 골퍼": [
-                { href: "golf-etiquette.html", category: "에티켓", title: "골프 에티켓 완벽 가이드", desc: "룰과 매너를 중시하는 성향을 실제 필드 태도로 더 정교하게 다듬을 수 있습니다." },
-                { href: "golf-round-prep.html", category: "루틴", title: "라운드 전날 준비 루틴", desc: "정돈된 준비와 흐름을 좋아하는 유형에게 잘 맞는 라운드 준비 가이드입니다." }
+                { href: "golf-etiquette.html",
+                  category: { ko: "에티켓", en: "Etiquette", ja: "エチケット", zh: "礼仪", es: "Etiqueta", fr: "Étiquette", ru: "Этикет", hi: "शिष्टाचार" },
+                  title: { ko: "골프 에티켓 완벽 가이드", en: "Complete Golf Etiquette Guide", ja: "ゴルフエチケット完全ガイド", zh: "高尔夫礼仪完整指南", es: "Guía de Etiqueta de Golf", fr: "Guide d'Étiquette Golf", ru: "Руководство по этикету гольфа", hi: "गोल्फ शिष्टाचार गाइड" },
+                  desc: { ko: "룰과 매너를 중시하는 성향을 실제 필드 태도로 더 정교하게 다듬을 수 있습니다.", en: "Refine your love of rules and manners into polished on-course behavior.", ja: "ルールとマナーを重視する性格を、フィールドでより洗練された態度に高めましょう。", zh: "将重视规则和礼仪的性格提升为更精致的球场表现。", es: "Refina tu respeto por las reglas en comportamiento elegante en el campo.", fr: "Affinez votre respect des règles en comportement élégant sur le terrain.", ru: "Превратите уважение к правилам в изысканное поведение на поле.", hi: "नियम प्रेम को फील्ड पर परिष्कृत व्यवहार में बदलें।" } },
+                { href: "golf-round-prep.html",
+                  category: { ko: "루틴", en: "Routine", ja: "ルーティン", zh: "常规", es: "Rutina", fr: "Routine", ru: "Распорядок", hi: "रूटीन" },
+                  title: { ko: "라운드 전날 준비 루틴", en: "Pre-Round Preparation Routine", ja: "ラウンド前日準備ルーティン", zh: "打球前一天的准备常规", es: "Rutina de Preparación Pre-Ronda", fr: "Routine de Préparation", ru: "Подготовка перед раундом", hi: "राउंड से पहले की तैयारी रूटीन" },
+                  desc: { ko: "정돈된 준비와 흐름을 좋아하는 유형에게 잘 맞는 라운드 준비 가이드입니다.", en: "A round preparation guide perfectly suited for those who love organized routines.", ja: "整った準備とフローが好きなタイプにぴったりのガイドです。", zh: "非常适合喜欢有序准备的类型的打球准备指南。", es: "Guía ideal para quienes disfrutan de rutinas organizadas.", fr: "Guide idéal pour ceux qui aiment les routines organisées.", ru: "Руководство для тех, кто любит организованные распорядки.", hi: "व्यवस्थित रूटीन पसंद करने वालों के लिए बेस्ट गाइड।" } }
             ],
             "올라운더": [
-                { href: "golf-type-practice.html", category: "연습법", title: "유형별 맞춤 연습법", desc: "균형형 골퍼가 정체기를 벗어나기 위해 무엇을 집중해야 하는지 확인해보세요." },
-                { href: "golf-seasonal.html", category: "시즌", title: "계절별 골프 공략법", desc: "상황 대응력이 강한 유형에게 계절별 전략 변화까지 넓혀주는 글입니다." }
+                { href: "golf-type-practice.html",
+                  category: { ko: "연습법", en: "Practice", ja: "練習法", zh: "练习法", es: "Práctica", fr: "Pratique", ru: "Практика", hi: "अभ्यास" },
+                  title: { ko: "유형별 맞춤 연습법", en: "Type-Based Practice Guide", ja: "タイプ別練習法", zh: "按类型定制练习法", es: "Práctica Personalizada por Tipo", fr: "Pratique par Type", ru: "Практика по типу", hi: "टाइप-बेस्ड अभ्यास गाइड" },
+                  desc: { ko: "균형형 골퍼가 정체기를 벗어나기 위해 무엇을 집중해야 하는지 확인해보세요.", en: "Find out what a balanced golfer needs to focus on to break through a plateau.", ja: "バランス型ゴルファーが停滞を打破するために何に集中すべきかを確認しましょう。", zh: "了解均衡型球手需要专注什么才能突破瓶颈。", es: "Descubre en qué enfocarse para superar un estancamiento.", fr: "Découvrez sur quoi vous concentrer pour dépasser un plateau.", ru: "Узнайте, на чём сосредоточиться для прорыва.", hi: "स्थिरता तोड़ने के लिए क्या फोकस करना चाहिए।" } },
+                { href: "golf-seasonal.html",
+                  category: { ko: "시즌", en: "Season", ja: "シーズン", zh: "季节", es: "Temporada", fr: "Saison", ru: "Сезон", hi: "सीज़न" },
+                  title: { ko: "계절별 골프 공략법", en: "Seasonal Golf Strategy", ja: "季節別ゴルフ攻略法", zh: "按季节的高尔夫策略", es: "Estrategia de Golf por Temporada", fr: "Stratégie Golf par Saison", ru: "Сезонная стратегия гольфа", hi: "मौसमी गोल्फ रणनीति" },
+                  desc: { ko: "상황 대응력이 강한 유형에게 계절별 전략 변화까지 넓혀주는 글입니다.", en: "Expands your adaptability with seasonal strategy shifts for every condition.", ja: "状況対応力の強いタイプに季節ごとの戦略の変化を広げる記事です。", zh: "为适应能力强的类型扩展季节性策略变化。", es: "Amplía tu adaptabilidad con cambios de estrategia por temporada.", fr: "Étend votre adaptabilité avec des changements de stratégie saisonniers.", ru: "Расширяет адаптивность сезонными изменениями стратегии.", hi: "अनुकूलन क्षमता को मौसमी रणनीति बदलावों तक विस्तारित करें।" } }
             ]
         };
 
         const RESULT_LINK_TEXT = {
-            ko: {
-                badge: "추천 콘텐츠",
-                heading: "이 유형이 바로 보면 좋은 글",
-                sub: "결과를 끝내지 말고, 아래 실전 가이드로 바로 이어가보세요.",
-                browseAll: "골프 팁 전체 보기"
-            },
-            en: {
-                badge: "Recommended",
-                heading: "Best reads for your type",
-                sub: "Take your result into real practice with these guides.",
-                browseAll: "Browse all guides"
-            }
+            ko: { badge: "추천 콘텐츠", heading: "이 유형이 바로 보면 좋은 글", sub: "결과를 끝내지 말고, 아래 실전 가이드로 바로 이어가보세요.", browseAll: "골프 팁 전체 보기" },
+            en: { badge: "Recommended", heading: "Best reads for your type", sub: "Take your result into real practice with these guides.", browseAll: "Browse all guides" },
+            ja: { badge: "おすすめ", heading: "あなたのタイプにぴったりの記事", sub: "結果で終わらず、実践ガイドで続けましょう。", browseAll: "全ガイドを見る" },
+            zh: { badge: "推荐内容", heading: "适合你类型的文章", sub: "不要止于结果，用实战指南继续前进。", browseAll: "查看全部指南" },
+            es: { badge: "Recomendado", heading: "Lecturas para tu tipo", sub: "Lleva tu resultado a la práctica con estas guías.", browseAll: "Ver todos los guías" },
+            fr: { badge: "Recommandé", heading: "Meilleures lectures pour votre type", sub: "Mettez votre résultat en pratique avec ces guides.", browseAll: "Voir tous les guides" },
+            ru: { badge: "Рекомендуем", heading: "Лучшее для вашего типа", sub: "Переведите результат в практику с этими руководствами.", browseAll: "Все руководства" },
+            hi: { badge: "अनुशंसित", heading: "आपके टाइप के लिए बेस्ट रीडिंग", sub: "इन गाइड्स से परिणाम को अभ्यास में लाएं।", browseAll: "सभी गाइड देखें" }
+        };
+
+        const BETA_TEXT = {
+            ko: { coachTitle: "AI가 내 스윙 문제를 바로 짚어드립니다", coachDesc: "영상 업로드 한 번으로 교정 포인트와 분석 리포트를 받아보세요", coachCta: "무료 베타 먼저 받기 ›", notifyTitle: "AI 스윙 분석 베타 출시 알림 받기", cardTitle: "AI 스윙 분석 앱 베타 먼저 받아보기", cardDesc: "출시 알림과 무료 베타 기회를 먼저 받아보세요.", apply: "무료 베타 신청", levelPlaceholder: "내 골프 실력은? (선택)", beginner: "초보 (100타 이상)", amateur: "아마추어 (80~100타)", single: "싱글 (80타 이하)", emailPlaceholder: "이메일 주소 입력", notify: "알림 받기", privacy: "이메일은 앱 출시 알림 및 베타 안내 목적으로만 사용됩니다.", complete: "등록 완료!", completeDesc: "앱 출시 시 가장 먼저 알려드릴게요." },
+            en: { coachTitle: "AI pinpoints your swing issues instantly", coachDesc: "Upload a video and get correction tips and an analysis report", coachCta: "Get Free Beta ›", notifyTitle: "Get notified for AI Swing Analysis beta", cardTitle: "Be first to try the AI Swing App", cardDesc: "Get early access and beta notifications.", apply: "Apply for Free Beta", levelPlaceholder: "Your skill level? (optional)", beginner: "Beginner (100+ shots)", amateur: "Amateur (80-100 shots)", single: "Single digit (under 80)", emailPlaceholder: "Enter your email", notify: "Notify Me", privacy: "Your email is only used for launch notifications and beta access.", complete: "You're in!", completeDesc: "We'll reach out when the app launches." },
+            ja: { coachTitle: "AIがスイング問題を即座に指摘", coachDesc: "動画をアップロードするだけで修正ポイントと分析レポートが届きます", coachCta: "無料ベータを先に受け取る ›", notifyTitle: "AIスイング分析ベータ通知を受け取る", cardTitle: "AIスイングアプリのベータを先に体験", cardDesc: "リリース通知と無料ベータ機会をいち早く受け取れます。", apply: "無料ベータ申し込み", levelPlaceholder: "ゴルフのレベルは？（任意）", beginner: "初心者（100打以上）", amateur: "アマチュア（80〜100打）", single: "シングル（80打以下）", emailPlaceholder: "メールアドレスを入力", notify: "通知を受け取る", privacy: "メールはリリース通知とベータ案内のみに使用されます。", complete: "登録完了！", completeDesc: "アプリ公開時に最初にお知らせします。" },
+            zh: { coachTitle: "AI即时指出你的挥杆问题", coachDesc: "上传一次视频即可获得纠正要点和分析报告", coachCta: "优先获取免费测试版 ›", notifyTitle: "获取AI挥杆分析测试版通知", cardTitle: "率先体验AI挥杆分析应用", cardDesc: "抢先获取发布通知和免费测试机会。", apply: "申请免费测试", levelPlaceholder: "你的球技水平？（可选）", beginner: "初学者（100杆以上）", amateur: "业余（80-100杆）", single: "单差点（80杆以下）", emailPlaceholder: "输入邮箱地址", notify: "接收通知", privacy: "您的邮箱仅用于发布通知和测试版推广。", complete: "注册成功！", completeDesc: "应用发布时我们会第一时间通知您。" },
+            es: { coachTitle: "La IA identifica tus problemas de swing al instante", coachDesc: "Sube un video y recibe consejos de corrección e informe de análisis", coachCta: "Obtener Beta Gratis ›", notifyTitle: "Recibe notificación del beta de IA", cardTitle: "Sé el primero en probar la app de IA", cardDesc: "Recibe notificaciones de lanzamiento y acceso beta gratuito.", apply: "Solicitar Beta Gratis", levelPlaceholder: "¿Tu nivel? (opcional)", beginner: "Principiante (100+ golpes)", amateur: "Amateur (80-100 golpes)", single: "Single dígito (-80)", emailPlaceholder: "Introduce tu email", notify: "Notifícame", privacy: "Tu email solo se usa para notificaciones de lanzamiento.", complete: "¡Registrado!", completeDesc: "Te avisaremos cuando lance la app." },
+            fr: { coachTitle: "L'IA identifie vos problèmes de swing instantanément", coachDesc: "Uploadez une vidéo et recevez des conseils et un rapport d'analyse", coachCta: "Obtenir le Bêta Gratuit ›", notifyTitle: "Recevoir une notification bêta IA", cardTitle: "Soyez le premier à tester l'app IA", cardDesc: "Recevez les notifications de lancement et l'accès bêta gratuit.", apply: "Demander le Bêta Gratuit", levelPlaceholder: "Votre niveau? (optionnel)", beginner: "Débutant (100+ coups)", amateur: "Amateur (80-100 coups)", single: "Single (sous 80)", emailPlaceholder: "Entrez votre email", notify: "Me notifier", privacy: "Votre email n'est utilisé que pour les notifications de lancement.", complete: "Inscrit!", completeDesc: "Nous vous préviendrons dès le lancement." },
+            ru: { coachTitle: "ИИ мгновенно выявляет проблемы свинга", coachDesc: "Загрузите видео и получите советы по исправлению и аналитический отчёт", coachCta: "Получить бесплатную бету ›", notifyTitle: "Получить уведомление о бете ИИ", cardTitle: "Будьте первым, кто попробует приложение", cardDesc: "Получите уведомления о запуске и бесплатный бета-доступ.", apply: "Подать заявку на бету", levelPlaceholder: "Ваш уровень? (необязательно)", beginner: "Начинающий (100+ ударов)", amateur: "Любитель (80-100 ударов)", single: "Гандикап (до 80)", emailPlaceholder: "Введите email", notify: "Уведомить меня", privacy: "Email используется только для уведомлений о запуске.", complete: "Вы зарегистрированы!", completeDesc: "Мы сообщим вам при запуске приложения." },
+            hi: { coachTitle: "AI आपके स्विंग की समस्या तुरंत पकड़ता है", coachDesc: "एक वीडियो अपलोड करें और सुधार के टिप्स और रिपोर्ट पाएं", coachCta: "फ्री बीटा पाएं ›", notifyTitle: "AI स्विंग एनालिसिस बीटा नोटिफिकेशन पाएं", cardTitle: "AI स्विंग ऐप पहले आज़माएं", cardDesc: "लॉन्च नोटिफिकेशन और फ्री बीटा मौका पहले पाएं।", apply: "फ्री बीटा अप्लाई करें", levelPlaceholder: "आपका स्तर? (वैकल्पिक)", beginner: "शुरुआती (100+ शॉट्स)", amateur: "एमेच्योर (80-100 शॉट्स)", single: "सिंगल डिजिट (-80)", emailPlaceholder: "ईमेल पता दर्ज करें", notify: "नोटिफाई करें", privacy: "आपका ईमेल केवल लॉन्च नोटिफिकेशन के लिए उपयोग किया जाएगा।", complete: "रजिस्ट्रेशन पूरा!", completeDesc: "ऐप लॉन्च होने पर आपको सबसे पहले बताएंगे।" }
         };
 
         const RadarChart = ({ data, T }) => {
@@ -1320,10 +1363,10 @@
                                         style={{ background: 'linear-gradient(135deg, #0f3d2e, #1b5c38)' }}
                                     >
                                         <div className="text-[9px] font-bold uppercase tracking-widest text-green-300 mb-1">COMING SOON</div>
-                                        <div className="text-sm font-black leading-snug text-white mb-1.5">AI가 내 스윙 문제를 바로 짚어드립니다</div>
-                                        <div className="text-[11px] leading-relaxed text-green-100 mb-3">영상 업로드 한 번으로 교정 포인트와 분석 리포트를 받아보세요</div>
+                                        <div className="text-sm font-black leading-snug text-white mb-1.5">{TB.coachTitle}</div>
+                                        <div className="text-[11px] leading-relaxed text-green-100 mb-3">{TB.coachDesc}</div>
                                         <span className="inline-flex items-center gap-1 bg-white text-green-700 px-3 py-1.5 rounded-lg text-[11px] font-black shadow self-start">
-                                            무료 베타 먼저 받기 ›
+                                            {TB.coachCta}
                                         </span>
                                     </div>
                                 </button>
@@ -1332,21 +1375,21 @@
                                     <div className="mt-3 bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-2xl shadow-md p-4">
                                         {!emailSubmitted ? (
                                             <div className="space-y-3">
-                                                <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">AI 스윙 분석 베타 출시 알림 받기</p>
+                                                <p className="text-xs font-bold text-gray-600 dark:text-gray-400 mb-1">{TB.notifyTitle}</p>
                                                 <select
                                                     value={golfLevel}
                                                     onChange={e => setGolfLevel(e.target.value)}
                                                     className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
                                                 >
-                                                    <option value="">내 골프 실력은? (선택)</option>
-                                                    <option value="beginner">초보 (100타 이상)</option>
-                                                    <option value="amateur">아마추어 (80~100타)</option>
-                                                    <option value="single">싱글 (80타 이하)</option>
+                                                    <option value="">{TB.levelPlaceholder}</option>
+                                                    <option value="beginner">{TB.beginner}</option>
+                                                    <option value="amateur">{TB.amateur}</option>
+                                                    <option value="single">{TB.single}</option>
                                                 </select>
                                                 <div className="flex flex-col sm:flex-row gap-2">
                                                     <input
                                                         type="email"
-                                                        placeholder="이메일 주소 입력"
+                                                        placeholder={TB.emailPlaceholder}
                                                         value={emailInput}
                                                         onChange={e => setEmailInput(e.target.value)}
                                                         className="flex-1 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -1356,15 +1399,15 @@
                                                         disabled={emailLoading || !emailInput}
                                                         className={`w-full sm:w-auto ${BUTTON_STYLES.primary} font-black px-4 py-2.5 rounded-xl text-sm disabled:opacity-50 active:scale-95 transition-transform whitespace-nowrap`}
                                                     >
-                                                        {emailLoading ? '...' : '알림 받기'}
+                                                        {emailLoading ? '...' : TB.notify}
                                                     </button>
                                                 </div>
-                                                <p className="text-[11px] text-gray-400 dark:text-gray-500">이메일은 앱 출시 알림 및 베타 안내 목적으로만 사용됩니다.</p>
+                                                <p className="text-[11px] text-gray-400 dark:text-gray-500">{TB.privacy}</p>
                                             </div>
                                         ) : (
                                             <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 text-center">
-                                                <div className="font-black text-green-700 dark:text-green-300">등록 완료!</div>
-                                                <div className="text-green-600 dark:text-green-400 text-xs mt-1">앱 출시 시 가장 먼저 알려드릴게요.</div>
+                                                <div className="font-black text-green-700 dark:text-green-300">{TB.complete}</div>
+                                                <div className="text-green-600 dark:text-green-400 text-xs mt-1">{TB.completeDesc}</div>
                                             </div>
                                         )}
                                     </div>
@@ -1405,7 +1448,9 @@
                 const typeDrill = finalType.drill[lang] || finalType.drill.ko;
                 const typeGear = finalType.gear[lang] || finalType.gear.ko;
                 const resultLinkText = RESULT_LINK_TEXT[lang] || RESULT_LINK_TEXT.en;
+                const TB = BETA_TEXT[lang] || BETA_TEXT.en;
                 const recommendedArticles = RESULT_ARTICLE_RECOMMENDATIONS[finalType.title.ko] || RESULT_ARTICLE_RECOMMENDATIONS["올라운더"];
+                const getArt = (a, f) => { const v = a[f]; return typeof v === 'object' ? (v[lang] || v.en || v.ko) : v; };
 
                 return (
                     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col transition-colors duration-300">
@@ -1511,10 +1556,10 @@
                                             className="block rounded-2xl border border-emerald-300 dark:border-emerald-800/70 bg-gray-50 dark:bg-gray-900/60 p-4 transition-transform active:scale-[0.99]"
                                         >
                                             <div className="inline-flex px-2.5 py-1 rounded-full bg-white dark:bg-gray-800 text-[11px] font-bold text-green-700 dark:text-green-300 border border-gray-100 dark:border-gray-700 mb-2">
-                                                {article.category}
+                                                {getArt(article, 'category')}
                                             </div>
-                                            <p className="font-bold text-gray-800 dark:text-white leading-snug">{article.title}</p>
-                                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-1">{article.desc}</p>
+                                            <p className="font-bold text-gray-800 dark:text-white leading-snug">{getArt(article, 'title')}</p>
+                                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed mt-1">{getArt(article, 'desc')}</p>
                                         </a>
                                     ))}
                                 </div>
@@ -1585,16 +1630,16 @@
                                 <div className="flex items-center gap-2 mb-3">
                                     <span className="text-[10px] font-bold uppercase tracking-widest text-green-500 dark:text-green-400">COMING SOON</span>
                                 </div>
-                                <h3 className="text-base font-black text-gray-800 dark:text-white leading-snug mb-2">AI 스윙 분석 앱 베타 먼저 받아보기</h3>
+                                <h3 className="text-base font-black text-gray-800 dark:text-white leading-snug mb-2">{TB.cardTitle}</h3>
                                 <p className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
-                                    출시 알림과 무료 베타 기회를 먼저 받아보세요.
+                                    {TB.cardDesc}
                                 </p>
                                 {!showCoachBannerForm ? (
                                     <button
                                         onClick={() => setShowCoachBannerForm(true)}
                                         className={`w-full ${BUTTON_STYLES.primary} py-3 rounded-xl font-black text-sm active:scale-95 transition-transform`}
                                     >
-                                        무료 베타 신청
+                                        {TB.apply}
                                     </button>
                                 ) : !emailSubmitted ? (
                                     <div className="space-y-3">
@@ -1603,14 +1648,14 @@
                                             onChange={e => setGolfLevel(e.target.value)}
                                             className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-green-500"
                                         >
-                                            <option value="">내 골프 실력은? (선택)</option>
-                                            <option value="beginner">초보 (100타 이상)</option>
-                                            <option value="amateur">아마추어 (80~100타)</option>
-                                            <option value="single">싱글 (80타 이하)</option>
+                                            <option value="">{TB.levelPlaceholder}</option>
+                                            <option value="beginner">{TB.beginner}</option>
+                                            <option value="amateur">{TB.amateur}</option>
+                                            <option value="single">{TB.single}</option>
                                         </select>
                                         <input
                                             type="email"
-                                            placeholder="이메일 주소 입력"
+                                            placeholder={TB.emailPlaceholder}
                                             value={emailInput}
                                             onChange={e => setEmailInput(e.target.value)}
                                             className="w-full bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 text-gray-800 dark:text-white rounded-xl px-4 py-2.5 text-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -1620,16 +1665,16 @@
                                             disabled={emailLoading || !emailInput}
                                             className={`w-full ${BUTTON_STYLES.primary} font-black px-4 py-2.5 rounded-xl text-sm disabled:opacity-50 active:scale-95 transition-transform`}
                                         >
-                                            {emailLoading ? '...' : '알림 받기'}
+                                            {emailLoading ? '...' : TB.notify}
                                         </button>
                                         <p className="text-[11px] text-gray-400 dark:text-gray-500 leading-relaxed">
-                                            이메일은 앱 출시 알림 및 베타 안내 목적으로만 사용됩니다.
+                                            {TB.privacy}
                                         </p>
                                     </div>
                                 ) : (
                                     <div className="bg-green-50 dark:bg-green-900/20 rounded-xl p-4 text-center">
-                                        <div className="font-black text-green-700 dark:text-green-300">등록 완료!</div>
-                                        <div className="text-green-600 dark:text-green-400 text-xs mt-1">앱 출시 시 가장 먼저 알려드릴게요.</div>
+                                        <div className="font-black text-green-700 dark:text-green-300">{TB.complete}</div>
+                                        <div className="text-green-600 dark:text-green-400 text-xs mt-1">{TB.completeDesc}</div>
                                     </div>
                                 )}
                             </div>
