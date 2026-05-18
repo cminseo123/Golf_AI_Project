@@ -1017,6 +1017,7 @@
 
             // 현재 언어 텍스트
             const T = UI_TEXT[lang] || UI_TEXT.ko;
+            const TB = BETA_TEXT[lang] || BETA_TEXT.en;
             const exitCopy = EXIT_COPY[lang] || EXIT_COPY.en;
             const hasQuizProgress = selectedIdx !== null || currentQIndex > 0 || Object.values(scores).some((score) => score !== 0);
 
@@ -1448,7 +1449,6 @@
                 const typeDrill = finalType.drill[lang] || finalType.drill.ko;
                 const typeGear = finalType.gear[lang] || finalType.gear.ko;
                 const resultLinkText = RESULT_LINK_TEXT[lang] || RESULT_LINK_TEXT.en;
-                const TB = BETA_TEXT[lang] || BETA_TEXT.en;
                 const recommendedArticles = RESULT_ARTICLE_RECOMMENDATIONS[finalType.title.ko] || RESULT_ARTICLE_RECOMMENDATIONS["올라운더"];
                 const getArt = (a, f) => { const v = a[f]; return typeof v === 'object' ? (v[lang] || v.en || v.ko) : v; };
 
