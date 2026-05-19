@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'golf-mbti';
-const STATIC_CACHE = `${CACHE_PREFIX}-static-v3`;
+const STATIC_CACHE = `${CACHE_PREFIX}-static-v5`;
 const PAGE_CACHE = `${CACHE_PREFIX}-pages-v1`;
 const MEDIA_CACHE = `${CACHE_PREFIX}-media-v1`;
 const ACTIVE_CACHES = [STATIC_CACHE, PAGE_CACHE, MEDIA_CACHE];
