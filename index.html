@@ -750,7 +750,7 @@
                 tags: { ko: ["#장타본능", "#명랑골프", "#파티왕"], en: ["#LongHitter", "#FunGolf", "#PartyKing"], ja: ["#飛ばし屋", "#楽しいゴルフ", "#パーティー王"], zh: ["#长打", "#开心高尔夫", "#派对王"], es: ["#Pegador", "#GolfDivertido", "#ReyFiesta"], fr: ["#Frappeur", "#GolfFun", "#RoiFête"], ru: ["#Дальнобойщик", "#ВесёлыйГольф", "#КорольТусовки"], hi: ["#लॉन्गहिटर", "#फनगोल्फ", "#पार्टीकिंग"] },
                 drill: { ko: "빈 스윙 없이 3초 안에 치기", en: "Hit within 3 seconds, no practice swing", ja: "素振りなしで3秒以内に打つ", zh: "3秒内挥杆，不要试挥", es: "Golpear en 3 segundos sin práctica", fr: "Frapper en 3 secondes sans essai", ru: "Удар за 3 секунды без замаха", hi: "3 सेकंड में मारो, प्रैक्टिस स्विंग नहीं" },
                 gear: { ko: "소리 크고 관용성 좋은 드라이버", en: "Loud, forgiving driver", ja: "音が大きく寛容なドライバー", zh: "声音大且容错高的球杆", es: "Driver ruidoso y tolerante", fr: "Driver bruyant et tolérant", ru: "Громкий и прощающий драйвер", hi: "लाउड, फॉरगिविंग ड्राइवर" },
-                image: "/images/types/type-risk-social.mp4", isVideo: true,
+                image: "/images/types/type-risk-social.webp", isVideo: false,
                 bgStyle: "bg-gradient-to-b from-yellow-400 to-orange-500"
             },
             [`${SCORING_AXES.MENTAL}_${SCORING_AXES.RISK}`]: {
@@ -1426,13 +1426,16 @@
                     <div className="min-h-screen bg-green-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6 text-center transition-colors duration-300">
                         <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
                         <video
-                            src="tgc-character.mp4"
                             autoPlay
                             loop
                             muted
                             playsInline
+                            preload="auto"
+                            poster="/tgc-character.png"
                             className="w-32 h-32 object-cover rounded-full mb-2 pointer-events-none"
-                        />
+                        >
+                            <source src="/tgc-character.mp4" type="video/mp4" />
+                        </video>
                         <h2 className="text-xl font-bold text-gray-800 dark:text-white">{T.analyzing}</h2>
                     </div>
                 );

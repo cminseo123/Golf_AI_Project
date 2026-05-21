@@ -1,7 +1,7 @@
 const CACHE_PREFIX = 'golf-mbti';
 const STATIC_CACHE = `${CACHE_PREFIX}-static-v5`;
 const PAGE_CACHE = `${CACHE_PREFIX}-pages-v1`;
-const MEDIA_CACHE = `${CACHE_PREFIX}-media-v1`;
+const MEDIA_CACHE = `${CACHE_PREFIX}-media-v2`;
 const ACTIVE_CACHES = [STATIC_CACHE, PAGE_CACHE, MEDIA_CACHE];
 
 const PRECACHE_URLS = [
@@ -37,6 +37,7 @@ const SKIP_CACHE_PATTERNS = [
   /cdn\.jsdelivr\.net/,
   /html2canvas\.hertzen\.com/,
   /clarity\.ms/,
+  /\.mp4($|\?)/,
 ];
 
 function shouldSkip(url) {
@@ -55,11 +56,14 @@ function isDocumentRequest(request) {
   return request.mode === 'navigate' || request.destination === 'document';
 }
 
+function isRangeRequest(request) {
+  return request.headers.has('range');
+}
+
 function isMediaRequest(request, url) {
   return (
     isSameOrigin(url) &&
     (request.destination === 'image' ||
-      request.destination === 'video' ||
       url.pathname.startsWith('/images/') ||
       url.pathname.endsWith('.webp'))
   );
@@ -145,6 +149,10 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
   if (!/^https?:$/.test(url.protocol)) {
+    return;
+  }
+
+  if (isRangeRequest(request)) {
     return;
   }
 
