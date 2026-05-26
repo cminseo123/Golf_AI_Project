@@ -17,6 +17,7 @@ terminal_debrief_2026-05-13.md
 # 로컬 백업 / 메모
 .local_sync_backup_*/
 analytics_tracker.md
+play_store_rejection_note.md
 
 # Android 릴리스 산출물
 *.aab

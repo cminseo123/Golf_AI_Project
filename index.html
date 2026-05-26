@@ -21,6 +21,9 @@
     })();
     </script>
 
+    <!-- 다크모드 초기 적용 (React 마운트 전에 실행되어야 FOUC 방지) -->
+    <script src="site-theme.js"></script>
+
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XV498H772W"></script>
     <script>
@@ -605,8 +608,7 @@
             const [isDark, setIsDark] = useState(() => {
                 if (typeof window !== 'undefined') {
                     const saved = localStorage.getItem('darkMode');
-                    if (saved !== null) return saved === 'true';
-                    return window.matchMedia('(prefers-color-scheme: dark)').matches;
+                    return saved === 'true';
                 }
                 return false;
             });
