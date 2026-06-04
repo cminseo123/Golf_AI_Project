@@ -875,6 +875,15 @@
             ]
         };
 
+        const TYPE_SLUG_MAP = {
+            "핵인싸 장타러": "result-inssa.html",
+            "전략적 승부사": "result-strategist.html",
+            "와일드 테크니션": "result-technician.html",
+            "골프 AI": "result-ai.html",
+            "젠틀맨 골퍼": "result-gentleman.html",
+            "올라운더": "result-allrounder.html"
+        };
+
         const RESULT_LINK_TEXT = {
             ko: { badge: "추천 콘텐츠", heading: "이 유형이 바로 보면 좋은 글", sub: "결과를 끝내지 말고, 아래 실전 가이드로 바로 이어가보세요.", browseAll: "골프 팁 전체 보기" },
             en: { badge: "Recommended", heading: "Best reads for your type", sub: "Take your result into real practice with these guides.", browseAll: "Browse all guides" },
@@ -1575,6 +1584,13 @@
                                     {resultLinkText.browseAll}
                                 </a>
                             </div>
+
+                            {/* 유형 상세 정적 페이지 링크 */}
+                            {TYPE_SLUG_MAP[finalType.title.ko] && (
+                                <a href={TYPE_SLUG_MAP[finalType.title.ko]} className="mt-4 flex items-center justify-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700 hover:underline">
+                                    {finalType.title.ko} 유형 자세히 보기 →
+                                </a>
+                            )}
 
                             {/* 하단 버튼 그룹 */}
                             <div className="mt-6 sticky bottom-4 z-50 px-2 space-y-3">
