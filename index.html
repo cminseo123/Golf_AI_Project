@@ -1006,6 +1006,7 @@
                     });
                     if (!response.ok) throw new Error('waitlist submit failed');
                     setEmailSubmitted(true);
+                    gtag('event', 'email_signup', { event_category: 'Funnel', golf_level: golfLevel || '미선택', type_ko: finalType?.title?.ko || '' });
                     setEmailInput('');
                     setGolfLevel('');
                 } catch (e) {
@@ -1107,6 +1108,13 @@
                 analyzeTimeoutRef.current = window.setTimeout(() => {
                     setFinalType({ ...result, chartData: normalized });
                     setStep('result');
+                    gtag('event', 'result_type', {
+                        event_category: 'MBTI',
+                        type_ko: result.title?.ko || result.title || '',
+                        type_en: result.title?.en || '',
+                        type_key: typeKey,
+                        play_mode: isGolfMode ? '골퍼모드' : '일반인모드'
+                    });
                     analyzeTimeoutRef.current = null;
                 }, 2000);
             };
@@ -1125,6 +1133,7 @@
                 const url = window.location.href;
 
                 if (navigator.share) {
+                    gtag('event', 'result_share', { event_category: 'Viral', channel: 'native', type_ko: finalType?.title?.ko || '' });
                     navigator.share({
                         title: shareTitle,
                         text: text,
@@ -1138,6 +1147,7 @@
 
             // X (Twitter) 공유
             const shareToTwitter = () => {
+                gtag('event', 'result_share', { event_category: 'Viral', channel: 'twitter', type_ko: finalType?.title?.ko || '' });
                 const text = encodeURIComponent(getShareText());
                 const url = encodeURIComponent(window.location.href);
                 window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=550,height=420');
@@ -1145,12 +1155,14 @@
 
             // Facebook 공유
             const shareToFacebook = () => {
+                gtag('event', 'result_share', { event_category: 'Viral', channel: 'facebook', type_ko: finalType?.title?.ko || '' });
                 const url = encodeURIComponent(window.location.href);
                 window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=550,height=420');
             };
 
             // Threads 공유
             const shareToThreads = () => {
+                gtag('event', 'result_share', { event_category: 'Viral', channel: 'threads', type_ko: finalType?.title?.ko || '' });
                 const text = encodeURIComponent(getShareText() + ' ' + window.location.href);
                 window.open(`https://www.threads.net/intent/post?text=${text}`, '_blank', 'width=550,height=420');
             };
@@ -1160,6 +1172,7 @@
                 navigator.clipboard.writeText(window.location.href).then(() => {
                     setShowToast(true);
                     setTimeout(() => setShowToast(false), 2000);
+                    gtag('event', 'result_share', { event_category: 'Viral', channel: 'copy_link', type_ko: finalType?.title?.ko || '' });
                 }).catch(console.error);
             };
 
@@ -1358,7 +1371,7 @@
                             {/* === AI 골프 스윙 분석 앱 출시 예고 배너 === */}
                             <div className="mx-1 mb-4">
                                 <button
-                                    onClick={() => setShowCoachBannerForm(true)}
+                                    onClick={() => { gtag('event', 'swing_analysis_click', { event_category: 'Funnel', source: 'banner', type_ko: finalType?.title?.ko || '' }); setShowCoachBannerForm(true); }}
                                     className="w-full text-left rounded-2xl overflow-hidden shadow-md border border-green-900/30 active:scale-[0.99] transition-transform flex flex-col sm:flex-row"
                                     style={{ background: '#0b2f25' }}
                                 >
@@ -1567,6 +1580,7 @@
                                         <a
                                             key={article.href}
                                             href={article.href}
+                                            onClick={() => gtag('event', 'article_click', { event_category: 'Funnel', article_href: article.href, type_ko: finalType?.title?.ko || '' })}
                                             className="block rounded-2xl border border-emerald-300 dark:border-emerald-800/70 bg-gray-50 dark:bg-gray-900/60 p-4 transition-transform active:scale-[0.99]"
                                         >
                                             <div className="inline-flex px-2.5 py-1 rounded-full bg-white dark:bg-gray-800 text-[11px] font-bold text-green-700 dark:text-green-300 border border-gray-100 dark:border-gray-700 mb-2">
@@ -1587,7 +1601,7 @@
 
                             {/* 유형 상세 정적 페이지 링크 */}
                             {TYPE_SLUG_MAP[finalType.title.ko] && (
-                                <a href={TYPE_SLUG_MAP[finalType.title.ko]} className="mt-4 flex items-center justify-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700 hover:underline">
+                                <a href={TYPE_SLUG_MAP[finalType.title.ko]} onClick={() => gtag('event', 'result_detail_click', { event_category: 'Funnel', type_ko: finalType.title.ko })} className="mt-4 flex items-center justify-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700 hover:underline">
                                     {finalType.title.ko} 유형 자세히 보기 →
                                 </a>
                             )}
@@ -1657,7 +1671,7 @@
                                 </p>
                                 {!showCoachBannerForm ? (
                                     <button
-                                        onClick={() => setShowCoachBannerForm(true)}
+                                        onClick={() => { gtag('event', 'swing_analysis_click', { event_category: 'Funnel', source: 'card', type_ko: finalType?.title?.ko || '' }); setShowCoachBannerForm(true); }}
                                         className={`w-full ${BUTTON_STYLES.primary} py-3 rounded-xl font-black text-sm active:scale-95 transition-transform`}
                                     >
                                         {TB.apply}
