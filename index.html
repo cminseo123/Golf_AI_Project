@@ -1102,21 +1102,30 @@
                     if (sortedAxes[0][0] === SCORING_AXES.RISK) result.title = "본능적인 승부사 (공격형)";
                     if (sortedAxes[0][0] === SCORING_AXES.SOCIAL) result.title = "즐거운 긍정왕 (사교형)";
                 }
+                gtag ( 'event', 'result_type', {
+                    event_category: 'MBTI',
+                    type_ko: result.title?.ko || result.title || '',
+                    type_en: result.title?.en || result.title || '',
+                    type_key: typeKey,
+                    play_mode: isGolfMode ? '골퍼모드' : '일반인모드'
+                });
+
                 if (analyzeTimeoutRef.current !== null) {
                     window.clearTimeout(analyzeTimeoutRef.current);
                 }
                 analyzeTimeoutRef.current = window.setTimeout(() => {
                     setFinalType({ ...result, chartData: normalized });
-                    setStep('result');
-                    gtag('event', 'result_type', {
+                    setStep('result')
+                    // 2초 로딩 후 실제 결과 노출까지 살아남은 사람만 집계
+                    gtag('event', 'result_view', {
                         event_category: 'MBTI',
                         type_ko: result.title?.ko || result.title || '',
-                        type_en: result.title?.en || '',
+                        type_en: result.title?.en || result.title || '',
                         type_key: typeKey,
                         play_mode: isGolfMode ? '골퍼모드' : '일반인모드'
-                    });
+                    })
                     analyzeTimeoutRef.current = null;
-                }, 2000);
+                }, 2000); // 2초 딜레이
             };
 
             // 공유 텍스트 생성
