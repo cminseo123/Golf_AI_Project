@@ -1112,9 +1112,11 @@
                 let typeKey = [sortedAxes[0][0], sortedAxes[1][0]].sort().join('_');
                 let result = RESULT_TYPES[typeKey];
                 if (!result) {
+                    // 미정의 축 조합(현재 mental_social 하나)은 올라운더로 폴백한다.
+                    // title을 문자열로 덮어쓰면 안 된다. title[lang]과 title.ko가 모두 undefined가 되어
+                    // 결과 화면 제목(<h1>)이 빈칸으로 렌더되고 TYPE_SLUG_MAP 조회도 실패한다.
+                    // 폴백된 사용자는 type_ko가 아니라 type_key(=mental_social)로 계속 구분할 수 있다.
                     result = { ...RESULT_TYPES.DEFAULT };
-                    if (sortedAxes[0][0] === SCORING_AXES.RISK) result.title = "본능적인 승부사 (공격형)";
-                    if (sortedAxes[0][0] === SCORING_AXES.SOCIAL) result.title = "즐거운 긍정왕 (사교형)";
                 }
                 gtag ( 'event', 'result_type', {
                     event_category: 'MBTI',
