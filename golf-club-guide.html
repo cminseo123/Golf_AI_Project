@@ -75,7 +75,7 @@
         <div class="max-w-3xl mx-auto px-4 py-4 flex items-center justify-between">
             <a href="index.html" class="text-xl font-bold text-green-600">골프 MBTI</a>
             <nav class="flex gap-4 text-sm">
-                <a href="index.html" class="text-gray-600 hover:text-green-600">테스트</a>
+                <a href="index.html" data-cta="nav" class="text-gray-600 hover:text-green-600">테스트</a>
                 <a href="articles.html" class="text-green-600 font-semibold">골프 팁</a>
                 <a href="about.html" class="text-gray-600 hover:text-green-600">소개</a>
             </nav>
@@ -127,6 +127,13 @@
             </ul>
             <div class="tip-box">
                 <p>💡 <strong>Tip:</strong> 본인 헤드 스피드보다 딱딱한 샤프트를 선택하면 탄도가 낮고 방향성이 흔들립니다. 피팅을 받기 어렵다면 R 플렉스부터 시작하세요.</p>
+            </div>
+
+            <div class="my-8 rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6">
+                <div class="text-xs font-semibold text-green-700 mb-1">잠긐, 내 골프 유형은?</div>
+                <div class="text-lg font-bold text-gray-800 mb-2 leading-snug">골프 성향에 맞는 연습법이 따로 있습니다</div>
+                <div class="text-sm text-gray-600 mb-4 leading-relaxed">2분 무료 골프 MBTI 테스트로 내 유형을 확인하고, 유형에 맞는 연습법을 받아보세요.</div>
+                <a href="index.html" data-cta="mid" class="inline-block bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">2분 무료 테스트 시작 →</a>
             </div>
 
             <h2>아이언 선택 - 포지드 vs 캐스트, 블레이드 vs 카비티</h2>
@@ -286,10 +293,10 @@
         <!-- CTA -->
         <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-                <p class="font-bold text-green-800">내 골프 유형부터 확인하세요</p>
+                <p class="font-bold text-green-700">내 골프 유형부터 확인하세요</p>
                 <p class="text-green-700 text-sm mt-1">유형을 알아야 맞는 클럽도 고를 수 있습니다</p>
             </div>
-            <a href="index.html" class="shrink-0 bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">테스트 시작 →</a>
+            <a href="index.html" data-cta="bottom" class="shrink-0 bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">테스트 시작 →</a>
         </div>
 
         <!-- 보강 섹션 -->
@@ -359,6 +366,22 @@
         (function() { var c = localStorage.getItem('cookie_consent'); var b = document.getElementById('cookie-banner'); if (!c && b) b.style.display = 'flex'; })();
         function acceptCookies() { localStorage.setItem('cookie_consent','accepted'); document.getElementById('cookie-banner').style.display='none'; }
         function declineCookies() { localStorage.setItem('cookie_consent','declined'); document.getElementById('cookie-banner').style.display='none'; }
+    </script>
+    <script>
+        (function () {
+            var slug = (location.pathname.split('/').pop() || 'index').replace(/\.html$/, '') || 'index';
+            document.addEventListener('click', function (e) {
+                var t = e.target;
+                if (!t || !t.closest) return;
+                var el = t.closest('[data-cta]');
+                if (!el || typeof gtag !== 'function') return;
+                gtag('event', 'article_cta_click', {
+                    cta_position: el.getAttribute('data-cta'),
+                    article_slug: slug,
+                    transport_type: 'beacon'
+                });
+            }, true);
+        })();
     </script>
 </body>
 </html>
