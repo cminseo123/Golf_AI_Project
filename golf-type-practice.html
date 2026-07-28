@@ -345,8 +345,7 @@
                 if (!el || typeof gtag !== 'function') return;
                 gtag('event', 'article_cta_click', {
                     cta_position: el.getAttribute('data-cta'),
-                    article_slug: slug,
-                    transport_type: 'beacon'
+                    article_slug: slug
                 });
             }, true);
         })();
