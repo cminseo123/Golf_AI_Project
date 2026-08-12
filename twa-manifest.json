@@ -20,8 +20,8 @@
     "path": "C:\\Users\\USER\\Desktop\\Golf_AI_Project\\android.keystore",
     "alias": "android"
   },
-  "appVersionName": "1.0.3",
-  "appVersionCode": 4,
+  "appVersionName": "1.0.5",
+  "appVersionCode": 6,
   "shortcuts": [],
   "generatorApp": "bubblewrap-cli",
   "webManifestUrl": "https://thegolfcode.com/manifest.json",
@@ -43,5 +43,5 @@
   "fileHandlers": [],
   "launchHandlerClientMode": "",
   "displayOverride": [],
-  "appVersion": "1.0.3"
+  "appVersion": "1.0.5"
 }

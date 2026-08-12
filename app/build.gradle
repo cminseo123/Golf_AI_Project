@@ -56,9 +56,9 @@ android {
     defaultConfig {
         applicationId "com.thegolfcode.twa"
         minSdkVersion 21
-        targetSdkVersion 35
-        versionCode 4
-        versionName "1.0.3"
+        targetSdkVersion 36
+        versionCode 6
+        versionName "1.0.5"
 
         // The name for the application
         resValue "string", "appName", twaManifest.name
