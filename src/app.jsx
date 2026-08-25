@@ -221,6 +221,9 @@ const { useState, useEffect, useRef } = React;
                 } else {
                     document.documentElement.classList.remove('dark');
                 }
+                // 모바일 크롬의 강제 다크테마 차단
+                const csMeta = document.querySelector('meta[name="color-scheme"]');
+                if (csMeta) csMeta.setAttribute('content', isDark ? 'dark' : 'only light');
                 localStorage.setItem('darkMode', isDark);
             }, [isDark]);
 
