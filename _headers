@@ -17,6 +17,10 @@
 /.well-known/assetlinks.json
   Cache-Control: no-cache, max-age=0, must-revalidate
 
+# 빌드 산출물 - 파일명에 내용 해시가 있어 영구 캐싱 가능
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
 # SVG favicon - 하루 캐싱
 /*.svg
   Cache-Control: public, max-age=86400

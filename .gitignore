@@ -17,6 +17,7 @@ session_debrief_2026-06-10.md
 session_debrief_2026-07-21.md
 session_debrief_2026-07-28.md
 session_debrief_2026-08-01.md
+session_debrief_2026-08-16.md
 
 # 로컬 백업 / 메모
 .local_sync_backup_*/
@@ -46,3 +47,6 @@ enhance_content.py
 # IDE / OS
 .DS_Store
 Thumbs.db
+
+# Node 빌드
+node_modules/
