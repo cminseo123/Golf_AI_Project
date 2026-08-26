@@ -1,5 +1,5 @@
 const CACHE_PREFIX = 'golf-mbti';
-const STATIC_CACHE = `${CACHE_PREFIX}-static-v8`;
+const STATIC_CACHE = `${CACHE_PREFIX}-static-v9`;
 const PAGE_CACHE = `${CACHE_PREFIX}-pages-v1`;
 const MEDIA_CACHE = `${CACHE_PREFIX}-media-v2`;
 const ACTIVE_CACHES = [STATIC_CACHE, PAGE_CACHE, MEDIA_CACHE];
@@ -17,12 +17,6 @@ const PRECACHE_URLS = [
   '/icons/icon-512.png',
   '/golf-banner.webp',
   '/images/types/party-long-hitter.webp',
-  '/images/types/type-mental-risk.webp',
-  '/images/types/type-risk-social.webp',
-  '/images/types/type-risk-tech.webp',
-  '/images/types/type-mental-tech.webp',
-  '/images/types/type-social-tech.webp',
-  '/images/types/type-all-rounder.webp',
 ];
 
 const SKIP_CACHE_PATTERNS = [

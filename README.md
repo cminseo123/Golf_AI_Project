@@ -63,7 +63,19 @@ npm run build
 | 개인정보·약관 | `privacy.html` / `terms.html` (+`_en`) |
 | 정적 페이지 공통 테마 | `site-theme.css` / `site-theme.js` |
 | 캐시·보안 헤더 | `_headers` |
-| 검색엔진용 주소 목록 | `sitemap.xml` |
+| 검색엔진용 주소 목록 | `sitemap.xml` (아래 참고) |
+
+### 기사를 새로 쓰거나 크게 고쳤다면
+
+```powershell
+npm run sitemap
+```
+
+`sitemap.xml`의 수정일(`lastmod`)을 각 페이지의 실제 최종 수정일로 다시 계산한다.
+이게 낡으면 네이버·구글이 바뀐 걸 모르고 재수집을 미룬다. 유입의 60%가 네이버라 직접적인 손해다.
+
+> 기사를 **새로 추가**했다면 `sitemap.xml`에 `<url>` 블록도 직접 하나 넣어야 한다.
+> 이 명령은 이미 있는 주소의 날짜만 갱신한다.
 
 ---
 

@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "더 골프 코드 - index.html 앱 스크립트 빌드",
   "scripts": {
-    "build": "node build.mjs"
+    "build": "node build.mjs",
+    "sitemap": "node update-sitemap.mjs"
   },
   "repository": {
     "type": "git",
