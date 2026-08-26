@@ -206,7 +206,7 @@ const { useState, useEffect, useRef } = React;
         };
 
         // --- 상단 버튼 그룹 컴포넌트 (모드 토글 + 언어 선택 + 다크모드 토글) ---
-        const TopButtons = ({ isGolfMode, setIsGolfMode, lang, setLang, T }) => {
+        const TopButtons = ({ isGolfMode, lang, setLang, T, showMode = false }) => {
             const [isDark, setIsDark] = useState(() => {
                 if (typeof window !== 'undefined') {
                     const saved = localStorage.getItem('darkMode');
@@ -233,17 +233,20 @@ const { useState, useEffect, useRef } = React;
 
             return (
                 <div className="fixed top-4 right-4 z-50 flex gap-2">
-                    {/* 모드 전환 버튼 */}
-                    <button
-                        onClick={() => setIsGolfMode(!isGolfMode)}
-                        className={`px-3 py-2 rounded-full backdrop-blur-md border shadow-lg hover:shadow-xl transition-all duration-300 flex items-center gap-1.5 text-sm font-medium ${
-                            isGolfMode
-                                ? 'bg-green-500/80 dark:bg-green-600/80 border-green-400 dark:border-green-500 text-white'
-                                : 'bg-amber-500/80 dark:bg-amber-600/80 border-amber-400 dark:border-amber-500 text-white'
-                        }`}
-                    >
-                        {isGolfMode ? <><span>⛳️</span><span className="hidden sm:inline">{T.golferMode}</span></> : <><span>🌱</span><span className="hidden sm:inline">{T.generalMode}</span></>}
-                    </button>
+                    {/* 진행 중인 테스트 종류 "표시". 버튼이 아니다.
+                        문항 도중 모드를 바꾸면 질문 세트만 갈리고 문항 번호와 누적 점수는 남아
+                        결과가 틀어진다. 선택은 시작 화면 카드에서만 한다. */}
+                    {showMode && (
+                        <span
+                            className={`px-3 py-2 rounded-full backdrop-blur-md border shadow-lg flex items-center gap-1.5 text-sm font-medium ${
+                                isGolfMode
+                                    ? 'bg-green-500/80 dark:bg-green-600/80 border-green-400 dark:border-green-500 text-white'
+                                    : 'bg-amber-500/80 dark:bg-amber-600/80 border-amber-400 dark:border-amber-500 text-white'
+                            }`}
+                        >
+                            {isGolfMode ? <><span>⛳️</span><span className="hidden sm:inline">{T.golferMode}</span></> : <><span>🌱</span><span className="hidden sm:inline">{T.generalMode}</span></>}
+                        </span>
+                    )}
 
                     {/* 언어 선택 드롭다운 */}
                     <div className="relative">
@@ -878,7 +881,7 @@ const { useState, useEffect, useRef } = React;
             if (step === 'intro') {
                 return (
                     <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-100 dark:from-gray-900 dark:to-gray-800 flex flex-col transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={(v) => { setIsGolfMode(v); setModeChosen(true); }} lang={lang} setLang={setLang} T={T} />
+                        <TopButtons isGolfMode={isGolfMode} lang={lang} setLang={setLang} T={T} />
                         <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
                             <div className="bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm p-8 rounded-[2rem] shadow-2xl max-w-md w-full border border-white/50 dark:border-gray-700/50 relative">
                                 <div className="mb-6 flex justify-center relative">
@@ -908,22 +911,26 @@ const { useState, useEffect, useRef } = React;
                                             <button
                                                 key={String(golf)}
                                                 onClick={() => { setIsGolfMode(golf); setModeChosen(true); }}
-                                                className={`rounded-2xl border-2 p-4 text-center transition-all ${
+                                                aria-pressed={chosen}
+                                                className={`relative rounded-2xl border-2 p-4 text-center transition-all ${
                                                     chosen
                                                         ? golf
                                                             ? 'border-emerald-500 bg-emerald-100/90 dark:bg-emerald-900/30 ring-4 ring-emerald-100 dark:ring-emerald-900/40'
                                                             : 'border-lime-500 bg-lime-100/90 dark:bg-lime-900/25 ring-4 ring-lime-100 dark:ring-lime-900/40'
-                                                        : golf
-                                                            ? 'border-emerald-200 bg-emerald-50/90 dark:border-emerald-900/40 dark:bg-emerald-950/20 hover:border-emerald-300 dark:hover:border-emerald-800'
-                                                            : 'border-lime-200 bg-lime-50/90 dark:border-lime-900/40 dark:bg-lime-950/20 hover:border-lime-300 dark:hover:border-lime-800'
+                                                        : 'border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800/60 hover:border-gray-300 dark:hover:border-gray-600'
                                                 }`}
                                             >
+                                                {chosen && (
+                                                    <span className={`absolute top-2 right-2 flex h-5 w-5 items-center justify-center rounded-full text-white ${golf ? 'bg-emerald-500' : 'bg-lime-500'}`}>
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                                    </span>
+                                                )}
                                                 <div className={`mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-2xl text-2xl ${
                                                     chosen
                                                         ? golf
                                                             ? 'bg-white/80 text-emerald-700 dark:bg-emerald-950/50 dark:text-emerald-200'
                                                             : 'bg-white/80 text-amber-600 dark:bg-lime-950/50 dark:text-amber-300'
-                                                        : 'bg-white/80 text-emerald-600 dark:bg-emerald-900/30 dark:text-emerald-300'
+                                                        : 'bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-300'
                                                 }`}>{emoji}</div>
                                                 <div className={`font-black text-sm mb-1 ${chosen ? (golf ? 'text-emerald-700 dark:text-emerald-300' : 'text-amber-700 dark:text-amber-300') : 'text-gray-800 dark:text-white'}`}>{label}</div>
                                                 <div className="text-[11px] leading-snug text-gray-500 dark:text-gray-400 whitespace-pre-line">{desc}</div>
@@ -962,7 +969,7 @@ const { useState, useEffect, useRef } = React;
                 const progress = ((currentQIndex + 1) / QUESTIONS.length) * 100;
                 return (
                     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex flex-col items-center py-8 px-4 transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
+                        <TopButtons isGolfMode={isGolfMode} lang={lang} setLang={setLang} T={T} showMode />
                         <button
                             onClick={requestExitToIntro}
                             disabled={selectedIdx !== null}
@@ -1082,7 +1089,7 @@ const { useState, useEffect, useRef } = React;
             if (step === 'loading') {
                 return (
                     <div className="min-h-screen bg-green-50 dark:bg-gray-900 flex flex-col items-center justify-center p-6 text-center transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
+                        <TopButtons isGolfMode={isGolfMode} lang={lang} setLang={setLang} T={T} showMode />
                         <video
                             autoPlay
                             loop
@@ -1116,7 +1123,7 @@ const { useState, useEffect, useRef } = React;
 
                 return (
                     <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex flex-col transition-colors duration-300">
-                        <TopButtons isGolfMode={isGolfMode} setIsGolfMode={setIsGolfMode} lang={lang} setLang={setLang} T={T} />
+                        <TopButtons isGolfMode={isGolfMode} lang={lang} setLang={setLang} T={T} showMode />
                         <div className="flex-1 py-8 px-4">
                         <div className="mx-auto flex flex-col md:flex-row gap-6 items-start justify-center" style={{ maxWidth: '900px' }}>
                         <div className="w-full md:flex-1 md:max-w-[440px] flex-shrink-0 relative mb-10 md:mb-0">
