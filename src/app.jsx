@@ -500,6 +500,18 @@ const { useState, useEffect, useRef } = React;
             hi: { badge: "अनुशंसित", heading: "आपके टाइप के लिए बेस्ट रीडिंग", sub: "इन गाइड्स से परिणाम को अभ्यास में लाएं।", browseAll: "सभी गाइड देखें" }
         };
 
+        // 결과 화면의 유형 상세 카드 문구. {type} 자리에 현재 언어의 유형명이 들어간다.
+        const TYPE_DETAIL_TEXT = {
+            ko: { badge: "내 유형 완전 분석", sub: "5가지 특징 · 맞춤 연습 드릴 · 추천 장비 · 궁합 유형까지", cta: "{type} 분석 보기" },
+            en: { badge: "Full type analysis", sub: "5 traits · practice drills · gear picks · best partners", cta: "See the {type} analysis" },
+            ja: { badge: "タイプ完全分析", sub: "5つの特徴・練習ドリル・おすすめ装備・相性タイプ", cta: "{type}の分析を見る" },
+            zh: { badge: "类型完整分析", sub: "5大特征 · 专属练习 · 推荐装备 · 契合类型", cta: "查看{type}分析" },
+            es: { badge: "Análisis completo", sub: "5 rasgos · drills · equipo · compañeros ideales", cta: "Ver el análisis de {type}" },
+            fr: { badge: "Analyse complète", sub: "5 traits · drills · équipement · partenaires idéaux", cta: "Voir l'analyse {type}" },
+            ru: { badge: "Полный разбор типа", sub: "5 черт · дриллы · экипировка · совместимость", cta: "Смотреть разбор: {type}" },
+            hi: { badge: "पूरा टाइप विश्लेषण", sub: "5 विशेषताएँ · ड्रिल · गियर · बेस्ट पार्टनर", cta: "{type} विश्लेषण देखें" }
+        };
+
         const BETA_TEXT = {
             ko: { coachTitle: "AI가 내 스윙 문제를 바로 짚어드립니다", coachDesc: "영상 업로드 한 번으로 교정 포인트와 분석 리포트를 받아보세요", coachCta: "무료 베타 먼저 받기 ›", notifyTitle: "AI 스윙 분석 베타 출시 알림 받기", cardTitle: "AI 스윙 분석 앱 베타 먼저 받아보기", cardDesc: "출시 알림과 무료 베타 기회를 먼저 받아보세요.", apply: "무료 베타 신청", levelPlaceholder: "내 골프 실력은? (선택)", beginner: "초보 (100타 이상)", amateur: "아마추어 (80~100타)", single: "싱글 (80타 이하)", emailPlaceholder: "이메일 주소 입력", notify: "알림 받기", privacy: "이메일은 앱 출시 알림 및 베타 안내 목적으로만 사용됩니다.", complete: "등록 완료!", completeDesc: "앱 출시 시 가장 먼저 알려드릴게요.", errorMsg: "전송에 실패했어요. 잠시 후 다시 시도해 주세요." },
             en: { coachTitle: "AI pinpoints your swing issues instantly", coachDesc: "Upload a video and get correction tips and an analysis report", coachCta: "Get Free Beta ›", notifyTitle: "Get notified for AI Swing Analysis beta", cardTitle: "Be first to try the AI Swing App", cardDesc: "Get early access and beta notifications.", apply: "Apply for Free Beta", levelPlaceholder: "Your skill level? (optional)", beginner: "Beginner (100+ shots)", amateur: "Amateur (80-100 shots)", single: "Single digit (under 80)", emailPlaceholder: "Enter your email", notify: "Notify Me", privacy: "Your email is only used for launch notifications and beta access.", complete: "You're in!", completeDesc: "We'll reach out when the app launches.", errorMsg: "Something went wrong. Please try again." },
@@ -1098,6 +1110,7 @@ const { useState, useEffect, useRef } = React;
                 const typeDrill = finalType.drill[lang] || finalType.drill.ko;
                 const typeGear = finalType.gear[lang] || finalType.gear.ko;
                 const resultLinkText = RESULT_LINK_TEXT[lang] || RESULT_LINK_TEXT.en;
+                const typeDetailText = TYPE_DETAIL_TEXT[lang] || TYPE_DETAIL_TEXT.en;
                 const recommendedArticles = RESULT_ARTICLE_RECOMMENDATIONS[finalType.title.ko] || RESULT_ARTICLE_RECOMMENDATIONS["올라운더"];
                 const getArt = (a, f) => { const v = a[f]; return typeof v === 'object' ? (v[lang] || v.en || v.ko) : v; };
 
@@ -1183,6 +1196,22 @@ const { useState, useEffect, useRef } = React;
                                 </div>
                             )}
 
+                            {/* 유형 상세 — 결과 다음으로 가장 가까운 단계라 추천 기사보다 위에 둔다 */}
+                            {TYPE_SLUG_MAP[finalType.title.ko] && (
+                                <a
+                                    href={TYPE_SLUG_MAP[finalType.title.ko]}
+                                    onClick={() => gtag('event', 'result_detail_click', { event_category: 'Funnel', type_ko: finalType.title.ko })}
+                                    className="mt-6 block bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-300 dark:border-emerald-800/70 rounded-[1.5rem] shadow-lg p-5 transition-transform active:scale-[0.99]"
+                                >
+                                    <p className="text-[11px] font-bold uppercase tracking-widest text-green-600 dark:text-green-400 mb-1">{typeDetailText.badge}</p>
+                                    <h3 className="text-lg font-black text-gray-800 dark:text-white leading-snug">{typeTitle}</h3>
+                                    <p className="text-sm text-gray-600 dark:text-gray-400 mt-1 leading-relaxed">{typeDetailText.sub}</p>
+                                    <div className="mt-4 flex items-center justify-center gap-1 px-5 py-3 rounded-xl bg-green-600 text-white font-bold text-sm">
+                                        {typeDetailText.cta.replace('{type}', typeTitle)} →
+                                    </div>
+                                </a>
+                            )}
+
                             <div className="mt-6 bg-white dark:bg-gray-800 border border-emerald-300 dark:border-emerald-800/70 rounded-[1.5rem] shadow-lg p-5">
                                 <div className="flex items-center justify-between gap-3 mb-4">
                                     <div>
@@ -1221,12 +1250,6 @@ const { useState, useEffect, useRef } = React;
                                 </a>
                             </div>
 
-                            {/* 유형 상세 정적 페이지 링크 */}
-                            {TYPE_SLUG_MAP[finalType.title.ko] && (
-                                <a href={TYPE_SLUG_MAP[finalType.title.ko]} onClick={() => gtag('event', 'result_detail_click', { event_category: 'Funnel', type_ko: finalType.title.ko })} className="mt-4 flex items-center justify-center gap-1 text-sm font-semibold text-green-600 hover:text-green-700 hover:underline">
-                                    {finalType.title.ko} 유형 자세히 보기 →
-                                </a>
-                            )}
 
                             {/* 하단 버튼 그룹 */}
                             <div className="mt-6 sticky bottom-4 z-50 px-2 space-y-3">
