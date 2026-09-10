@@ -186,14 +186,14 @@ const { useState, useEffect, useRef } = React;
         };
 
         const MODE_SELECT_TEXT = {
-            ko: { title: '골프 MBTI', sub: '나의 골프 성향을 2분 안에 알아보세요', heading: '어떤 테스트를 받으시겠어요?', golf: { label: '골프 쳐봤어요', desc: '골프 경험 기반 질문으로\n나의 골프 유형 분석' }, general: { label: '골프 처음이에요', desc: '일상 감각으로 풀어보는\n숨겨진 골프 DNA 발견' } },
-            en: { title: 'Golf MBTI', sub: 'Discover your golf style in 2 minutes', heading: 'Choose your test type', golf: { label: 'I play golf', desc: 'Golf-based questions\nto find your player type' }, general: { label: 'New to golf', desc: 'Daily questions to discover\nyour hidden golf DNA' } },
-            ja: { title: 'Golf MBTI', sub: '2分で自分のゴルフタイプを見つけよう', heading: 'テストの種類を選んでください', golf: { label: 'ゴルフ経験あり', desc: 'ゴルフ経験をもとに\nプレースタイルを分析' }, general: { label: 'ゴルフは初めて', desc: '日常の感覚で答える\n隠れたゴルフDNA発見' } },
-            zh: { title: 'Golf MBTI', sub: '用2分钟了解你的高尔夫风格', heading: '请选择测试类型', golf: { label: '打过高尔夫', desc: '基于高尔夫经验的问题\n分析你的球员类型' }, general: { label: '刚接触高尔夫', desc: '日常问题发现\n你的隐藏高尔夫DNA' } },
-            es: { title: 'Golf MBTI', sub: 'Descubre tu estilo de golf en 2 minutos', heading: 'Elige el tipo de test', golf: { label: 'Ya juego golf', desc: 'Preguntas basadas en golf\npara tu tipo de jugador' }, general: { label: 'Soy nuevo en golf', desc: 'Preguntas diarias\npara descubrir tu ADN de golf' } },
-            fr: { title: 'Golf MBTI', sub: 'Découvrez votre style de golf en 2 minutes', heading: 'Choisissez votre type de test', golf: { label: 'Je joue au golf', desc: 'Questions golf pour\ntrouver votre style de jeu' }, general: { label: 'Je débute au golf', desc: 'Questions du quotidien pour\ndécouvrir votre ADN golf' } },
-            ru: { title: 'Golf MBTI', sub: 'Узнайте свой стиль гольфа за 2 минуты', heading: 'Выберите тип теста', golf: { label: 'Я играю в гольф', desc: 'Вопросы о гольфе\nдля анализа стиля игры' }, general: { label: 'Я новичок в гольфе', desc: 'Повседневные вопросы\nдля открытия ДНК гольфа' } },
-            hi: { title: 'Golf MBTI', sub: '2 मिनट में अपना गोल्फ स्टाइल जानें', heading: 'परीक्षण प्रकार चुनें', golf: { label: 'गोल्फ खेला है', desc: 'गोल्फ अनुभव आधारित\nप्रश्नों से विश्लेषण' }, general: { label: 'गोल्फ पहली बार', desc: 'रोज़मर्रा के सवालों से\nगोल्फ DNA खोजें' } },
+            ko: { title: '골프 MBTI', sub: '나의 골프 성향을 2분 안에 알아보세요', heading: '어떤 테스트를 받으시겠어요?', pickFirst: '위에서 먼저 선택하세요', golf: { label: '골프 쳐봤어요', desc: '골프 경험 기반 질문으로\n나의 골프 유형 분석' }, general: { label: '골프 처음이에요', desc: '일상 감각으로 풀어보는\n숨겨진 골프 DNA 발견' } },
+            en: { title: 'Golf MBTI', sub: 'Discover your golf style in 2 minutes', heading: 'Choose your test type', pickFirst: 'Choose a test type above', golf: { label: 'I play golf', desc: 'Golf-based questions\nto find your player type' }, general: { label: 'New to golf', desc: 'Daily questions to discover\nyour hidden golf DNA' } },
+            ja: { title: 'Golf MBTI', sub: '2分で自分のゴルフタイプを見つけよう', heading: 'テストの種類を選んでください', pickFirst: '上でテストを選んでください', golf: { label: 'ゴルフ経験あり', desc: 'ゴルフ経験をもとに\nプレースタイルを分析' }, general: { label: 'ゴルフは初めて', desc: '日常の感覚で答える\n隠れたゴルフDNA発見' } },
+            zh: { title: 'Golf MBTI', sub: '用2分钟了解你的高尔夫风格', heading: '请选择测试类型', pickFirst: '请先在上方选择', golf: { label: '打过高尔夫', desc: '基于高尔夫经验的问题\n分析你的球员类型' }, general: { label: '刚接触高尔夫', desc: '日常问题发现\n你的隐藏高尔夫DNA' } },
+            es: { title: 'Golf MBTI', sub: 'Descubre tu estilo de golf en 2 minutos', heading: 'Elige el tipo de test', pickFirst: 'Elige un tipo arriba', golf: { label: 'Ya juego golf', desc: 'Preguntas basadas en golf\npara tu tipo de jugador' }, general: { label: 'Soy nuevo en golf', desc: 'Preguntas diarias\npara descubrir tu ADN de golf' } },
+            fr: { title: 'Golf MBTI', sub: 'Découvrez votre style de golf en 2 minutes', heading: 'Choisissez votre type de test', pickFirst: 'Choisissez un type ci-dessus', golf: { label: 'Je joue au golf', desc: 'Questions golf pour\ntrouver votre style de jeu' }, general: { label: 'Je débute au golf', desc: 'Questions du quotidien pour\ndécouvrir votre ADN golf' } },
+            ru: { title: 'Golf MBTI', sub: 'Узнайте свой стиль гольфа за 2 минуты', heading: 'Выберите тип теста', pickFirst: 'Сначала выберите тип выше', golf: { label: 'Я играю в гольф', desc: 'Вопросы о гольфе\nдля анализа стиля игры' }, general: { label: 'Я новичок в гольфе', desc: 'Повседневные вопросы\nдля открытия ДНК гольфа' } },
+            hi: { title: 'Golf MBTI', sub: '2 मिनट में अपना गोल्फ स्टाइल जानें', heading: 'परीक्षण प्रकार चुनें', pickFirst: 'ऊपर से पहले चुनें', golf: { label: 'गोल्फ खेला है', desc: 'गोल्फ अनुभव आधारित\nप्रश्नों से विश्लेषण' }, general: { label: 'गोल्फ पहली बार', desc: 'रोज़मर्रा के सवालों से\nगोल्फ DNA खोजें' } },
         };
 
         const BUTTON_STYLES = {
@@ -939,12 +939,24 @@ const { useState, useEffect, useRef } = React;
                                     })}
                                 </div>
 
-                                {/* 선택 후에만 시작 버튼 노출 */}
-                                {modeChosen && (
-                                    <button onClick={() => { gtag('event', 'test_start', { 'event_category': 'MBTI', 'event_label': isGolfMode ? '골퍼모드' : '일반모드' }); setStep('quiz'); }} className={`w-full ${BUTTON_STYLES.primary} font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 group transition-all`}>
-                                        {T.startBtn} <ChevronRight />
-                                    </button>
-                                )}
+                                {/* 시작 버튼은 항상 같은 자리에. 미선택 시 비활성(레이아웃이 밀리지 않도록) */}
+                                <button
+                                    onClick={() => {
+                                        if (!modeChosen) return;
+                                        gtag('event', 'test_start', { 'event_category': 'MBTI', 'event_label': isGolfMode ? '골퍼모드' : '일반모드' });
+                                        setStep('quiz');
+                                    }}
+                                    disabled={!modeChosen}
+                                    className={`w-full font-bold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 group transition-all ${
+                                        modeChosen
+                                            ? BUTTON_STYLES.primary
+                                            : 'bg-gray-100 text-gray-400 dark:bg-gray-700 dark:text-gray-500 cursor-not-allowed'
+                                    }`}
+                                >
+                                    {modeChosen
+                                        ? <>{T.startBtn} <ChevronRight /></>
+                                        : (MODE_SELECT_TEXT[lang] || MODE_SELECT_TEXT.en).pickFirst}
+                                </button>
 
                                 <div className="mt-6 pt-6 border-t border-gray-100 dark:border-gray-700">
                                     <p className="text-gray-400 dark:text-gray-500 text-xs">{T.typeIntro}</p>
