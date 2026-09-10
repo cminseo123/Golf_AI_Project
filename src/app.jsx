@@ -715,9 +715,15 @@ const { useState, useEffect, useRef } = React;
             };
 
             const analyzeResult = (finalScores) => {
+                // normalized는 결과 화면 차트 표시 전용이다.
                 const normalized = {};
                 Object.keys(finalScores).forEach(key => normalized[key] = Math.max(10, Math.min(100, 50 + (finalScores[key] * 10))));
-                const sortedAxes = Object.entries(normalized).sort((a, b) => b[1] - a[1]);
+                // 유형 판정은 normalized가 아니라 원점수로 한다.
+                // normalized는 원점수 5점만 넘어도 100에서 잘려 여러 축이 동점이 되는데,
+                // Array.sort가 안정 정렬이라 그때 키 삽입 순서(risk>mental>tech>social)가
+                // 사실상 tiebreaker가 됐다. 원점수가 더 높은 축이 밀려나는 일이 실제로 있었다.
+                // 전 답안 조합(6,561개) 기준 초보 모드는 83%가 2개 이상 동점, 18.9%가 오판정이었다.
+                const sortedAxes = Object.entries(finalScores).sort((a, b) => b[1] - a[1]);
                 let typeKey = [sortedAxes[0][0], sortedAxes[1][0]].sort().join('_');
                 let result = RESULT_TYPES[typeKey];
                 if (!result) {
