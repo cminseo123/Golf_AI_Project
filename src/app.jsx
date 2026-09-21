@@ -638,6 +638,42 @@ const { useState, useEffect, useRef } = React;
                 }
             };
 
+            // 기사에 심어둔 1번 문항에서 넘어온 경우, 답을 들고 바로 퀴즈로 진입한다.
+            //   ?q1=1|2|3  → 골퍼 모드 1번 문항을 이미 푼 상태로 2번부터
+            //   ?mode=beginner → 초보 모드 1번 문항부터
+            // 주소는 곧바로 지워서 새로고침 때 다시 심어지지 않게 한다.
+            useEffect(() => {
+                const params = new URLSearchParams(window.location.search);
+                const q1 = params.get('q1');
+                const beginner = params.get('mode') === 'beginner';
+                if (!q1 && !beginner) return;
+
+                const from = params.get('from') || '';
+                const startEvent = { 'event_category': 'MBTI', 'article_slug': from };
+                window.history.replaceState(null, '', window.location.pathname);
+
+                if (beginner) {
+                    setIsGolfMode(false);
+                    setModeChosen(true);
+                    setStep('quiz');
+                    gtag('event', 'test_start', { ...startEvent, 'event_label': '일반모드' });
+                    return;
+                }
+
+                const opt = QUESTIONS_GOLF[0].opts[Number(q1) - 1];
+                if (!opt) return;
+
+                const seeded = { risk: 0, mental: 0, tech: 0, social: 0 };
+                Object.keys(opt.scores).forEach((key) => { seeded[key] += opt.scores[key]; });
+                setIsGolfMode(true);
+                setModeChosen(true);
+                setScores(seeded);
+                setCurrentQIndex(1);
+                setStep('quiz');
+                gtag('event', 'test_start', { ...startEvent, 'event_label': '골퍼모드' });
+                gtag('event', 'answer_question', { 'event_category': 'MBTI', 'question_number': 1 });
+            }, []);
+
             // step 변경 시 static-intro 섹션 show/hide
             useEffect(() => {
                 const el = document.getElementById('static-intro');

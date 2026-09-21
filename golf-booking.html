@@ -250,30 +250,16 @@
             </div>
         </div>
 
-        <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mt-10 flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div>
-                <p class="font-bold text-green-700">내 골프 유형이 궁금하다면?</p>
-                <p class="text-green-700 text-sm mt-1">2분 무료 골프 MBTI 테스트로 나의 골프 성향을 확인하세요</p>
+        <div class="bg-green-50 border border-green-200 rounded-2xl p-6 mt-10">
+            <p class="text-xs font-bold uppercase tracking-widest text-green-600">2분 골프 MBTI 테스트</p>
+            <p class="font-bold text-gray-800 text-lg mt-1 leading-snug">파 5홀, 220m 남았는데 앞에 해저드가 있다. 당신의 선택은?</p>
+            <p class="text-green-700 text-sm mt-1">1번 문항 · 전체 8문항 · 지금 고르면 이어서 진행됩니다</p>
+            <div class="mt-4 grid gap-2">
+                <a href="/" data-cta="quiz" data-q1="1" class="block bg-white border border-green-200 rounded-xl px-4 py-3 text-gray-800 hover:border-green-500 hover:bg-green-50 transition-colors">인생 뭐 있어? 바로 유틸 잡고 쏜다!</a>
+                <a href="/" data-cta="quiz" data-q1="2" class="block bg-white border border-green-200 rounded-xl px-4 py-3 text-gray-800 hover:border-green-500 hover:bg-green-50 transition-colors">스코어는 거짓말 안 해. 얌전히 끊어서 3온.</a>
+                <a href="/" data-cta="quiz" data-q1="3" class="block bg-white border border-green-200 rounded-xl px-4 py-3 text-gray-800 hover:border-green-500 hover:bg-green-50 transition-colors">캐디님한테 물어보고 시키는 대로.</a>
             </div>
-            <a href="/" data-cta="bottom" class="shrink-0 bg-green-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">테스트 시작 →</a>
-        </div>
-
-        <div class="mt-12">
-            <h2 class="text-xl font-bold text-gray-800 mb-4">관련 글</h2>
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <a href="golf-beginner-guide" class="block bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                    <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">초보</span>
-                    <p class="font-semibold text-gray-800 mt-2 text-sm leading-snug">초보 골퍼가 처음 라운드 전에 알아야 할 10가지</p>
-                </a>
-                <a href="golf-dress-code" class="block bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                    <span class="text-xs font-semibold text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">기초</span>
-                    <p class="font-semibold text-gray-800 mt-2 text-sm leading-snug">골프 드레스코드 완벽 가이드</p>
-                </a>
-                <a href="golf-round-prep" class="block bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow border border-gray-100">
-                    <span class="text-xs font-semibold text-blue-600 bg-blue-50 px-2 py-0.5 rounded-full">준비</span>
-                    <p class="font-semibold text-gray-800 mt-2 text-sm leading-snug">라운드 전날 준비 체크리스트</p>
-                </a>
-            </div>
+            <p class="text-xs text-gray-500 mt-3">골프가 처음이세요? <a href="/" data-cta="quiz" data-q1="beginner" class="text-green-700 font-semibold underline">초보용으로 시작하기</a></p>
         </div>
     </main>
 
@@ -317,6 +303,18 @@
                     cta_variant: variant
                 });
             }, true);
+            // 기사에 심어둔 1번 문항: 고른 답을 들고 테스트로 넘긴다.
+            // href는 "/" 그대로 두어 크롤러에게는 주소가 하나로만 보이게 한다.
+            document.addEventListener('click', function (e) {
+                var t = e.target;
+                if (!t || !t.closest) return;
+                var el = t.closest('a[data-q1]');
+                if (!el) return;
+                e.preventDefault();
+                var v = el.getAttribute('data-q1');
+                var qs = v === 'beginner' ? 'mode=beginner' : 'q1=' + encodeURIComponent(v);
+                location.href = '/?' + qs + '&from=' + encodeURIComponent(slug);
+            });
         })();
     </script>
 </body>
