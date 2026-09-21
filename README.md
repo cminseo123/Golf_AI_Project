@@ -17,12 +17,14 @@ thegolfcode.com 소스. 이 문서는 **로컬에서 고쳐서 배포하는 방�
 PowerShell을 열고 프로젝트 폴더에서:
 
 ```powershell
-python -m http.server 8000
+npm run preview
 ```
 
 브라우저에서 http://127.0.0.1:8000 접속. 끌 때는 터미널에서 `Ctrl+C`.
 
-> 파일을 더블클릭해서 여는 방식(`file://`)은 쓰지 말 것. 서비스워커와 일부 기능이 동작하지 않아 실제와 다르게 보인다.
+> `python -m http.server`는 쓰지 말 것. 사이트 내부 링크는 `about`처럼 **확장자가 없는 주소**인데, 파이썬 기본 서버는 그 주소를 찾지 못해 전부 404가 난다. `npm run preview`는 Cloudflare Pages와 같은 규칙(`/about` → `about.html`, `/about.html` → 308 리디렉션)으로 서빙한다.
+
+> 파일을 더블클릭해서 여는 방식(`file://`)도 쓰지 말 것. 서비스워커와 일부 기능이 동작하지 않아 실제와 다르게 보인다.
 
 수정하고 브라우저를 새로고침하면 바로 반영된다. 반영이 안 되면 `Ctrl+Shift+R`(강력 새로고침).
 

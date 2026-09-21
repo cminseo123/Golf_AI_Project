@@ -310,11 +310,11 @@ const { useState, useEffect, useRef } = React;
                     <div className="max-w-md mx-auto px-4 py-6">
                         <div className="flex flex-col items-center gap-4">
                             <nav className="flex gap-4 text-xs flex-wrap justify-center">
-                                <a href={`about${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.about}</a>
+                                <a href={`about${suffix}`} className="text-gray-400 hover:text-white transition-colors">{T.footer.about}</a>
                                 <span className="text-gray-600">|</span>
-                                <a href={`privacy${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.privacy}</a>
+                                <a href={`privacy${suffix}`} className="text-gray-400 hover:text-white transition-colors">{T.footer.privacy}</a>
                                 <span className="text-gray-600">|</span>
-                                <a href={`terms${suffix}.html`} className="text-gray-400 hover:text-white transition-colors">{T.footer.terms}</a>
+                                <a href={`terms${suffix}`} className="text-gray-400 hover:text-white transition-colors">{T.footer.terms}</a>
                                 <span className="text-gray-600">|</span>
                                 <a href="mailto:thegolfcode.ai@gmail.com" className="text-gray-400 hover:text-white transition-colors">{T.footer.contact}</a>
                             </nav>
@@ -422,61 +422,61 @@ const { useState, useEffect, useRef } = React;
 
         const RESULT_ARTICLE_RECOMMENDATIONS = {
             "핵인싸 장타러": [
-                { href: "golf-etiquette.html",
+                { href: "golf-etiquette",
                   category: { ko: "에티켓", en: "Etiquette", ja: "エチケット", zh: "礼仪", es: "Etiqueta", fr: "Étiquette", ru: "Этикет", hi: "शिष्टाचार" },
                   title: { ko: "골프 에티켓 완벽 가이드", en: "Complete Golf Etiquette Guide", ja: "ゴルフエチケット完全ガイド", zh: "高尔夫礼仪完整指南", es: "Guía de Etiqueta de Golf", fr: "Guide d'Étiquette Golf", ru: "Руководство по этикету гольфа", hi: "गोल्फ शिष्टाचार गाइड" },
                   desc: { ko: "같이 치기 좋은 골퍼가 되기 위한 기본 태도와 실제 라운드 매너를 먼저 익혀보세요.", en: "Learn the essential attitudes and real-round manners to become a great playing partner.", ja: "一緒にプレーしやすいゴルファーになるための基本姿勢とマナーを学びましょう。", zh: "学习成为好球友所需的基本态度和实际礼仪。", es: "Aprende las actitudes esenciales para ser un gran compañero de juego.", fr: "Apprenez les attitudes essentielles pour être un excellent partenaire de jeu.", ru: "Изучите основные манеры для хорошей совместной игры.", hi: "एक अच्छे खेल साथी बनने के लिए ज़रूरी शिष्टाचार सीखें।" } },
-                { href: "golf-short-game.html",
+                { href: "golf-short-game",
                   category: { ko: "숏게임", en: "Short Game", ja: "ショートゲーム", zh: "短打", es: "Juego Corto", fr: "Jeu Court", ru: "Короткая игра", hi: "शॉर्ट गेम" },
                   title: { ko: "숏게임 마스터하기", en: "Mastering the Short Game", ja: "ショートゲームのマスター", zh: "掌握短打技术", es: "Dominar el Juego Corto", fr: "Maîtriser le Jeu Court", ru: "Мастерство короткой игры", hi: "शॉर्ट गेम में महारत" },
                   desc: { ko: "장타의 재미는 살리고, 스코어는 그린 주변에서 지키는 법을 연결해서 볼 수 있습니다.", en: "Keep the fun of long drives while protecting your score around the green.", ja: "飛距離の楽しさを活かしながら、グリーン周りでスコアを守る方法を学びましょう。", zh: "保持长打乐趣的同时，学习在果岭周围保护分数。", es: "Mantén la diversión de los drives largos mientras proteges tu puntuación.", fr: "Gardez le plaisir des longs drives tout en protégeant votre score près du green.", ru: "Сохраняйте удовольствие от длинных ударов, защищая счёт у грина.", hi: "लंबे शॉट्स का मज़ा रखते हुए ग्रीन के पास स्कोर बचाएं।" } }
             ],
             "전략적 승부사": [
-                { href: "golf-course-management.html",
+                { href: "golf-course-management",
                   category: { ko: "코스 전략", en: "Course Strategy", ja: "コース戦略", zh: "球场策略", es: "Estrategia", fr: "Stratégie", ru: "Стратегия", hi: "कोर्स स्ट्रैटेजी" },
                   title: { ko: "코스 매니지먼트 전략", en: "Course Management Strategy", ja: "コースマネジメント戦略", zh: "球场管理策略", es: "Gestión del Campo", fr: "Gestion du Parcours", ru: "Управление полем", hi: "कोर्स मैनेजमेंट स्ट्रैटेजी" },
                   desc: { ko: "계산형 성향을 실제 홀 공략과 의사결정으로 연결하기 좋은 글입니다.", en: "Connect your analytical mindset to real hole strategy and decision-making.", ja: "分析思考を実際のホール攻略と意思決定に結びつけます。", zh: "将分析思维与实际策略和决策相结合。", es: "Conecta tu mentalidad analítica con la estrategia real de juego.", fr: "Reliez votre mentalité analytique à la vraie stratégie de jeu.", ru: "Соединение аналитического мышления с реальной стратегией.", hi: "विश्लेषणात्मक सोच को असल रणनीति से जोड़ें।" } },
-                { href: "golf-break-100.html",
+                { href: "golf-break-100",
                   category: { ko: "스코어", en: "Score", ja: "スコア", zh: "得分", es: "Puntuación", fr: "Score", ru: "Счёт", hi: "स्कोर" },
                   title: { ko: "100타 깨기 실전 전략", en: "Breaking 100: Real Strategy", ja: "100打突破の実践戦略", zh: "破百实战策略", es: "Estrategia para Romper 100", fr: "Passer sous les 100 Coups", ru: "Выход за 100 ударов", hi: "100 तोड़ने की रणनीति" },
                   desc: { ko: "판단과 운영으로 타수를 줄이는 흐름을 가장 빠르게 체감할 수 있습니다.", en: "The fastest way to feel how smart decisions reduce your score.", ja: "判断とマネジメントでスコアを減らす流れを最も早く体感できます。", zh: "最快感受判断和管理如何降低成绩。", es: "La forma más rápida de ver cómo las buenas decisiones reducen tu puntuación.", fr: "La façon la plus rapide de voir comment les décisions réduisent votre score.", ru: "Быстрее всего почувствуйте, как решения снижают счёт.", hi: "सही फैसलों से स्कोर कैसे कम होता है।" } }
             ],
             "와일드 테크니션": [
-                { href: "golf-driver-tips.html",
+                { href: "golf-driver-tips",
                   category: { ko: "드라이버", en: "Driver", ja: "ドライバー", zh: "一号木杆", es: "Driver", fr: "Driver", ru: "Драйвер", hi: "ड्राइवर" },
                   title: { ko: "드라이버 잘 치는 법", en: "How to Hit the Driver Well", ja: "ドライバーの打ち方", zh: "如何打好一号木", es: "Cómo Golpear Bien el Driver", fr: "Bien Frapper le Driver", ru: "Как бить драйвером", hi: "ड्राइवर अच्छे से कैसे मारें" },
                   desc: { ko: "폼과 비거리 둘 다 놓치고 싶지 않은 유형에게 가장 직접적인 가이드입니다.", en: "The most direct guide for those who want both perfect form and maximum distance.", ja: "フォームと飛距離の両方を求める人への最も直接的なガイドです。", zh: "想要完美姿势和最大距离的最直接指南。", es: "La guía más directa para quienes quieren forma y distancia.", fr: "Le guide le plus direct pour forme parfaite et distance maximale.", ru: "Самое прямое руководство для тех, кто хочет и форму, и дистанцию.", hi: "परफेक्ट फॉर्म और दूरी दोनों के लिए सबसे सीधी गाइड।" } },
-                { href: "golf-iron-tips.html",
+                { href: "golf-iron-tips",
                   category: { ko: "아이언", en: "Iron", ja: "アイアン", zh: "铁杆", es: "Hierro", fr: "Fer", ru: "Айрон", hi: "आयरन" },
                   title: { ko: "아이언 정확도 높이기", en: "Improving Iron Accuracy", ja: "アイアンの精度向上", zh: "提高铁杆精度", es: "Mejorar Precisión del Hierro", fr: "Améliorer la Précision du Fer", ru: "Точность айрона", hi: "आयरन सटीकता सुधारें" },
                   desc: { ko: "정타 감각과 임팩트 완성도를 끌어올리는 데 도움이 되는 실전 글입니다.", en: "A practical guide to elevating your solid contact and impact quality.", ja: "正確な打感とインパクト精度を高めるための実践的な記事です。", zh: "提升扎实击球感和冲击质量的实践指南。", es: "Guía práctica para mejorar tu contacto e impacto.", fr: "Guide pratique pour améliorer contact et impact.", ru: "Практическое руководство по улучшению контакта.", hi: "ठोस संपर्क और इम्पैक्ट गुणवत्ता सुधारने की गाइड।" } }
             ],
             "골프 AI": [
-                { href: "golf-type-practice.html",
+                { href: "golf-type-practice",
                   category: { ko: "연습법", en: "Practice", ja: "練習法", zh: "练习法", es: "Práctica", fr: "Pratique", ru: "Практика", hi: "अभ्यास" },
                   title: { ko: "유형별 맞춤 연습법", en: "Type-Based Practice Guide", ja: "タイプ別練習法", zh: "按类型定制练习法", es: "Práctica Personalizada por Tipo", fr: "Pratique par Type", ru: "Практика по типу", hi: "टाइप-बेस्ड अभ्यास गाइड" },
                   desc: { ko: "분석 성향을 실행 가능한 루틴으로 바꾸는 데 가장 잘 맞는 추천 글입니다.", en: "The best guide for turning your analytical mindset into actionable practice routines.", ja: "分析思考を実行可能なルーティンに変えるのに最適な記事です。", zh: "将分析思维转化为可行练习常规的最佳文章。", es: "La mejor guía para convertir tu mentalidad en rutinas de práctica.", fr: "Le meilleur guide pour transformer votre analyse en pratique.", ru: "Лучшее руководство для превращения анализа в практику.", hi: "विश्लेषणात्मक सोच को अभ्यास दिनचर्या में बदलने की गाइड।" } },
-                { href: "golf-club-guide.html",
+                { href: "golf-club-guide",
                   category: { ko: "장비", en: "Equipment", ja: "装備", zh: "装备", es: "Equipo", fr: "Équipement", ru: "Снаряжение", hi: "उपकरण" },
                   title: { ko: "클럽 선택 가이드", en: "Club Selection Guide", ja: "クラブ選択ガイド", zh: "球杆选择指南", es: "Guía de Selección de Palos", fr: "Guide de Sélection des Clubs", ru: "Выбор клюшек", hi: "क्लब चयन गाइड" },
                   desc: { ko: "구질, 거리, 피팅 기준으로 장비를 더 정교하게 고르는 데 도움이 됩니다.", en: "Helps you choose equipment precisely based on ball flight, distance, and fitting.", ja: "球筋、飛距離、フィッティング基準で装備を選ぶのに役立ちます。", zh: "根据球路、距离和拟合标准精确选择装备。", es: "Elige equipo con precisión según vuelo, distancia y fitting.", fr: "Choisissez l'équipement selon trajectoire, distance et fitting.", ru: "Выбор снаряжения по траектории, дистанции и подгонке.", hi: "बॉल फ्लाइट, दूरी और फिटिंग के आधार पर सटीक उपकरण चुनें।" } }
             ],
             "젠틀맨 골퍼": [
-                { href: "golf-etiquette.html",
+                { href: "golf-etiquette",
                   category: { ko: "에티켓", en: "Etiquette", ja: "エチケット", zh: "礼仪", es: "Etiqueta", fr: "Étiquette", ru: "Этикет", hi: "शिष्टाचार" },
                   title: { ko: "골프 에티켓 완벽 가이드", en: "Complete Golf Etiquette Guide", ja: "ゴルフエチケット完全ガイド", zh: "高尔夫礼仪完整指南", es: "Guía de Etiqueta de Golf", fr: "Guide d'Étiquette Golf", ru: "Руководство по этикету гольфа", hi: "गोल्फ शिष्टाचार गाइड" },
                   desc: { ko: "룰과 매너를 중시하는 성향을 실제 필드 태도로 더 정교하게 다듬을 수 있습니다.", en: "Refine your love of rules and manners into polished on-course behavior.", ja: "ルールとマナーを重視する性格を、フィールドでより洗練された態度に高めましょう。", zh: "将重视规则和礼仪的性格提升为更精致的球场表现。", es: "Refina tu respeto por las reglas en comportamiento elegante en el campo.", fr: "Affinez votre respect des règles en comportement élégant sur le terrain.", ru: "Превратите уважение к правилам в изысканное поведение на поле.", hi: "नियम प्रेम को फील्ड पर परिष्कृत व्यवहार में बदलें।" } },
-                { href: "golf-round-prep.html",
+                { href: "golf-round-prep",
                   category: { ko: "루틴", en: "Routine", ja: "ルーティン", zh: "常规", es: "Rutina", fr: "Routine", ru: "Распорядок", hi: "रूटीन" },
                   title: { ko: "라운드 전날 준비 루틴", en: "Pre-Round Preparation Routine", ja: "ラウンド前日準備ルーティン", zh: "打球前一天的准备常规", es: "Rutina de Preparación Pre-Ronda", fr: "Routine de Préparation", ru: "Подготовка перед раундом", hi: "राउंड से पहले की तैयारी रूटीन" },
                   desc: { ko: "정돈된 준비와 흐름을 좋아하는 유형에게 잘 맞는 라운드 준비 가이드입니다.", en: "A round preparation guide perfectly suited for those who love organized routines.", ja: "整った準備とフローが好きなタイプにぴったりのガイドです。", zh: "非常适合喜欢有序准备的类型的打球准备指南。", es: "Guía ideal para quienes disfrutan de rutinas organizadas.", fr: "Guide idéal pour ceux qui aiment les routines organisées.", ru: "Руководство для тех, кто любит организованные распорядки.", hi: "व्यवस्थित रूटीन पसंद करने वालों के लिए बेस्ट गाइड।" } }
             ],
             "올라운더": [
-                { href: "golf-type-practice.html",
+                { href: "golf-type-practice",
                   category: { ko: "연습법", en: "Practice", ja: "練習法", zh: "练习法", es: "Práctica", fr: "Pratique", ru: "Практика", hi: "अभ्यास" },
                   title: { ko: "유형별 맞춤 연습법", en: "Type-Based Practice Guide", ja: "タイプ別練習法", zh: "按类型定制练习法", es: "Práctica Personalizada por Tipo", fr: "Pratique par Type", ru: "Практика по типу", hi: "टाइप-बेस्ड अभ्यास गाइड" },
                   desc: { ko: "균형형 골퍼가 정체기를 벗어나기 위해 무엇을 집중해야 하는지 확인해보세요.", en: "Find out what a balanced golfer needs to focus on to break through a plateau.", ja: "バランス型ゴルファーが停滞を打破するために何に集中すべきかを確認しましょう。", zh: "了解均衡型球手需要专注什么才能突破瓶颈。", es: "Descubre en qué enfocarse para superar un estancamiento.", fr: "Découvrez sur quoi vous concentrer pour dépasser un plateau.", ru: "Узнайте, на чём сосредоточиться для прорыва.", hi: "स्थिरता तोड़ने के लिए क्या फोकस करना चाहिए।" } },
-                { href: "golf-seasonal.html",
+                { href: "golf-seasonal",
                   category: { ko: "시즌", en: "Season", ja: "シーズン", zh: "季节", es: "Temporada", fr: "Saison", ru: "Сезон", hi: "सीज़न" },
                   title: { ko: "계절별 골프 공략법", en: "Seasonal Golf Strategy", ja: "季節別ゴルフ攻略法", zh: "按季节的高尔夫策略", es: "Estrategia de Golf por Temporada", fr: "Stratégie Golf par Saison", ru: "Сезонная стратегия гольфа", hi: "मौसमी गोल्फ रणनीति" },
                   desc: { ko: "상황 대응력이 강한 유형에게 계절별 전략 변화까지 넓혀주는 글입니다.", en: "Expands your adaptability with seasonal strategy shifts for every condition.", ja: "状況対応力の強いタイプに季節ごとの戦略の変化を広げる記事です。", zh: "为适应能力强的类型扩展季节性策略变化。", es: "Amplía tu adaptabilidad con cambios de estrategia por temporada.", fr: "Étend votre adaptabilité avec des changements de stratégie saisonniers.", ru: "Расширяет адаптивность сезонными изменениями стратегии.", hi: "अनुकूलन क्षमता को मौसमी रणनीति बदलावों तक विस्तारित करें।" } }
@@ -484,12 +484,12 @@ const { useState, useEffect, useRef } = React;
         };
 
         const TYPE_SLUG_MAP = {
-            "핵인싸 장타러": "result-inssa.html",
-            "전략적 승부사": "result-strategist.html",
-            "와일드 테크니션": "result-technician.html",
-            "골프 AI": "result-ai.html",
-            "젠틀맨 골퍼": "result-gentleman.html",
-            "올라운더": "result-allrounder.html"
+            "핵인싸 장타러": "result-inssa",
+            "전략적 승부사": "result-strategist",
+            "와일드 테크니션": "result-technician",
+            "골프 AI": "result-ai",
+            "젠틀맨 골퍼": "result-gentleman",
+            "올라운더": "result-allrounder"
         };
 
         const RESULT_LINK_TEXT = {
@@ -1245,7 +1245,7 @@ const { useState, useEffect, useRef } = React;
                                         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{resultLinkText.sub}</p>
                                     </div>
                                     <a
-                                        href="articles.html"
+                                        href="articles"
                                         className={`shrink-0 hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-xl text-sm font-bold transition-colors ${BUTTON_STYLES.subtle}`}
                                     >
                                         {resultLinkText.browseAll}
@@ -1268,7 +1268,7 @@ const { useState, useEffect, useRef } = React;
                                     ))}
                                 </div>
                                 <a
-                                    href="articles.html"
+                                    href="articles"
                                     className={`mt-3 sm:hidden flex items-center justify-center px-4 py-3 rounded-xl text-sm font-bold transition-colors ${BUTTON_STYLES.subtle}`}
                                 >
                                     {resultLinkText.browseAll}
