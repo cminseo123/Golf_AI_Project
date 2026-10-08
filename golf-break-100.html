@@ -134,11 +134,16 @@
                 <p><strong>주의:</strong> 100타를 깨기 위해 드라이버 비거리를 늘리는 연습에 집중하는 것은 역효과를 낼 수 있습니다. 비거리가 늘면 OB 리스크도 함께 커집니다. 100타 돌파의 핵심은 비거리가 아니라 실수 최소화입니다.</p>
             </div>
 
-            <div class="my-8 rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6">
-                <div class="text-xs font-semibold text-green-700 mb-1">잠깐, 이 방법이 안 먹혔다면</div>
-                <div class="text-lg font-bold text-gray-800 mb-2 leading-snug">연습법은 골프 성향에 따라 달라집니다</div>
-                <div class="text-sm text-gray-600 mb-4 leading-relaxed">같은 스윙 교정도 어떤 사람에겐 통하고 어떤 사람에겐 독이 됩니다. 2분 무료 골프 MBTI로 내 유형에 맞는 연습법을 확인해 보세요.</div>
-                <a href="/" data-cta="mid" class="inline-block bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors">내 유형에 맞는 연습법 보기 →</a>
+            <div class="my-8 rounded-2xl border border-green-200 bg-green-50 p-5 sm:p-6" data-waitlist>
+                <div class="text-xs font-semibold text-green-700 mb-1">AI 스윙 분석 · 베타 준비 중</div>
+                <div class="text-lg font-bold text-gray-800 mb-2 leading-snug">100타 벽, 어디서 타수를 잃고 있을까요</div>
+                <div class="text-sm text-gray-600 mb-4 leading-relaxed">같은 실수가 반복된다면 대부분 스윙 습관 하나에서 시작됩니다. 스윙 영상을 올리면 AI가 원인을 짚어 주는 서비스를 준비하고 있습니다. 이메일을 남겨 주시면 베타가 열릴 때 가장 먼저 알려드릴게요.</div>
+                <form class="flex flex-col sm:flex-row gap-2" action="https://formspree.io/f/xbdpvaeq" method="POST" data-waitlist-form novalidate>
+                    <input type="hidden" name="source" value="article-golf-break-100">
+                    <input type="email" name="email" required placeholder="이메일 주소" autocomplete="email" class="flex-1 min-w-0 rounded-xl border border-green-200 bg-white px-4 py-3 text-gray-800 focus:outline-none focus:border-green-500">
+                    <button type="submit" class="bg-green-600 text-white px-5 py-3 rounded-xl font-bold hover:bg-green-700 transition-colors disabled:opacity-60">베타 대기 신청</button>
+                </form>
+                <p class="text-xs text-gray-500 mt-2" data-waitlist-msg>스팸 없이 베타 오픈 안내만 보내드립니다.</p>
             </div>
 
             <h2>드라이버보다 아이언을 믿어라</h2>
@@ -337,6 +342,47 @@
                 var qs = v === 'beginner' ? 'mode=beginner' : 'q1=' + encodeURIComponent(v);
                 location.href = '/?' + qs + '&from=' + encodeURIComponent(slug);
             });
+            // 기사 중간의 AI 스윙 분석 베타 대기 신청.
+            // 메인 앱과 같은 Formspree 폼으로 보내고, 저장에 성공했을 때만 email_signup을 보낸다.
+            var waitlist = document.querySelector('[data-waitlist-form]');
+            if (waitlist) {
+                var msg = document.querySelector('[data-waitlist-msg]');
+                var focused = false;
+                waitlist.addEventListener('focusin', function () {
+                    if (focused || typeof gtag !== 'function') return;
+                    focused = true;
+                    gtag('event', 'swing_analysis_click', { event_category: 'Funnel', source: 'article', article_slug: slug });
+                });
+                waitlist.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    var input = waitlist.querySelector('input[name="email"]');
+                    var button = waitlist.querySelector('button');
+                    var email = (input.value || '').trim();
+                    if (email.indexOf('@') < 1) {
+                        msg.textContent = '이메일 주소를 다시 확인해 주세요.';
+                        msg.className = 'text-xs text-red-600 mt-2';
+                        return;
+                    }
+                    button.disabled = true;
+                    fetch('https://formspree.io/f/xbdpvaeq', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                        body: JSON.stringify({ email: email, golf_level: '미선택', golf_type: '', lang: 'ko', source: 'article-' + slug })
+                    }).then(function (res) {
+                        if (!res.ok) throw new Error('waitlist submit failed');
+                        waitlist.style.display = 'none';
+                        msg.textContent = '신청 완료! 베타가 열리면 이 주소로 가장 먼저 알려드릴게요.';
+                        msg.className = 'text-sm font-semibold text-green-700 mt-2';
+                        if (typeof gtag === 'function') {
+                            gtag('event', 'email_signup', { event_category: 'Funnel', golf_level: '미선택', type_ko: '', source: 'article', article_slug: slug });
+                        }
+                    }).catch(function () {
+                        button.disabled = false;
+                        msg.textContent = '전송에 실패했어요. 잠시 후 다시 시도해 주세요.';
+                        msg.className = 'text-xs text-red-600 mt-2';
+                    });
+                });
+            }
         })();
     </script>
 </body>
